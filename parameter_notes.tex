@@ -1,0 +1,1091 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+\title{Parameter Notes: QIZ Heterogeneous-Firm Trade Model\\
+\large Definitions, Estimation, and Role in the Model}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Overview}
+% ─────────────────────────────────────────────────────────────────────────────
+
+This document records, parameter by parameter, what each object means
+economically, how it is estimated or calibrated, and where it appears in
+the model. It is updated as estimation decisions are made.
+
+\medskip
+\noindent\textbf{Sector groupings.} Two groupings are maintained throughout:
+\begin{itemize}
+  \item \textbf{Grouping 1 (baseline, 2 sectors):}
+        $T$ = Textiles + Wearing apparel (ISIC 13--14 Rev.4 / 17--18 Rev.3);
+        $O$ = All other manufacturing.
+  \item \textbf{Grouping 2 (extended, 5 sectors):}
+        $T$ = Textiles + Wearing apparel;
+        $S_1$ = Food products (ISIC 10/15);
+        $S_2$ = Chemicals (ISIC 20--21/24);
+        $S_3$ = Non-metallic minerals (ISIC 23/26);
+        $O$ = Residual manufacturing.
+\end{itemize}
+Petroleum (ISIC 19/23) and basic metals (ISIC 24/27) are absorbed into $O$
+because both sectors are dominated by state-owned enterprises with very few
+private exporters, making the Pareto assumption untenable for them separately.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Demand Parameters}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Sector demand weights $\beta_s$}
+
+\paragraph{What it is.}
+$\beta_s$ is the expenditure share of sector $s$ in the household's upper-tier
+utility function. It governs how much of total manufacturing income is spent on
+each sector in the baseline equilibrium.
+
+\paragraph{Role in the model.}
+Enters the upper-tier CES price index
+\[
+P = \Bigl(\sum_s \beta_s^{1/\eta}\, P_s^{1-1/\eta}\Bigr)^{\eta/(1-\eta)}
+\]
+and the sectoral expenditure allocation
+\[
+C_s = \beta_s \Bigl(\frac{P_s}{P}\Bigr)^{-\eta} Y,
+\]
+where $\eta$ is the across-sector elasticity and $Y$ is aggregate income.
+A higher $\beta_s$ means sector $s$ receives a larger share of spending.
+
+\paragraph{Estimation.}
+Backed out from the Egypt 2008 Input--Output table (sheet \texttt{IO\_2})
+using absorption shares:
+\[
+\text{Absorption}_s = \text{Output}_s + \text{Imports}_s - \text{Exports}_s,
+\qquad
+\beta_s = \frac{\text{Absorption}_s}{\sum_{s'} \text{Absorption}_{s'}}.
+\]
+Output, imports, and exports are read from columns 62, 60, and 58
+respectively. Sector rows follow the ISIC Rev.4 mapping in the IO table.
+
+\paragraph{Results.}
+
+\medskip
+\noindent\textit{Grouping 1:}
+\begin{center}
+\begin{tabular}{llrr}
+\toprule
+Sector & Description & Absorption (mn LE) & $\hat\beta_s$ \\
+\midrule
+$T$ & Textiles + Apparel & 34,853 & 0.0521 \\
+$O$ & Other manufacturing & 634,659 & 0.9479 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textit{Grouping 2:}
+\begin{center}
+\begin{tabular}{llrr}
+\toprule
+Sector & Description & Absorption (mn LE) & $\hat\beta_s$ \\
+\midrule
+$T$   & Textiles + Apparel      & 34,853  & 0.0521 \\
+$S_1$ & Food products           & 121,083 & 0.1809 \\
+$S_2$ & Chemicals               & 61,803  & 0.0923 \\
+$S_3$ & Non-metallic minerals   & 26,220  & 0.0392 \\
+$O$   & Other manufacturing     & 425,553 & 0.6356 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Script.} \texttt{estimate\_beta\_s.py}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Across-sector elasticity $\eta$}
+
+\paragraph{What it is.}
+$\eta$ governs how easily households substitute \emph{between sectors} in
+response to relative price changes. It is a single number for the whole
+economy.
+\begin{itemize}
+  \item High $\eta$: households shift spending easily across sectors when
+        relative prices change.
+  \item $\eta = 1$: Cobb--Douglas, expenditure shares are fixed regardless
+        of prices.
+  \item Low $\eta$: households maintain roughly fixed sector shares even when
+        prices change a lot.
+\end{itemize}
+
+\paragraph{Role in the model.}
+Enters the upper-tier utility function and aggregate price index. Determines
+how a QIZ-driven price reduction in sector $T$ spills over to other sectors
+through expenditure reallocation.
+
+\paragraph{Estimation.}
+Fixed from the literature. Baseline value: $\eta = 2.0$.
+Robustness checks vary $\eta$.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Within-sector elasticity of substitution $\sigma_s$}
+
+\paragraph{What it is.}
+$\sigma_s$ governs how easily consumers substitute \emph{across firm-level
+varieties within a sector}. It is the CES demand elasticity at the lower tier
+of the utility function.
+\begin{itemize}
+  \item High $\sigma_s$: varieties are close substitutes, firms have little
+        market power, markups are low: $\mu = \sigma_s/(\sigma_s - 1)$.
+  \item Low $\sigma_s$: varieties are differentiated, firms have more market
+        power, markups are high.
+\end{itemize}
+
+\paragraph{Role in the model.}
+Appears in: firm revenue $r \propto \phi^{\sigma_s - 1}$; the sectoral price
+index $P_s$; markups; the welfare calculation; and the upgrading gain formula
+$R'/R = \delta_s^{\sigma_s - 1}$.
+
+\paragraph{Relationship to $\xi$ and $\theta$.}
+Under Pareto productivity and CES demand, the export sales distribution has
+tail index $\xi_s = \theta_s / (\sigma_s - 1)$, so
+$\theta_s = \xi_s \times (\sigma_s - 1)$.
+$\sigma_s$ is the bridge between the observed sales distribution and the
+structural productivity distribution.
+
+\paragraph{Distinction from $\eta$.}
+$\sigma_s$ governs substitution \emph{within} a sector across firm varieties
+(lower tier); $\eta$ governs substitution \emph{across} sectors (upper tier).
+They are completely separate objects.
+
+\paragraph{Estimation.}
+Taken from \citet{ImbsMejean2015} and the broader trade literature.
+Using Broda--Weinstein estimates directly is not ideal because those identify
+cross-country import substitution elasticities, not cross-firm variety
+elasticities. However, for differentiated consumer goods such as
+textiles and apparel, Broda--Weinstein values are a reasonable approximation.
+For more homogeneous intermediate goods (metals, petroleum), Broda--Weinstein
+commodity-level estimates are too low and inappropriate.
+
+\begin{center}
+\begin{tabular}{llr}
+\toprule
+Sector & Description & $\sigma_s$ \\
+\midrule
+$T$   & Textiles + Apparel    & 6.7 \\
+$S_1$ & Food products         & 5.0 \\
+$S_2$ & Chemicals             & 6.2 \\
+$S_3$ & Non-metallic minerals & 6.0 \\
+$O$   & Other manufacturing   & 6.0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Technology Parameters}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Labor share in production $\alpha_s$}
+
+\paragraph{What it is.}
+$\alpha_s$ is the labor cost share in variable production costs, under the
+Cobb--Douglas production function
+\[
+y = \phi\, l^{\alpha_s}\, m^{1-\alpha_s}.
+\]
+It determines how intensively each sector uses labor relative to intermediate
+inputs. A higher $\alpha_s$ means the sector is more labor-intensive.
+
+\paragraph{Role in the model.}
+Enters: the marginal cost function $c = (w/\alpha_s)^{\alpha_s}
+(p_m/(1-\alpha_s))^{1-\alpha_s} / \phi$; the variable cost of compliance
+(since Israeli sourcing changes $p_m$); the labor demand equations; and the
+general equilibrium labor market clearing conditions.
+
+\paragraph{Estimation.}
+Estimated from the Egypt 2008 Input--Output table using cost shares:
+\[
+\hat\alpha_s =
+\frac{\text{Labor Compensation}_s}
+{\text{Labor Compensation}_s + \text{Intermediate Input Expenditure}_s}.
+\]
+Wages are in row 62 and intermediate inputs in row 57 of sheet
+\texttt{IO\_2}. Column index equals row index minus 6.
+Wages and intermediates are summed across constituent IO rows before taking
+the ratio, so $\alpha_s$ reflects the sector-aggregate cost share.
+
+\paragraph{Results.}
+
+\medskip
+\noindent\textit{Grouping 1:}
+\begin{center}
+\begin{tabular}{llrrr}
+\toprule
+Sector & Description & Wages (mn LE) & Intermediates (mn LE) & $\hat\alpha_s$ \\
+\midrule
+$T$ & Textiles + Apparel  & 4,806  & 21,101  & 0.1855 \\
+$O$ & Other manufacturing & 24,689 & 360,196 & 0.0641 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textit{Grouping 2:}
+\begin{center}
+\begin{tabular}{llrrr}
+\toprule
+Sector & Description & Wages & Intermediates & $\hat\alpha_s$ \\
+\midrule
+$T$   & Textiles + Apparel    & 4,806  & 21,101  & 0.1855 \\
+$S_1$ & Food products         & 4,647  & 75,438  & 0.0580 \\
+$S_2$ & Chemicals             & 3,073  & 20,746  & 0.1290 \\
+$S_3$ & Non-metallic minerals & 1,986  & 14,617  & 0.1196 \\
+$O$   & Other manufacturing   & 14,984 & 249,396 & 0.0567 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Note: $\alpha_T = 0.186$ is notably higher than other sectors,
+consistent with textiles/apparel being a labor-intensive industry and with
+the QIZ narrative that these sectors provide significant employment.
+The low $\alpha_O = 0.064$ in grouping 1 reflects the dominance of
+petroleum and basic metals in that residual, both of which are
+intermediate-input intensive.
+
+\paragraph{Script.} \texttt{estimate\_alpha\_s.py}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Pareto shape parameter $\theta_s$}
+
+\paragraph{What it is.}
+$\theta_s$ governs the dispersion of firm productivity within a sector.
+Under the Pareto assumption, the complementary CDF of productivity satisfies
+\[
+\Pr(\phi > x) = \Bigl(\frac{\phi_{\min}}{x}\Bigr)^{\theta_s}.
+\]
+\begin{itemize}
+  \item High $\theta_s$: firms are similar in productivity, distribution is
+        compressed, few dominant firms.
+  \item Low $\theta_s$: large productivity dispersion, fat tail of very
+        productive superstar firms.
+\end{itemize}
+
+\paragraph{Distinction from $\xi$.}
+$\xi_s$ is the tail index of the \emph{observed export sales distribution}.
+$\theta_s$ is the tail index of the \emph{underlying productivity
+distribution}. They are related by
+\[
+\xi_s = \frac{\theta_s}{\sigma_s - 1},
+\qquad \theta_s = \xi_s \times (\sigma_s - 1).
+\]
+$\xi_s$ is what you measure from the data; $\theta_s$ is what the model needs.
+The reason they differ is that more productive firms are amplified by
+demand --- a firm twice as productive sells more than twice as much because
+it charges a lower price and captures additional market share. The degree of
+amplification is governed by $\sigma_s - 1$.
+
+\paragraph{Role in the model.}
+Appears in: the free entry condition (determines the equilibrium mass of
+firms); export participation cutoffs (determines what share of firms export);
+the aggregate price index; and the relationship between the productivity
+distribution and the size distribution of exporters.
+
+\paragraph{Requirement.}
+$\theta_s > \sigma_s - 1$ must hold for the model to have a well-defined
+equilibrium with finite mean firm sales. Equivalently, $\xi_s > 1$.
+
+\paragraph{Estimation.}
+$\xi_s$ is estimated from the upper tail of the firm export size distribution
+in the Egyptian customs data (\texttt{final\_data\_matched.dta}), then
+converted to $\theta_s$ using the literature $\sigma_s$ values above.
+
+\medskip
+\noindent\textit{Sample construction.}
+\begin{itemize}
+  \item Sector $T$: 2005 only, to avoid anticipation effects in the treated
+        sector.
+  \item All other sectors: year-by-year for 2005--2008, then $\xi$ averaged
+        across years for stability.
+  \item Only firm-years with \texttt{exp\_world} $> 0$ are used (active
+        exporters only; filled-in panel zeros are excluded).
+\end{itemize}
+
+\noindent\textit{Estimators.} Two estimators are computed and averaged:
+\begin{enumerate}
+  \item \textbf{Hill (1975) MLE} with corrected threshold $x_{(k+1)}$:
+        \[
+        \hat\xi^{\text{Hill}} =
+        \frac{1}{\frac{1}{k}\sum_{i=1}^{k} \log(x_{(i)}/x_{(k+1)})}.
+        \]
+  \item \textbf{OLS log-rank / log-size} with Blom (rank $- 0.5$) correction:
+        \[
+        \log(\text{rank}_i - 0.5) = a - \xi \cdot \log(x_i),
+        \qquad \hat\xi^{\text{OLS}} = -\hat b.
+        \]
+\end{enumerate}
+Primary estimate: $\hat\xi_s = \frac{1}{2}(\hat\xi^{\text{Hill}} +
+\hat\xi^{\text{OLS}})$ at the 5\% tail cutoff (top 5\% of exporters by
+value). The 5\% cutoff is preferred over 10\% or 20\% because the Hill
+plot shows the Pareto slope stabilizes among the top 5\% of exporters;
+including the 5--10\% range pulls in non-Pareto firms and biases $\xi$
+downward.
+
+\noindent\textit{Floor.} For sectors where $\hat\xi_s < 1$ (so that the
+$\theta_s > \sigma_s - 1$ condition would be violated), $\theta_s$ is set
+equal to $\sigma_s$ --- the minimum well-defined value. This applies to the
+residual $O$ sector in both groupings, which contains petroleum and basic
+metals (state-dominated, few private exporters, non-Pareto distribution).
+
+\paragraph{Results.}
+
+\medskip
+\noindent\textit{Grouping 1:}
+\begin{center}
+\begin{tabular}{llrrrrl}
+\toprule
+Sector & Description & $N$ & $\sigma_s$ & $\hat\xi$ (5\%) &
+$\hat\theta_s$ & Note \\
+\midrule
+$T$ & Textiles + Apparel  & 665   & 6.7 & 1.178 & 6.715 & estimated \\
+$O$ & Other manufacturing & 15,426 & 6.0 & 0.971 & 6.000 & floored \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textit{Grouping 2:}
+\begin{center}
+\begin{tabular}{llrrrrl}
+\toprule
+Sector & Description & $N$ & $\sigma_s$ & $\hat\xi$ (5\%) &
+$\hat\theta_s$ & Note \\
+\midrule
+$T$   & Textiles + Apparel    & 665   & 6.7 & 1.178 & 6.715 & estimated \\
+$S_1$ & Food products         & 2,758 & 5.0 & 1.667 & 6.666 & estimated \\
+$S_2$ & Chemicals             & 2,463 & 6.2 & 1.010 & 5.254 & estimated \\
+$S_3$ & Non-metallic minerals & 1,108 & 6.0 & 1.377 & 6.883 & estimated \\
+$O$   & Other manufacturing   & 9,097 & 6.0 & 0.802 & 6.000 & floored \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Note on alternative estimation.}
+A cleaner approach --- which removes dependence on $\sigma_s$ entirely --- is
+to estimate $\theta_s$ directly from the firm TFP distribution in the 2012
+census, using the production function residual
+$\log\hat\phi_i = \log y_i - \hat\alpha_s \log l_i -
+(1-\hat\alpha_s)\log m_i$
+and applying the Hill estimator to the upper tail of $\hat\phi_i$.
+This is left for future implementation.
+
+\paragraph{Script.} \texttt{estimate\_theta\_s.py}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Lower bound of productivity $\phi_{\min,s}$}
+
+\paragraph{What it is.}
+The lower support of the Pareto productivity distribution.
+
+\paragraph{Estimation.}
+Normalized to $\phi_{\min,s} = 1$ for all sectors. This is a scale
+normalization that does not affect any economically meaningful relative
+productivity margin.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Productivity upgrading multiplier $\delta_s$}
+
+\paragraph{What it is.}
+$\delta_s > 1$ is the factor by which a firm's productivity scales up if it
+pays the fixed upgrading cost $w_r f^U_s$. A firm with baseline productivity
+$\phi$ that upgrades operates as if it had productivity $\delta_s \cdot \phi$.
+
+\paragraph{Role in the model.}
+Upgrading reduces marginal cost in all destinations simultaneously. Under
+CES demand with constant markup $\mu = \sigma_s/(\sigma_s-1)$, firm revenue
+in any destination $j$ satisfies $R_{rjs} \propto \phi^{\sigma_s-1}$, so
+after upgrading:
+\[
+\frac{R'_{rjs}}{R_{rjs}} = \delta_s^{\sigma_s - 1} \quad \forall\, j.
+\]
+This destination-invariance is the key property: upgrading triggered by
+US market access spills over to all other destinations (non-US, RoW)
+proportionally. It is this spillover that identifies $\delta_s$ separately
+from the direct tariff-elimination effect.
+
+\paragraph{Estimation --- method of moments.}
+The identifying assumption is that the QIZ affects non-US exports
+\emph{only} through the productivity upgrading channel: tariff elimination
+applies only to US exports, and Israeli input costs raise marginal costs
+uniformly, so neither channel can explain a post-treatment increase in
+non-US exports. Any such increase must therefore reflect upgrading.
+
+\medskip
+\noindent\textbf{Step 1: estimate the non-US export response.}
+Using the matched firm panel (\texttt{final\_data\_matched.dta}, CEM weights),
+we run a firm-level event study with firm fixed effects and sector$\times$year
+fixed effects, baseline at $t=-1$, window $-5$ to $+6$:
+\[
+\log \widetilde{X}_{it}^{\mathrm{nonUS}} =
+  \sum_{k \neq -1} \beta_k \cdot \mathbf{1}[t - t_i^* = k]
+  + \alpha_i + \alpha_{st} + \varepsilon_{it},
+\]
+where $\widetilde{X}$ is winsorized at a floor of 10{,}000 USD,
+$t_i^*$ is the year of first Israeli input import (treatment event),
+and standard errors are clustered by firm. The post-period average
+coefficient (average of $\hat\beta_0,\ldots,\hat\beta_{+6}$) is:
+\[
+\hat\beta^{\mathrm{post}}_{\mathrm{nonUS}} = 0.931 \quad
+(SE = 0.148,\; p < 0.001).
+\]
+Pre-period coefficients ($t = -5$ to $-2$) are individually insignificant,
+supporting the parallel trends assumption.
+
+\medskip
+\noindent\textbf{Step 2: invert the model to recover $\delta_T$.}
+The model prediction is $\log R'_{RW} - \log R_{RW} = (\sigma_T - 1)\log\delta_T$,
+so:
+\[
+\log\delta_T = \frac{\hat\beta^{\mathrm{post}}_{\mathrm{nonUS}}}{\sigma_T - 1}
+= \frac{0.931}{5.7} = 0.1634,
+\qquad
+\hat\delta_T = e^{0.1634} = 1.178.
+\]
+The 95\% confidence interval, obtained by propagating the SE:
+\[
+\hat\delta_T \in [e^{(0.931-1.96\times0.148)/5.7},\;
+                   e^{(0.931+1.96\times0.148)/5.7}]
+= [1.119,\; 1.239].
+\]
+
+\paragraph{Results.}
+\begin{center}
+\begin{tabular}{llrr}
+\toprule
+Sector & Description & $\hat\delta_s$ & 95\% CI \\
+\midrule
+$T$ & Textiles + Apparel & 1.178 & $[1.119,\; 1.239]$ \\
+$O$ & Other manufacturing & --- & not estimated \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent $\delta_O$ is not estimated because the QIZ applies exclusively
+to textile/apparel firms; non-textile firms provide the control group but
+do not themselves receive treatment. The model sets $\delta_O = 1$ (no
+upgrading) as a baseline, with robustness checks at $\delta_O = 1.05$.
+
+\paragraph{Script.}
+Event study: \texttt{paperv5 code.do}, Section~12.
+Inversion: computed analytically from $\hat\beta^{\mathrm{post}}$ and
+$\sigma_T - 1 = 5.7$.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Israeli input price premium $p_{\mathrm{IL},s}/p_{\mathrm{RW},s}$}
+
+\paragraph{What it is.}
+The ratio of the price of intermediate inputs sourced from Israel to the
+price of the cheapest available alternative from the rest of the world,
+for sector $s$. A value greater than 1 means Israeli inputs are more
+expensive, so complying with the QIZ content requirement raises variable
+production costs.
+
+\paragraph{Role in the model.}
+Enters the marginal cost of QIZ-compliant firms through the intermediate
+input price $p_{m,s}$. Under Cobb--Douglas production, a firm that sources
+a fraction $\gamma_s$ of its intermediates from Israel faces an effective
+input price index of
+\[
+p_{m,s}^{\mathrm{QIZ}} = p_{\mathrm{RW},s}
+  \Bigl(\frac{p_{\mathrm{IL},s}}{p_{\mathrm{RW},s}}\Bigr)^{\gamma_s}.
+\]
+So the compliance cost in variable terms is
+$(p_{\mathrm{IL},s}/p_{\mathrm{RW},s})^{\gamma_s(1-\alpha_s)} - 1$
+percent of marginal cost.
+
+\paragraph{Estimation strategy.}
+Two sources are used, with the firm survey treated as primary.
+
+\medskip
+\noindent\textbf{1. Firm survey (primary).}
+A 2006 ECES survey of Egyptian QIZ exporters asked firms directly to
+compare the price of Israeli inputs to their domestic/foreign substitutes.
+Results:
+\begin{itemize}
+  \item 28 firms (60\%): Israeli inputs \textbf{more than 20\% more expensive}
+  \item 11 firms (23\%): \textbf{10--20\% more expensive}
+  \item 7 firms (15\%): \textbf{less than 10\% more expensive}
+  \item 3 firms (6\%): Israeli inputs cheaper
+\end{itemize}
+The survey-implied median premium is approximately \textbf{20--25\%},
+consistent with industry accounts. We use $p_{\mathrm{IL},s}/p_{\mathrm{RW},s}
+= 1.20$ as the baseline estimate for all sectors (no sector breakdown
+available in the survey), with robustness checks at 1.10 and 1.30.
+
+\medskip
+\noindent\textbf{2. Customs opportunity-cost estimator (corroborating).}
+For each HS6 product $h$ and year $t$ in which Israel is observed as an
+origin in the Egyptian customs data (2005--2008 pre-period), we compute:
+\[
+\text{premium}_{ht} =
+\frac{uv_{\mathrm{ISR},ht} - \min_{o \neq \mathrm{ISR}} uv_{o,ht}}
+     {\min_{o \neq \mathrm{ISR}} uv_{o,ht}} \times 100,
+\]
+where $uv$ is the USD unit value (import value divided by quantity),
+restricted to observations sharing the same quantity unit within the
+product-year cell (to avoid unit-of-measure confounds), and winsorized
+at the 1st--99th percentile. The median of $\text{premium}_{ht}$ across
+product-year cells within each sector gives the sector-level estimate.
+
+\paragraph{Why not the log-ratio estimator?}
+An earlier approach computed $\log(uv_{\mathrm{ISR}}/uv_{\mathrm{RW}})$
+relative to the \emph{median} non-Israeli unit value. This produced
+negative estimates (Israeli inputs appearing cheaper), inconsistent with
+both the survey evidence and industry accounts. The most likely cause is
+composition bias within HS6 codes: Israel tends to export simpler or
+lower-grade intermediates (e.g.\ grey fabric rather than printed fabric)
+within the same 6-digit code. The opportunity-cost estimator is less
+sensitive to this because it uses the \emph{minimum} non-Israeli unit
+value as the benchmark --- if anything biasing the premium downward ---
+while the survey directly asks firms about comparable substitutes.
+
+\paragraph{Why customs data cannot identify this parameter.}
+Two approaches were attempted using Egyptian customs import microdata
+(EID-Imports, 2005--2008).
+
+\begin{enumerate}
+
+\item \textit{Log-ratio estimator.}
+For each HS6 product-year cell containing both Israeli and non-Israeli
+shipments, we computed $\log(uv_{\mathrm{ISR},ht}/uv_{\mathrm{RoW},ht})$
+where $uv_{\mathrm{RoW}}$ is the median non-Israeli unit value.
+This produced negative estimates --- Israeli inputs appearing 15--40\%
+\emph{cheaper} than the RoW median --- contradicting both the survey
+evidence and industry accounts.
+
+\item \textit{Opportunity-cost estimator.}
+We replaced the RoW median with the 5th percentile of non-Israeli unit
+values (the cheapest credible alternative). This produced median premiums
+of over 1,000\% --- economically implausible in the opposite direction.
+
+\end{enumerate}
+
+Both failures reflect the same root cause: \textbf{within-HS6 composition
+bias}. A 6-digit HS code typically covers a wide range of qualities, grades,
+and specifications. Israel tends to export more specialized or higher-grade
+intermediates within a code (e.g.\ mercerized cotton yarn vs.\ synthetic
+yarn, both recorded as HS~520512). The cheapest non-Israeli shipments in the
+same HS6 cell are therefore not genuine substitutes for the Israeli input.
+The unit value difference measures quality mix, not the price of the same
+good from different origins. No fixed-effects strategy can resolve this
+without product data at a finer level than HS6, which is not available.
+
+\paragraph{Results.}
+\begin{center}
+\begin{tabular}{llr}
+\toprule
+Source & Sector & $\hat p_{\mathrm{IL},s}/\hat p_{\mathrm{RW},s}$ \\
+\midrule
+Survey (ECES 2006) & All sectors & 1.20 \ (baseline) \\
+Survey (ECES 2006) & All sectors & 1.10--1.30 \ (robustness range) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent We use $p_{\mathrm{IL},s}/p_{\mathrm{RW},s} = 1.20$ for all
+sectors. No sector breakdown is available in the survey, but the composition
+of Israeli imports in Q1~2006 was approximately 50\% fabrics, 15\%
+chemicals, and 6\% each for zippers, thread, and cardboard, so the sample
+is heavily weighted toward sector~$T$ and the 20\% figure is most directly
+applicable there.
+
+\paragraph{Script.} Survey-based; no estimation script.
+Parameter stored in \texttt{params\_estimated.json} under
+\texttt{price\_wedge.primary\_estimate}.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Policy Parameters}
+
+\subsection{Israeli content requirement $\gamma_s$}
+
+\paragraph{What it is.}
+$\gamma_s$ is the minimum fraction of intermediate inputs that a QIZ-compliant
+firm in sector $s$ must source from Israel. It enters the effective input
+price index for compliant firms:
+\[
+p_{m,s}^{\mathrm{QIZ}} = p_{\mathrm{RW},s}
+  \Bigl(\frac{p_{\mathrm{IL},s}}{p_{\mathrm{RW},s}}\Bigr)^{\gamma_s},
+\]
+so a higher $\gamma_s$ means a larger compliance cost when Israeli inputs
+are more expensive than alternatives.
+
+\paragraph{Estimation.}
+Fixed directly from the QIZ protocol. The agreement requires that
+\textbf{35\% of the value of the final product} must originate from
+qualifying zones (Egypt + Israel combined), of which \textbf{at least
+10.5\% must come specifically from Israel}. The relevant parameter
+for the model is the Israeli-specific requirement:
+
+\noindent\textit{Grouping 1:}
+\begin{center}
+\begin{tabular}{llr}
+\toprule
+Sector & Description & $\gamma_s$ \\
+\midrule
+$T$ & Textiles + Apparel & 0.105 \\
+$O$ & Other manufacturing & 0.105 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textit{Grouping 2:}
+\begin{center}
+\begin{tabular}{llr}
+\toprule
+Sector & Description & $\gamma_s$ \\
+\midrule
+$T$   & Textiles + Apparel    & 0.105 \\
+$S_1$ & Food products         & 0.105 \\
+$S_2$ & Chemicals             & 0.105 \\
+$S_3$ & Non-metallic minerals & 0.105 \\
+$O$   & Other manufacturing   & 0.105 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The 35\% total local content requirement is not a separate
+parameter --- it is automatically satisfied if the Israeli 10.5\%
+requirement is met, given that Egyptian value-added in QIZ firms
+typically exceeds 25\%. The requirement applies uniformly across all
+manufacturing sectors covered by the QIZ agreement; $\gamma_s = 0.105$
+for all sectors in the multi-sector extension.
+
+\paragraph{Robustness.}
+The effective $\gamma_T$ faced by firms may differ from the statutory
+10.5\% if firms source more Israeli inputs than the minimum required
+(over-compliance) or if enforcement is imperfect. Robustness checks
+vary $\gamma_T \in [0.08, 0.15]$.
+
+\paragraph{Script.} No estimation script; fixed from policy documents.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Fixed Costs}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Destination-specific export fixed costs $f^X_{rjs}$}
+
+\paragraph{What it is.}
+$f^X_{rjs}$ is the destination-specific fixed cost (in units of labor) paid by
+a firm in region $r$ and sector $s$ to serve market
+$j \in \{\mathrm{US}, \mathrm{RW}\}$. It captures non-variable barriers to
+exporting that are not already in the iceberg trade wedge: buyer search,
+paperwork, certification, customs handling, shipping coordination, and related
+market-access frictions.
+
+\paragraph{Why this becomes a problem for QIZ uptake.}
+In the strict baseline, $f^X_{Q,US,T}$ is forced to equal $f^X_{N,US,T}$ and
+both regions also inherit the same Egypt-level trade wedge to the US. In that
+case the model often shuts down the $(Q,T)\rightarrow \mathrm{US}$ margin or
+assigns it entirely to non-QIZ firms. Once that happens the compliance choice
+is never reached, because the implementation only allows US-serving QIZ-region
+firms to comply. Formally, if
+\[
+\Pr(\mathrm{serve\ US}\mid Q,T)=0,
+\]
+then the model mechanically implies
+\[
+\Pr(\mathrm{comply}\mid Q,T)=0
+\]
+for any value of $f^C_T$.
+
+\paragraph{Reduced-form Q-specific US export-access shifter.}
+To generate positive QIZ take-up, the model needs an interior set of textile
+firms in QIZ locations that are close to the US-export cutoff. A reduced-form
+way to represent that is to allow
+\[
+f^X_{Q,US,T} < f^X_{N,US,T}.
+\]
+This should not be interpreted narrowly as lower paperwork alone. It is better
+viewed as a \textbf{Q-region US-export access shifter} that summarizes better
+export logistics, customs procedures, buyer matching, certification support,
+and clustering of export-oriented textile firms in QIZ locations.
+
+\paragraph{What should be done in practice.}
+\begin{enumerate}
+  \item Preferred option: estimate this shifter from data on Q versus non-Q
+        textile firms' US export entry or US market participation.
+  \item If direct estimation is not feasible, keep the common-cost model as a
+        strict baseline and report the Q-specific shifter as a benchmark or
+        sensitivity exercise needed to generate interior take-up.
+  \item Do not present it as a literal engineering estimate of one stand-alone
+        fixed cost. Present it as a reduced-form export-access wedge.
+\end{enumerate}
+
+\subsection{Compliance fixed cost $f^C_s$}
+
+\paragraph{What it is.}
+$f^C_s$ is the fixed cost (in units of labor) that a firm in the QIZ region
+must pay to comply with the Israeli content requirement. It is deterministic
+($\sigma_C = 0$ in the baseline), so all firms above a productivity cutoff
+$\phi^C_s$ comply and all below do not.
+
+\medskip
+\noindent In the revised uptake benchmark, deterministic compliance costs are
+too knife-edge: they imply either zero take-up or near-universal take-up. For
+that reason the benchmark turns on compliance heterogeneity
+($\sigma_C > 0$, $n_{\varepsilon} > 1$), so the model can match an interior
+uptake share.
+
+\paragraph{Target moment.}
+The compliance rate among US-exporting textile firms, computed from the
+matched customs panel (\texttt{final\_data\_matched.dta}):
+\[
+\hat p^C_T = \frac{\text{textile firms exporting to US AND importing from Israel}}
+                  {\text{textile firms exporting to US}}.
+\]
+Year-by-year estimates (2006--2009):
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+Sample & Denominator & Compliant & Rate \\
+\midrule
+Full sample 2005--2016 & 449 & 144 & \textbf{32.1\%} \\
+\bottomrule
+\end{tabular}
+\end{center}
+Denominator = textile firms that ever export to the US (2005--2016).
+Numerator = of those, firms that ever import from Israel (2005--2016).
+The calibration target is $\hat p^C_T = 0.32$.
+
+\paragraph{Estimation strategy.}
+$f^C_s$ cannot be solved analytically because the compliance cutoff $\phi^C_s$
+depends on equilibrium wages and prices. The calibration proceeds numerically
+once all other parameters are available:
+\begin{enumerate}
+  \item Fix all other parameters (technology, demand, trade costs, labor).
+  \item For a candidate $f^C_T$, solve the full equilibrium with QIZ on.
+  \item Read off \texttt{compliance\_share\_among\_US\_exporters} for $(Q, T)$.
+  \item Find the $f^C_T$ that matches $\hat p^C_T = 0.32$.
+\end{enumerate}
+The denominator matters. The empirical moment is
+\[
+\Pr(\mathrm{comply}\mid \mathrm{US\ exporter}, Q,T),
+\]
+not compliance among all active firms. Using all active firms in the
+denominator biases the target downward whenever many textile firms operate
+without serving the US. Under heterogeneous compliance costs, a higher
+$f^C_T$ shifts the distribution of firm-specific compliance thresholds upward
+and lowers the uptake share among eligible US exporters.
+
+\paragraph{Script.} \texttt{calibrate\_fC.py} (pending full parameter set).
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Upgrading fixed cost $f^U_s$}
+
+\paragraph{What it is.}
+$f^U_s$ is the fixed cost (in units of labor) paid by a compliant firm to
+scale its productivity by $\delta_s$. Under the binary upgrade mode, all
+firms above a cutoff $\phi^U_s > \phi^C_s$ upgrade.
+
+\paragraph{Target moment.}
+The upgrading rate among compliant textile firms:
+\[
+\hat p^U_T = \frac{\text{compliant firms with }
+X^{\mathrm{nonUS}}_{t+1} > X^{\mathrm{nonUS}}_{t-1}}
+{\text{compliant textile firms}},
+\]
+where $t$ is the year of the firm's first Israeli input import
+(the treatment event). From the matched customs panel
+(\texttt{final\_data\_matched.dta}):
+
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+ & N & Rate \\
+\midrule
+Compliant firms with pre+post observed & 167 & --- \\
+Of which non-US exports increased & 82 & \textbf{49.1\%} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Denominator = textile firms that ever import from Israel (2005--2016)
+with both pre- and post-treatment non-US export observations.
+The calibration target is $\hat p^U_T = 0.49$.
+
+\paragraph{Estimation strategy.}
+Same sequential logic as $f^C_s$: once all other parameters are fixed,
+use Brent's method to find $f^U_T$ such that the predicted upgrading rate
+\texttt{upgrade\_share\_among\_active} matches $\hat p^U_T = 0.49$. The two
+fixed costs are calibrated sequentially: $f^C_T$ first (compliance rate),
+then $f^U_T$ conditional on $f^C_T$ (upgrading rate among compliers).
+
+\paragraph{Script.} \texttt{compliance\_and\_upgraders.do} (moment computation).
+Calibration script to be written once full parameter set is available.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Entry fixed cost $f^E_{rs}$}
+
+\paragraph{What it is.}
+$f^E_{rs}$ is the fixed cost (in units of labor) paid by a potential entrant
+in region $r$ and sector $s$ before drawing its productivity from the Pareto
+distribution. In equilibrium the free-entry condition pins down the mass of
+active firms $M_{rs}$.
+
+\paragraph{Role in the model.}
+The ratio $f^E_{Q,s}/f^E_{N,s}$ determines the relative mass of firms
+across regions for each sector. A lower entry cost in the QIZ region would
+attract more entrants there. In the baseline the entry cost is assumed equal
+across regions ($f^E_{Q,s} = f^E_{N,s}$) for simplicity; the firm-count
+ratio then reflects differences in expected profits only.
+
+\paragraph{Estimation strategy.}
+The target moment is the ratio of sector-$s$ firm counts across regions:
+\[
+\frac{M_{Q,s}}{M_{N,s}} = \frac{n_{Q,s}}{n_{N,s}},
+\]
+taken from the pre-QIZ Egyptian Industrial Statistics (2004), which report
+establishment counts by 2-digit industry and governorate.
+
+\medskip
+\noindent\textbf{Data source.}
+\texttt{Data Egypt Industrial Stats 2004 (2).xlsx}, Sheet2. Contains
+establishment counts (\texttt{numestabl}), employment, wages, and output
+by industry $\times$ governorate for 2004 (pre-QIZ baseline).
+
+\medskip
+\noindent\textbf{QIZ region definition.}
+The QIZ treatment was sub-governorate (specific \textit{qisms}), so
+any governorate-level classification is an approximation. The ELMPS
+treatment coding identifies the following governorates as eventually
+receiving QIZ zones (census gov codes):
+\begin{itemize}
+  \item \textbf{2004}: Cairo (1), Giza (14), Ismailia (13), Alexandria (2),
+        Port Said (3), Kafr Sheikh (21)
+  \item \textbf{2005}: Fayoum (16), Beheira (12), Menya (17), Monofiyyah (11),
+        Kalyoubia (19), Suez (4) [+ additional qisms in Cairo/Giza/Kafr Sheikh]
+  \item \textbf{2009}: Gharbiyyah (22), Matrouh (24)
+  \item \textbf{2013}: Ismailia (15), Giza qisms (18)
+\end{itemize}
+
+\medskip
+\noindent\textbf{QIZ region definition.}
+The 15 QIZ governorates are taken from the official IFTA Federal Register
+notices and confirmed against the ELMPS treatment coding:
+\begin{itemize}
+  \item \textbf{2004}: Alexandria, Cairo, Port Said
+  \item \textbf{2005}: Giza, Kalyoubia, Dakhliaya, Demiatte, Gharbiyyah,
+        Monofiyyah, Ismailiyya, Suez
+  \item \textbf{2009}: Beni Suef, Menya
+  \item \textbf{2013}: Kafr Sheikh, Beheira (liberalized)
+\end{itemize}
+Non-QIZ (12 governorates): Sharkiah, Fayoum, Asyout, Souhag, Qena, Aswan,
+Luxor, Red Sea, Wadi Jadid, Matrouh, North Sinai, South Sinai.
+The full list is documented in
+\texttt{Excel Sheet Data/QIZ Governorates by Treatment Year.xlsx}.
+
+\paragraph{Results.}
+
+\medskip
+\noindent\textit{Grouping 1:}
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+Sector & $n_N$ & $n_Q$ & Ratio $n_Q/n_N$ \\
+\midrule
+$T$ & 127  & 1,013 & 7.976 \\
+$O$ & 1,490 & 6,218 & 4.173 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textit{Grouping 2:}
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+Sector & $n_N$ & $n_Q$ & Ratio $n_Q/n_N$ \\
+\midrule
+$T$   & 127   & 1,013 & 7.976 \\
+$S_1$ & 937   & 3,609 & 3.852 \\
+$S_2$ & 124   & 534   & 4.306 \\
+$S_3$ & 184   & 1,057 & 5.745 \\
+$O$   & 245   & 1,018 & 4.155 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Textiles has the highest ratio (7.98), consistent with QIZ zones
+being concentrated in Egypt's main textile and apparel clusters
+(Greater Cairo, Alexandria, Middle Delta, Suez Canal). Non-QIZ governorates
+are predominantly Upper Egypt, Sinai, and frontier regions with little
+manufacturing activity.
+
+\paragraph{Script.}
+Python analysis from \texttt{Data Egypt Industrial Stats 2004 (2).xlsx}
+(Sheet2). Saved to \texttt{params\_estimated.json} under
+\texttt{firm\_count\_ratio}.
+
+\paragraph{Practical note.}
+The textile QIZ-region share is very high in the raw governorate-level data.
+In the current model this moment should be treated as a \emph{soft reference}
+rather than a knife-edge target, because forcing it exactly can collapse the
+interior textile US-export margin needed to identify QIZ take-up.
+
+\subsection{Revised Full-Model Benchmark: QIZ On versus QIZ Off}
+
+\paragraph{Purpose.}
+The revised benchmark is designed to generate an interior textile uptake margin
+while preserving the broad structure of the heterogeneous-firm model. It is a
+benchmark for interpretation and sensitivity analysis, not yet the final
+preferred baseline.
+
+\paragraph{Key parameter changes.}
+\begin{center}
+\begin{tabular}{llr}
+\toprule
+Object & Interpretation & Value \\
+\midrule
+ROO cost formula & Normalized Cobb--Douglas & normalized \\
+$n_{\phi}$ & Productivity grid points & 15 \\
+$n_{\varepsilon}$ & Compliance-cost heterogeneity grid & 5 \\
+$\sigma_C^T$ & Textile compliance-cost dispersion & 0.6 \\
+$f^E_{Q,T}$ & Textile entry cost in Q region & 0.5 \\
+$f^X_{Q,US,T}$ & Q-region textile US export fixed cost & 0.88 \\
+$f^X_{N,US,T}$ & Non-Q textile US export fixed cost & 43.98 \\
+$f^C_T$ & Textile compliance fixed cost & 2.5 \\
+$f^U_T$ & Textile upgrading fixed cost & 1.8 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Results.}
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+Moment / outcome & QIZ off & QIZ on \\
+\midrule
+Q-region textile firm share & 0.5234 & 0.5511 \\
+$(Q,T)$ active share & 0.1333 & 0.1333 \\
+$(Q,T)$ US export share among active & 1.0000 & 1.0000 \\
+$(Q,T)$ compliance share among active & 0.0000 & 0.3833 \\
+$(Q,T)$ compliance share among US exporters & 0.0000 & 0.3833 \\
+Aggregate welfare & 325{,}381{,}023.3 & 326{,}041{,}496.4 \\
+Welfare gain (\%) & --- & 0.2030 \\
+$w_Q$ & 1.1639 & 1.1661 \\
+$w_N$ & 0.7229 & 0.7182 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The implied textile QIZ uptake rate is 38.3\%, reasonably close to
+the empirical target of 32.1\%. The benchmark therefore demonstrates that the
+model can generate positive take-up once the textile Q-region US-export margin
+is restored and uptake is measured on the correct denominator.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Labor Endowments}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Regional labor force $L$, $L_Q$, $L_N$}
+
+\paragraph{What it is.}
+$L_Q$ and $L_N$ are the total labor endowments of the QIZ and non-QIZ
+regions respectively. They pin down the relative size of each region and
+enter the labor market clearing conditions and the wage determination
+equations.
+
+\paragraph{Estimation.}
+Taken from the Egypt Annual Labor Force Survey 2004 (CAPMAS), pages 50--58,
+which reports labor force by governorate. The 2004 survey is the
+pre-QIZ baseline year. Governorates are assigned to QIZ or non-QIZ
+following the official QIZ protocol locations.
+
+\medskip
+\noindent\textit{QIZ governorates (15):}
+Cairo, Alexandria, Port Said, Suez, Demiatte, Dakhliaya, Kalyoubia,
+Kafr Sheikh, Gharbiyya, Monoufiyya, Beheira, Ismailiyya, Giza,
+Beni Soueif, Menya.
+
+\noindent\textit{Non-QIZ governorates (12):}
+Sharkiyya, Fayoum, Asyout, Souhag, Qena, Aswan, Luxor, Red Sea,
+Wadi Jadid, Matrouh, North Sinai, South Sinai.
+
+\paragraph{Results.}
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+Region & Labor Force & Share \\
+\midrule
+$L_Q$ (QIZ, 15 govs)     & 15,336,500 & 73.9\% \\
+$L_N$ (non-QIZ, 12 govs) &  5,424,700 & 26.1\% \\
+$L$ (total)               & 20,761,200 & 100\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The ratio $L_Q/L_N = 2.827$. The QIZ region covers 74\% of Egypt's
+labor force, reflecting that it includes the major urban and Delta
+governorates (Cairo, Giza, Alexandria, the textile Delta).
+
+\paragraph{Source.}
+Egypt Annual Labor Force Survey 2004, CAPMAS.
+File: \texttt{Labor Force by Governorate 2004.xlsx}.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Parameters Still to Estimate}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The following parameters remain to be estimated or calibrated.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Parameter & Method & Data \\
+\midrule
+$\kappa$ & Labor mobility elasticity & ELMPS panel \\
+$f^E_{rs}$ & Calibrated to firm count ratios & Industrial stats 2004 \\
+$f_{rjs}$ & Calibrated to exporter participation & Customs data \\
+$f^X_{Q,US,T}/f^X_{N,US,T}$ & Q-specific export-access shifter & To estimate / sensitivity \\
+$d_{rjs}$ & Calibrated to export intensity & Customs data \\
+$f^C_T$ & Calibrated to compliance rate (0.32) & Customs data \\
+$f^U_T$ & Calibrated to upgrading rate (0.49) & Customs data \\
+$E_{js}, P_{js}$ & From destination trade data & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Normalizations}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\begin{align}
+w_N &= 1 \quad \text{(numeraire wage in non-QIZ region)} \\
+\phi_{\min,s} &= 1 \quad \forall s \quad \text{(scale normalization)}
+\end{align}
+
+\bibliographystyle{plainnat}
+\begin{thebibliography}{9}
+
+\bibitem[Imbs and M\'{e}jean(2015)]{ImbsMejean2015}
+Imbs, J. and I.\ M\'{e}jean (2015).
+\newblock Elasticity optimism.
+\newblock \textit{American Economic Journal: Macroeconomics}, 7(3):43--83.
+
+\bibitem[Hill(1975)]{Hill1975}
+Hill, B.M. (1975).
+\newblock A simple general approach to inference about the tail of a
+distribution.
+\newblock \textit{Annals of Statistics}, 3(5):1163--1174.
+
+\bibitem[Melitz(2003)]{Melitz2003}
+Melitz, M.J. (2003).
+\newblock The impact of trade on intra-industry reallocations and aggregate
+industry productivity.
+\newblock \textit{Econometrica}, 71(6):1695--1725.
+
+\end{thebibliography}
+
+\end{document}

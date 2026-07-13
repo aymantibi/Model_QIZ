@@ -1,0 +1,100 @@
+{
+  "equilibrium": {
+    "employment_shares_off": {
+      "N": 0.4692386100707974,
+      "Q": 0.5307613899292026
+    },
+    "employment_shares_on": {
+      "N": 0.46821102509900553,
+      "Q": 0.5317889749009945
+    },
+    "exports_off_Q_RW": 88.77278899303306,
+    "exports_off_Q_US": 18.508828743687612,
+    "exports_on_Q_RW": 66.10375482587335,
+    "exports_on_Q_US": 16.010483280495762,
+    "wages_off": {
+      "N": 1.386855495674786,
+      "Q": 1.4749727721097057
+    },
+    "wages_on": {
+      "N": 1.3736960377113019,
+      "Q": 1.4639946587067239
+    },
+    "welfare_off": 123.27905422803421,
+    "welfare_on": 126.2508097745553
+  },
+  "meta": {
+    "created_utc": "2026-03-09T12:10:03Z",
+    "preset": "fit_exports_dual_market",
+    "schema_version": 1
+  },
+  "moments": {
+    "agg_q_t_rw_pct": 500.0,
+    "agg_q_t_us_pct": 500.0,
+    "agg_q_total_rw_pct": -25.53601663786725,
+    "agg_q_total_us_pct": -13.498128367760192,
+    "agg_total_rw_pct": -0.9653081911715549,
+    "agg_total_us_pct": 2.2777452645814473,
+    "micro_comp_rw_pct": 101.15471896012683,
+    "micro_comp_tot_pct": 34.76490996877797,
+    "micro_comp_us_pct": 318.3986660436164,
+    "micro_upgrade_gap_u": 1.6666666666666667,
+    "q_t_active_share": 0.17142857142857146,
+    "q_t_comp_share_active": 0.3333333333333333,
+    "target_comp_rw_pct": 101.15471896012683,
+    "target_comp_us_pct": 318.3986660436164,
+    "target_emp_qt_pct": 500.0,
+    "target_prod_qt_pct": 500.0,
+    "target_real_wage_q_pct": 2.4998077140121477,
+    "tier1_comp_rw_dlevel": 1.4346431606225976,
+    "tier1_comp_rw_logchg": 0.6989041720387001,
+    "tier1_comp_share_active": 0.3333333333333333,
+    "tier1_comp_us_dlevel": 1.2708434540757647,
+    "tier1_comp_us_logchg": 1.431264538525265,
+    "tier2_emp_qt_dlevel": 17.64873002417787,
+    "tier2_emp_qt_logchg": 7.728295874085563,
+    "tier2_prod_qt_dlevel": 57.81707096398308,
+    "tier2_prod_qt_logchg": 7.783069282138121,
+    "tier2_real_wage_q_dlevel": 0.03170621593111811,
+    "tier2_real_wage_q_logchg": 0.024690736627754784,
+    "tier3_qt_rw_dlevel": 5.910939619360514,
+    "tier3_qt_rw_logchg": 8.356105112113827,
+    "tier3_qt_us_dlevel": 3.4604505921369295,
+    "tier3_qt_us_logchg": 9.088465478600392,
+    "tier3_real_wage_n_logchg": 0.022627493408124588,
+    "tier3_total_rw_dlevel": -1.3200361374103124,
+    "tier3_total_rw_logchg": -0.009699974925661436,
+    "tier3_total_us_dlevel": 0.5586219824269705,
+    "tier3_total_us_logchg": 0.02252191945766091,
+    "tier3_welfare_logchg": 0.023819962947203344
+  },
+  "parameters": {
+    "fC_mean": {
+      "O": 0.4,
+      "T": 0.35
+    },
+    "gamma": {
+      "O": 0.105,
+      "T": 0.105
+    },
+    "roo_cost_formula": "normalized",
+    "roo_cost_scope": "US_only",
+    "t_mfn": {
+      "O": 0.03,
+      "T": 0.15
+    },
+    "upgrade_cost_quad": {
+      "O": 5.5,
+      "T": 4.5
+    },
+    "upgrade_mode": "continuous",
+    "upgrade_psi": {
+      "O": 0.08,
+      "T": 0.12
+    },
+    "upgrade_psi_comp": {
+      "O": 0.0,
+      "T": 0.06
+    }
+  }
+}

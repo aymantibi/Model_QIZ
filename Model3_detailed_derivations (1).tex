@@ -1,0 +1,994 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{microtype}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\title{A Self-Contained Derivation Note for a Melitz-Type Model of Egypt's QIZ Policy\\Households, Firms, Compliance, Upgrading, and Equilibrium}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Purpose of this note}
+
+This note records the model in a fully self-contained way and derives each block step by step. The goal is not brevity. The goal is to make every object in the model interpretable and usable for later solution and calibration.
+
+The model has four parts:
+\begin{enumerate}[leftmargin=*]
+    \item a household problem in Egypt with nested CES preferences,
+    \item a firm problem with heterogeneous productivity, Cobb--Douglas production, and destination-specific sales,
+    \item a QIZ compliance decision and an upgrading decision,
+    \item an equilibrium system that ties together prices, wages, labor allocation, entry, and domestic demand.
+\end{enumerate}
+
+The note is organized in the same order. Wherever possible, derivations are shown from the underlying constrained optimization problem rather than stated as standard formulas.
+
+\section{Environment, notation, and timing}
+
+\subsection{Sets}
+
+\begin{itemize}[leftmargin=*]
+    \item Regions inside Egypt: \(r \in \{Q,N\}\), where \(Q\) denotes the QIZ region and \(N\) the non-QIZ region.
+    \item Sectors: \(s \in S\).
+    \item Destinations: \(j \in \{\mathrm{EG},\mathrm{US},\mathrm{RW}\}\), where \(\mathrm{EG}\) is the domestic Egyptian market, \(\mathrm{US}\) is the United States, and \(\mathrm{RW}\) is the rest of the world.
+    \item For the intermediate-input block, origins are \(k \in \{\mathrm{IL},\mathrm{RW}\}\), where \(\mathrm{IL}\) denotes Israel.
+\end{itemize}
+
+\subsection{Parameters}
+
+\begin{itemize}[leftmargin=*]
+    \item Within-sector elasticity of substitution: \(\sigma_s>1\).
+    \item Across-sector elasticity of substitution: \(\eta>0\). In applications one typically takes \(\eta>1\), but the derivation below only requires that the CES aggregator is well-defined.
+    \item Sector weights: \(\beta_s>0\), with \(\sum_{s\in S}\beta_s=1\).
+    \item Labor share in production: \(\alpha_s\in(0,1)\).
+    \item Productivity distribution parameters: \(\phi_{\min,s}>0\) and Pareto shape \(\theta_s>\sigma_s-1\).
+    \item Iceberg trade costs: \(d_{rjs}\ge 1\).
+    \item MFN ad valorem tariff on Egyptian exports to the US in sector \(s\): \(t_s^{\mathrm{MFN}}\ge 0\).
+    \item Fixed operating cost for serving destination \(j\): \(f_{rjs}\ge 0\), measured in units of labor.
+    \item Entry cost: \(f^E_{rs}\ge 0\), also measured in labor units.
+    \item Compliance fixed cost for QIZ rules of origin: \(f_s^C\ge 0\).
+    \item Upgrading fixed cost: \(f_s^U\ge 0\).
+    \item Productivity gain from upgrading: \(\delta_s>1\).
+    \item Required Israeli share in the compliant intermediate bundle: \(\gamma_s\in(0,1)\).
+    \item Exogenous input prices: \(p_{\mathrm{IL},s}>0\) and \(p_{\mathrm{RW},s}>0\).
+    \item Labor mobility parameter across regions: \(\kappa>0\).
+    \item Aggregate Egyptian labor endowment: \(L>0\).
+    \item Net transfer to Egypt used in the macro closure: \(T\).
+\end{itemize}
+
+\subsection{Endogenous variables}
+
+\begin{itemize}[leftmargin=*]
+    \item Regional wages \(w_Q,w_N\).
+    \item Regional labor allocations \(L_Q,L_N\), or equivalently labor shares \(\lambda_Q,\lambda_N\) with \(L_r=\lambda_r L\).
+    \item Domestic sectoral price indices \(P_{\mathrm{EG},s}\) and aggregate Egyptian price index \(P_{\mathrm{EG}}\).
+    \item Sectoral expenditures in Egypt \(E_{\mathrm{EG},s}\).
+    \item Entry masses \(M_{rs}\).
+    \item Profit-maximizing firm modes and their implied domestic prices, export participation decisions, and factor demands.
+\end{itemize}
+
+\subsection{Small-open-economy closure}
+
+For foreign destinations \(j\in\{\mathrm{US},\mathrm{RW}\}\), sectoral expenditure \(E_{js}\) and sectoral price index \(P_{js}\) are taken as exogenous. This is the standard small-open-economy assumption. The Egyptian side of the model is fully endogenous.
+
+\subsection{Timing of firm decisions}
+
+A useful way to read the firm block is the following sequence.
+\begin{enumerate}[leftmargin=*]
+    \item A potential entrant in region \(r\), sector \(s\), pays entry cost \(w_r f^E_{rs}\).
+    \item It draws productivity \(\phi\) from a Pareto distribution.
+    \item Given wages and market aggregates, it chooses an operating mode.
+    \item Conditional on that mode, it chooses which destinations to serve.
+    \item It produces exactly the quantity demanded at the profit-maximizing price in each served destination.
+\end{enumerate}
+
+The operating mode will determine whether the firm complies with QIZ rules and whether it upgrades productivity.
+
+\section{Households in Egypt}
+
+\subsection{Preferences}
+
+There is a representative household in Egypt. Preferences are nested CES:
+\begin{align}
+U &= \left(\sum_{s\in S}\beta_s^{1/\eta} U_s^{\frac{\eta-1}{\eta}}\right)^{\frac{\eta}{\eta-1}}, \label{eq:upperCES_full}\\
+U_s &= \left(\int_{\omega\in\Omega_{\mathrm{EG},s}} q_s(\omega)^{\frac{\sigma_s-1}{\sigma_s}}\,d\omega\right)^{\frac{\sigma_s}{\sigma_s-1}}. \label{eq:lowerCES_full}
+\end{align}
+
+The household chooses consumption of all varieties to maximize utility subject to the budget constraint
+\begin{equation}
+\sum_{s\in S}\int_{\Omega_{\mathrm{EG},s}} p_s(\omega)q_s(\omega)\,d\omega = Y_{\mathrm{EG}}.
+\end{equation}
+
+Aggregate nominal income is
+\begin{equation}
+Y_{\mathrm{EG}} = w_Q L_Q + w_N L_N + T.
+\end{equation}
+
+\subsection{Why the nested problem is solved in two steps}
+
+The lower-tier aggregator defines the minimum expenditure needed to achieve one unit of sectoral utility \(U_s\). That minimum expenditure will be summarized by a sector-specific CES price index \(P_{\mathrm{EG},s}\). Once the lower-tier problem is solved, the upper-tier household problem becomes a choice over sectoral utilities \(U_s\), where each unit of sectoral utility costs \(P_{\mathrm{EG},s}\).
+
+So the derivation proceeds naturally in two stages:
+\begin{enumerate}[leftmargin=*]
+    \item solve the lower-tier expenditure minimization problem within a sector,
+    \item solve the upper-tier expenditure minimization problem across sectors.
+\end{enumerate}
+
+\subsection{Lower-tier problem: demand across varieties within sector \(s\)}
+
+Fix sector \(s\). Suppose the household wants to achieve a given level \(U_s\) of sectoral subutility as cheaply as possible. The expenditure minimization problem is
+\begin{equation}
+\min_{\{q_s(\omega)\}_{\omega\in\Omega_{\mathrm{EG},s}}}
+\int_{\Omega_{\mathrm{EG},s}} p_s(\omega)q_s(\omega)\,d\omega
+\quad\text{subject to}\quad
+\left(\int_{\Omega_{\mathrm{EG},s}} q_s(\omega)^{\frac{\sigma_s-1}{\sigma_s}}\,d\omega\right)^{\frac{\sigma_s}{\sigma_s-1}}\ge U_s.
+\end{equation}
+
+Because utility is increasing in every variety, the constraint binds at the optimum, so the problem is equivalent to
+\begin{equation}
+\min_{\{q_s(\omega)\}}
+\int p_s(\omega)q_s(\omega)\,d\omega
+\quad\text{subject to}\quad
+\int q_s(\omega)^{\frac{\sigma_s-1}{\sigma_s}}\,d\omega = U_s^{\frac{\sigma_s-1}{\sigma_s}}.
+\end{equation}
+
+It is useful to define
+\begin{equation}
+\rho_s \equiv \frac{\sigma_s-1}{\sigma_s}.
+\end{equation}
+Then \(\rho_s\in(0,1)\), and the problem becomes
+\begin{equation}
+\min_{\{q_s(\omega)\}}
+\int p_s(\omega)q_s(\omega)\,d\omega
+\quad\text{subject to}\quad
+\int q_s(\omega)^{\rho_s}\,d\omega = U_s^{\rho_s}.
+\end{equation}
+
+\subsubsection{Lagrangian and first-order conditions}
+
+The Lagrangian is
+\begin{equation}
+\mathcal{L}_s = \int p_s(\omega)q_s(\omega)\,d\omega + \lambda_s\left(U_s^{\rho_s}-\int q_s(\omega)^{\rho_s}\,d\omega\right).
+\end{equation}
+
+Take the derivative with respect to \(q_s(\omega)\):
+\begin{equation}
+\frac{\partial \mathcal{L}_s}{\partial q_s(\omega)} = p_s(\omega) - \lambda_s\rho_s q_s(\omega)^{\rho_s-1}=0.
+\end{equation}
+Hence
+\begin{equation}
+p_s(\omega) = \lambda_s\rho_s q_s(\omega)^{\rho_s-1}.
+\end{equation}
+Now
+\begin{equation}
+\rho_s-1 = \frac{\sigma_s-1}{\sigma_s}-1 = -\frac{1}{\sigma_s}.
+\end{equation}
+Therefore
+\begin{equation}
+p_s(\omega)=\lambda_s\rho_s q_s(\omega)^{-1/\sigma_s}.
+\end{equation}
+Solving for \(q_s(\omega)\) yields
+\begin{equation}
+q_s(\omega)=\left(\frac{\lambda_s\rho_s}{p_s(\omega)}\right)^{\sigma_s}.
+\end{equation}
+So quantity demanded is proportional to price raised to \(-\sigma_s\), which is exactly the constant-elasticity demand property of CES preferences.
+
+\subsubsection{Recovering the sectoral price index}
+
+Let total expenditure in sector \(s\) be
+\begin{equation}
+E_{\mathrm{EG},s}\equiv \int p_s(\omega)q_s(\omega)\,d\omega.
+\end{equation}
+Substitute the optimal demand just derived:
+\begin{align}
+E_{\mathrm{EG},s}
+&= \int p_s(\omega)\left(\frac{\lambda_s\rho_s}{p_s(\omega)}\right)^{\sigma_s}\,d\omega \\
+&= (\lambda_s\rho_s)^{\sigma_s}\int p_s(\omega)^{1-\sigma_s}\,d\omega.
+\end{align}
+Therefore
+\begin{equation}
+(\lambda_s\rho_s)^{\sigma_s} = \frac{E_{\mathrm{EG},s}}{\int p_s(\omega)^{1-\sigma_s}\,d\omega}.
+\end{equation}
+Substitute back into demand:
+\begin{equation}
+q_s(\omega) = \frac{E_{\mathrm{EG},s}}{\int p_s(\omega')^{1-\sigma_s}\,d\omega'}p_s(\omega)^{-\sigma_s}.
+\end{equation}
+Now define the sectoral CES price index as
+\begin{equation}
+P_{\mathrm{EG},s} \equiv \left(\int_{\Omega_{\mathrm{EG},s}} p_s(\omega)^{1-\sigma_s}\,d\omega\right)^{\frac{1}{1-\sigma_s}}.
+\end{equation}
+Equivalently,
+\begin{equation}
+P_{\mathrm{EG},s}^{1-\sigma_s} = \int p_s(\omega)^{1-\sigma_s}\,d\omega.
+\end{equation}
+Then demand can be written as
+\begin{align}
+q_s(\omega)
+&= E_{\mathrm{EG},s}p_s(\omega)^{-\sigma_s}P_{\mathrm{EG},s}^{\sigma_s-1} \\
+&= \left(\frac{p_s(\omega)}{P_{\mathrm{EG},s}}\right)^{-\sigma_s}\frac{E_{\mathrm{EG},s}}{P_{\mathrm{EG},s}}.
+\end{align}
+This is the standard within-sector CES demand system.
+
+\paragraph{Result 1: Within-sector variety demand.}
+\begin{equation}
+q_s(\omega)=\left(\frac{p_s(\omega)}{P_{\mathrm{EG},s}}\right)^{-\sigma_s}\frac{E_{\mathrm{EG},s}}{P_{\mathrm{EG},s}}.
+\label{eq:varietydemand_final}
+\end{equation}
+
+\paragraph{Result 2: Sectoral price index.}
+\begin{equation}
+P_{\mathrm{EG},s}=\left(\int_{\Omega_{\mathrm{EG},s}} p_s(\omega)^{1-\sigma_s}\,d\omega\right)^{\frac{1}{1-\sigma_s}}.
+\label{eq:sectorprice_final}
+\end{equation}
+
+\subsubsection{The expenditure function of the lower-tier problem}
+
+At the optimum, the expenditure function of the lower-tier CES problem is linear in \(U_s\):
+\begin{equation}
+E_{\mathrm{EG},s} = P_{\mathrm{EG},s}U_s.
+\end{equation}
+This is why \(P_{\mathrm{EG},s}\) is called the unit expenditure function for one unit of sectoral utility.
+
+\subsection{Upper-tier problem: allocation across sectors}
+
+Now solve the upper-tier problem. Once the lower-tier problem has been solved, the household can be thought of as choosing \(U_s\) directly, where each unit of sectoral utility costs \(P_{\mathrm{EG},s}\). The expenditure minimization problem is
+\begin{equation}
+\min_{\{U_s\}_{s\in S}} \sum_{s\in S} P_{\mathrm{EG},s}U_s
+\quad\text{subject to}\quad
+\left(\sum_{s\in S}\beta_s^{1/\eta}U_s^{\frac{\eta-1}{\eta}}\right)^{\frac{\eta}{\eta-1}}\ge U.
+\end{equation}
+
+Again, the constraint binds. Define
+\begin{equation}
+\rho \equiv \frac{\eta-1}{\eta}.
+\end{equation}
+Then the problem is equivalent to
+\begin{equation}
+\min_{\{U_s\}} \sum_s P_{\mathrm{EG},s}U_s
+\quad\text{subject to}\quad
+\sum_s \beta_s^{1/\eta}U_s^{\rho}=U^{\rho}.
+\end{equation}
+
+\subsubsection{Lagrangian and first-order conditions}
+
+The Lagrangian is
+\begin{equation}
+\mathcal{L}=\sum_s P_{\mathrm{EG},s}U_s + \Lambda\left(U^{\rho}-\sum_s \beta_s^{1/\eta}U_s^{\rho}\right).
+\end{equation}
+For each sector \(s\), the first-order condition is
+\begin{equation}
+P_{\mathrm{EG},s} - \Lambda\beta_s^{1/\eta}\rho U_s^{\rho-1}=0.
+\end{equation}
+Hence
+\begin{equation}
+P_{\mathrm{EG},s}=\Lambda\beta_s^{1/\eta}\rho U_s^{\rho-1}.
+\end{equation}
+Since
+\begin{equation}
+\rho-1 = \frac{\eta-1}{\eta}-1 = -\frac{1}{\eta},
+\end{equation}
+we obtain
+\begin{equation}
+P_{\mathrm{EG},s}=\Lambda\rho\beta_s^{1/\eta}U_s^{-1/\eta}.
+\end{equation}
+Solving for \(U_s\),
+\begin{equation}
+U_s = (\Lambda\rho)^\eta\beta_s P_{\mathrm{EG},s}^{-\eta}.
+\end{equation}
+Multiplying by \(P_{\mathrm{EG},s}\), sectoral expenditure is
+\begin{equation}
+E_{\mathrm{EG},s}=P_{\mathrm{EG},s}U_s = (\Lambda\rho)^\eta\beta_s P_{\mathrm{EG},s}^{1-\eta}.
+\end{equation}
+
+Now sum over sectors:
+\begin{equation}
+Y_{\mathrm{EG}} = \sum_s E_{\mathrm{EG},s} = (\Lambda\rho)^\eta\sum_s \beta_s P_{\mathrm{EG},s}^{1-\eta}.
+\end{equation}
+Define the aggregate Egyptian price index by
+\begin{equation}
+P_{\mathrm{EG}} \equiv \left(\sum_s \beta_s P_{\mathrm{EG},s}^{1-\eta}\right)^{\frac{1}{1-\eta}}.
+\end{equation}
+Equivalently,
+\begin{equation}
+P_{\mathrm{EG}}^{1-\eta}=\sum_s \beta_s P_{\mathrm{EG},s}^{1-\eta}.
+\end{equation}
+Therefore
+\begin{equation}
+Y_{\mathrm{EG}} = (\Lambda\rho)^\eta P_{\mathrm{EG}}^{1-\eta},
+\end{equation}
+so
+\begin{equation}
+(\Lambda\rho)^\eta = Y_{\mathrm{EG}}P_{\mathrm{EG}}^{\eta-1}.
+\end{equation}
+Substituting back into the expression for sectoral expenditure yields
+\begin{equation}
+E_{\mathrm{EG},s}=\beta_s P_{\mathrm{EG},s}^{1-\eta}Y_{\mathrm{EG}}P_{\mathrm{EG}}^{\eta-1}.
+\end{equation}
+Rearranging,
+\begin{equation}
+E_{\mathrm{EG},s}=\beta_s\left(\frac{P_{\mathrm{EG},s}}{P_{\mathrm{EG}}}\right)^{1-\eta}Y_{\mathrm{EG}}.
+\label{eq:sector_expenditure_final}
+\end{equation}
+
+\paragraph{Result 3: Aggregate Egyptian price index.}
+\begin{equation}
+P_{\mathrm{EG}}=\left(\sum_{s\in S}\beta_sP_{\mathrm{EG},s}^{1-\eta}\right)^{\frac{1}{1-\eta}}.
+\label{eq:aggregate_price_final}
+\end{equation}
+
+\paragraph{Result 4: Sectoral expenditure shares.}
+\begin{equation}
+E_{\mathrm{EG},s}=\beta_s\left(\frac{P_{\mathrm{EG},s}}{P_{\mathrm{EG}}}\right)^{1-\eta}Y_{\mathrm{EG}}.
+\end{equation}
+
+\subsection{Interpretation of the household block}
+
+The household problem generates three objects that matter for firms:
+\begin{enumerate}[leftmargin=*]
+    \item \(E_{\mathrm{EG},s}\): the size of the Egyptian market in sector \(s\),
+    \item \(P_{\mathrm{EG},s}\): the intensity of competition in sector \(s\), summarized by the CES price index,
+    \item the domestic demand curve for any variety sold in Egypt, given by \eqref{eq:varietydemand_final}.
+\end{enumerate}
+
+Notice that no goods-market clearing condition has been imposed yet. The household problem only tells us what the household wants to buy at given prices and income. Market clearing enters later, when the firm block is combined with the household block in equilibrium.
+
+\section{Firms}
+
+\subsection{Entry and productivity draws}
+
+In each region-sector pair \((r,s)\), a mass \(M_{rs}\) of potential entrants pays entry cost \(w_r f^E_{rs}\) and then draws productivity \(\phi\) from a Pareto distribution:
+\begin{equation}
+G_s(\phi)=1-\left(\frac{\phi_{\min,s}}{\phi}\right)^{\theta_s}, \qquad \phi\ge \phi_{\min,s}, \qquad \theta_s>\sigma_s-1.
+\label{eq:pareto_final}
+\end{equation}
+The corresponding density is
+\begin{equation}
+g_s(\phi)=\theta_s \phi_{\min,s}^{\theta_s}\phi^{-\theta_s-1}, \qquad \phi\ge \phi_{\min,s}.
+\end{equation}
+The restriction \(\theta_s>\sigma_s-1\) guarantees that expected revenue and expected profits are finite when revenue scales like \(\phi^{\sigma_s-1}\).
+
+\subsection{Technology}
+
+A firm in region \(r\), sector \(s\), with productivity \(\phi\), produces output according to
+\begin{equation}
+y = \phi l^{\alpha_s}m^{1-\alpha_s}.
+\label{eq:production_final}
+\end{equation}
+Here
+\begin{itemize}[leftmargin=*]
+    \item \(l\) is labor hired in region \(r\), paid at wage \(w_r\),
+    \item \(m\) is a composite intermediate input, with unit price \(c_{m,s}\),
+    \item \(\phi\) is productivity.
+\end{itemize}
+
+The firm block will proceed in the following sequence.
+\begin{enumerate}[leftmargin=*]
+    \item Determine the unit price \(c_{m,s}\) of the intermediate bundle under each sourcing regime.
+    \item Solve cost minimization to obtain variable cost and marginal cost.
+    \item Given destination demand, choose prices under monopolistic competition.
+    \item Compute destination-specific revenues and profits.
+    \item Add net destination profits across destinations and subtract mode-level fixed costs.
+\end{enumerate}
+
+\subsection{Intermediate inputs and QIZ compliance}
+
+\subsubsection{Noncompliant sourcing}
+
+If the firm does not comply with the QIZ rule of origin, the simplest reduced-form assumption is that it buys the entire intermediate bundle from the world market at price
+\begin{equation}
+c^N_{m,s}=p_{\mathrm{RW},s}.
+\label{eq:cm_noncompliant}
+\end{equation}
+
+\subsubsection{Compliant sourcing}
+
+If a QIZ firm complies, it must source a fraction \(\gamma_s\) of the intermediate bundle from Israel. The intermediate bundle is written as a Cobb--Douglas aggregate
+\begin{equation}
+m = m_{\mathrm{IL}}^{\gamma_s}m_{\mathrm{RW}}^{1-\gamma_s}.
+\label{eq:bundle_final}
+\end{equation}
+
+The cost-minimization problem for producing a given amount \(m\) of the composite intermediate input is
+\begin{equation}
+\min_{m_{\mathrm{IL}},m_{\mathrm{RW}}} p_{\mathrm{IL},s}m_{\mathrm{IL}}+p_{\mathrm{RW},s}m_{\mathrm{RW}}
+\quad\text{subject to}\quad
+m_{\mathrm{IL}}^{\gamma_s}m_{\mathrm{RW}}^{1-\gamma_s}=m.
+\end{equation}
+
+The Lagrangian is
+\begin{equation}
+\mathcal{L}_m = p_{\mathrm{IL},s}m_{\mathrm{IL}}+p_{\mathrm{RW},s}m_{\mathrm{RW}}+\nu\left(m-m_{\mathrm{IL}}^{\gamma_s}m_{\mathrm{RW}}^{1-\gamma_s}\right).
+\end{equation}
+
+The first-order conditions are
+\begin{align}
+p_{\mathrm{IL},s} &= \nu\gamma_s m_{\mathrm{IL}}^{\gamma_s-1}m_{\mathrm{RW}}^{1-\gamma_s},\\
+p_{\mathrm{RW},s} &= \nu(1-\gamma_s)m_{\mathrm{IL}}^{\gamma_s}m_{\mathrm{RW}}^{-\gamma_s}.
+\end{align}
+Divide the first equation by the second:
+\begin{equation}
+\frac{p_{\mathrm{IL},s}}{p_{\mathrm{RW},s}} = \frac{\gamma_s}{1-\gamma_s}\frac{m_{\mathrm{RW}}}{m_{\mathrm{IL}}}.
+\end{equation}
+Hence the optimal ratio is
+\begin{equation}
+\frac{m_{\mathrm{IL}}}{m_{\mathrm{RW}}}=\frac{\gamma_s}{1-\gamma_s}\frac{p_{\mathrm{RW},s}}{p_{\mathrm{IL},s}}.
+\end{equation}
+By the standard Cobb--Douglas dual, the corresponding unit cost index is
+\begin{equation}
+c^C_{m,s}=\frac{p_{\mathrm{IL},s}^{\gamma_s}p_{\mathrm{RW},s}^{1-\gamma_s}}{\gamma_s^{\gamma_s}(1-\gamma_s)^{1-\gamma_s}}.
+\label{eq:cm_compliant}
+\end{equation}
+Compliance also requires the fixed cost \(w_Q f_s^C\).
+
+\paragraph{Interpretation.}
+The model treats compliance as a firm-wide sourcing regime. If a firm complies, the unit cost of the composite intermediate input changes for all output. This is a strong but transparent assumption. It means the same sourcing regime is used for domestic sales, US exports, and ROW exports.
+
+\subsection{Cost minimization in final-good production}
+
+Fix a sourcing regime, so that the intermediate price is some \(c_{m,s}\in\{c^N_{m,s},c^C_{m,s}\}\). To produce target output \(y\), the firm solves
+\begin{equation}
+\min_{l,m} w_rl + c_{m,s}m
+\quad\text{subject to}\quad
+y=\phi l^{\alpha_s}m^{1-\alpha_s}.
+\label{eq:firm_costmin}
+\end{equation}
+
+\subsubsection{Lagrangian and first-order conditions}
+
+The Lagrangian is
+\begin{equation}
+\mathcal{L}=w_rl+c_{m,s}m+\mu\left(y-\phi l^{\alpha_s}m^{1-\alpha_s}\right).
+\end{equation}
+The first-order conditions are
+\begin{align}
+\frac{\partial \mathcal{L}}{\partial l}:\quad & w_r - \mu\phi\alpha_s l^{\alpha_s-1}m^{1-\alpha_s}=0, \label{eq:focl_final}\\
+\frac{\partial \mathcal{L}}{\partial m}:\quad & c_{m,s} - \mu\phi(1-\alpha_s)l^{\alpha_s}m^{-\alpha_s}=0, \label{eq:focm_final}\\
+\frac{\partial \mathcal{L}}{\partial \mu}:\quad & y-\phi l^{\alpha_s}m^{1-\alpha_s}=0. \label{eq:focmu_final}
+\end{align}
+
+Divide \eqref{eq:focl_final} by \eqref{eq:focm_final}:
+\begin{equation}
+\frac{w_r}{c_{m,s}} = \frac{\alpha_s}{1-\alpha_s}\frac{m}{l}.
+\end{equation}
+Hence
+\begin{equation}
+\frac{m}{l}=\frac{1-\alpha_s}{\alpha_s}\frac{w_r}{c_{m,s}}.
+\label{eq:input_ratio_final}
+\end{equation}
+This is the optimal factor ratio.
+
+\subsubsection{Constant cost shares}
+
+Let total variable cost be
+\begin{equation}
+C \equiv w_rl+c_{m,s}m.
+\end{equation}
+Under Cobb--Douglas technology, cost shares are constant. In particular,
+\begin{equation}
+w_rl = \alpha_s C, \qquad c_{m,s}m=(1-\alpha_s)C.
+\label{eq:cost_shares_final}
+\end{equation}
+This can be checked directly by multiplying the first-order conditions by \(l\) and \(m\), adding them, and using the production constraint.
+
+\subsubsection{Deriving the cost function}
+
+Because production is homogeneous of degree one in \((l,m)\), the minimized variable cost is linear in output. The unit cost is therefore equal to marginal cost. The Cobb--Douglas dual gives
+\begin{equation}
+C(y;\phi,w_r,c_{m,s}) = \frac{w_r^{\alpha_s}c_{m,s}^{1-\alpha_s}}{\phi\,\alpha_s^{\alpha_s}(1-\alpha_s)^{1-\alpha_s}}y.
+\end{equation}
+Hence marginal cost is
+\begin{equation}
+mc_{rs}(\phi;c_{m,s}) = \frac{1}{\phi}\frac{w_r^{\alpha_s}c_{m,s}^{1-\alpha_s}}{\alpha_s^{\alpha_s}(1-\alpha_s)^{1-\alpha_s}}.
+\label{eq:mc_final}
+\end{equation}
+
+\paragraph{Interpretation.}
+The marginal cost is lower when
+\begin{itemize}[leftmargin=*]
+    \item productivity \(\phi\) is higher,
+    \item wage \(w_r\) is lower,
+    \item the composite intermediate input is cheaper.
+\end{itemize}
+So heterogeneity in \(\phi\) translates directly into heterogeneity in production cost and therefore prices, sales, and profits.
+
+\subsubsection{Factor demands conditional on output}
+
+Since variable cost equals \(mc\cdot y\), the constant cost shares imply
+\begin{align}
+l(y,\phi) &= \frac{\alpha_s}{w_r}mc_{rs}(\phi;c_{m,s})y, \label{eq:l_demand_final}\\
+m(y,\phi) &= \frac{1-\alpha_s}{c_{m,s}}mc_{rs}(\phi;c_{m,s})y. \label{eq:m_demand_final}
+\end{align}
+These will later be aggregated across firms to obtain regional labor demand.
+
+\section{Destination demand, trade costs, prices, revenue, and variable profits}
+
+\subsection{Delivered marginal cost by destination}
+
+Producing for destination \(j\) requires paying the production marginal cost and also incurring iceberg trade costs. Let \(\tau_{rjs}\) denote the destination-specific multiplicative delivery factor, inclusive of tariffs where relevant. Then delivered marginal cost is
+\begin{equation}
+\widetilde{mc}_{rjs}(\phi)=\tau_{rjs}\,mc_{rs}(\phi;c_{m,s}).
+\label{eq:deliveredmc_final}
+\end{equation}
+
+A convenient way to write \(\tau_{rjs}\) is
+\begin{equation}
+\tau_{rjs}=d_{rjs}\times
+\begin{cases}
+1+t_s^{\mathrm{MFN}}, & \text{if } j=\mathrm{US} \text{ and the firm does not comply},\\
+1, & \text{if } j=\mathrm{US} \text{ and the firm complies},\\
+1, & \text{if } j\in\{\mathrm{EG},\mathrm{RW}\}.
+\end{cases}
+\label{eq:tau_final}
+\end{equation}
+The important point is that compliance affects the US market in two ways:
+\begin{enumerate}[leftmargin=*]
+    \item it may raise production cost because \(c^C_{m,s}>c^N_{m,s}\),
+    \item it may lower the US delivery factor by removing the MFN tariff.
+\end{enumerate}
+
+\subsection{Demand in destination \(j\)}
+
+For each destination \(j\), sector \(s\), assume a CES demand system over available varieties with total sector expenditure \(E_{js}\) and sector price index \(P_{js}\). Then a firm charging price \(p_{rjs}(\phi)\) sells
+\begin{equation}
+y_{rjs}(\phi)=\left(\frac{p_{rjs}(\phi)}{P_{js}}\right)^{-\sigma_s}\frac{E_{js}}{P_{js}}.
+\label{eq:demand_destination_final}
+\end{equation}
+
+For \(j=\mathrm{EG}\), this is exactly the demand system derived from the household problem. For \(j\in\{\mathrm{US},\mathrm{RW}\}\), the same functional form is assumed, but \(E_{js}\) and \(P_{js}\) are taken as exogenous.
+
+Revenue in destination \(j\) is
+\begin{equation}
+R_{rjs}(\phi)=p_{rjs}(\phi)y_{rjs}(\phi)=E_{js}\left(\frac{p_{rjs}(\phi)}{P_{js}}\right)^{1-\sigma_s}.
+\label{eq:revenue_destination_final}
+\end{equation}
+
+\subsection{Price setting under monopolistic competition}
+
+Conditional on serving destination \(j\), the firm chooses its price to maximize variable profit
+\begin{equation}
+\pi^{\mathrm{var}}_{rjs}(p;\phi)=\left[p-\widetilde{mc}_{rjs}(\phi)\right]y_{rjs}(p).
+\end{equation}
+Using the demand curve \eqref{eq:demand_destination_final}, this is
+\begin{equation}
+\pi^{\mathrm{var}}_{rjs}(p;\phi)=\left[p-\widetilde{mc}_{rjs}(\phi)\right]\left(\frac{p}{P_{js}}\right)^{-\sigma_s}\frac{E_{js}}{P_{js}}.
+\end{equation}
+Let
+\begin{equation}
+A_{js}\equiv \frac{E_{js}}{P_{js}^{1-\sigma_s}}.
+\end{equation}
+Then
+\begin{equation}
+\pi^{\mathrm{var}}_{rjs}(p;\phi)=A_{js}(p-\widetilde{mc}_{rjs})p^{-\sigma_s}.
+\end{equation}
+Expanding,
+\begin{equation}
+\pi^{\mathrm{var}}_{rjs}(p;\phi)=A_{js}\left(p^{1-\sigma_s}-\widetilde{mc}_{rjs}p^{-\sigma_s}\right).
+\end{equation}
+Differentiate with respect to \(p\):
+\begin{align}
+\frac{d\pi^{\mathrm{var}}_{rjs}}{dp}
+&=A_{js}\left((1-\sigma_s)p^{-\sigma_s}+\sigma_s\widetilde{mc}_{rjs}p^{-\sigma_s-1}\right).
+\end{align}
+Set equal to zero and multiply through by \(p^{\sigma_s+1}\):
+\begin{equation}
+(1-\sigma_s)p+\sigma_s\widetilde{mc}_{rjs}=0.
+\end{equation}
+Therefore the optimal price is
+\begin{equation}
+p_{rjs}(\phi)=\frac{\sigma_s}{\sigma_s-1}\widetilde{mc}_{rjs}(\phi).
+\label{eq:price_final}
+\end{equation}
+Define the sectoral markup
+\begin{equation}
+\mu_s\equiv\frac{\sigma_s}{\sigma_s-1}.
+\end{equation}
+Then the pricing rule becomes
+\begin{equation}
+p_{rjs}(\phi)=\mu_s\widetilde{mc}_{rjs}(\phi).
+\end{equation}
+
+\paragraph{Interpretation.}
+Under CES demand, the elasticity of demand is constant and equal to \(\sigma_s\). Therefore the optimal markup is constant. More productive firms do not charge a lower markup. They charge a lower price because their marginal cost is lower.
+
+\subsection{Revenue as a function of productivity}
+
+Substitute the pricing rule into revenue:
+\begin{equation}
+R_{rjs}(\phi)=E_{js}\left(\frac{\mu_s\tau_{rjs}mc_{rs}(\phi;c_{m,s})}{P_{js}}\right)^{1-\sigma_s}.
+\end{equation}
+Because marginal cost is proportional to \(\phi^{-1}\), revenue is proportional to \(\phi^{\sigma_s-1}\). More explicitly, write
+\begin{equation}
+mc_{rs}(\phi;c_{m,s})=\frac{K_{rs}(c_{m,s})}{\phi},
+\end{equation}
+where
+\begin{equation}
+K_{rs}(c_{m,s})\equiv\frac{w_r^{\alpha_s}c_{m,s}^{1-\alpha_s}}{\alpha_s^{\alpha_s}(1-\alpha_s)^{1-\alpha_s}}.
+\end{equation}
+Then
+\begin{equation}
+R_{rjs}(\phi)=E_{js}\left(\frac{\mu_s\tau_{rjs}K_{rs}(c_{m,s})}{P_{js}}\right)^{1-\sigma_s}\phi^{\sigma_s-1}.
+\end{equation}
+So revenue can be written compactly as
+\begin{equation}
+R_{rjs}(\phi)=A_{rjs}(c_{m,s})\phi^{\sigma_s-1},
+\label{eq:revenue_phi_power}
+\end{equation}
+where all destination-specific and mode-specific constants are absorbed into \(A_{rjs}(c_{m,s})\).
+
+This is the central Melitz scaling result.
+
+\subsection{Variable profits as a share of revenue: a thorough derivation}
+
+A very useful property of CES monopolistic competition is that variable profits are a constant fraction of revenue. Since this is often quoted without proof, we derive it carefully.
+
+Variable profit in destination \(j\) is
+\begin{equation}
+\pi^{\mathrm{var}}_{rjs}(\phi)=\left[p_{rjs}(\phi)-\widetilde{mc}_{rjs}(\phi)\right]y_{rjs}(\phi).
+\end{equation}
+Revenue is
+\begin{equation}
+R_{rjs}(\phi)=p_{rjs}(\phi)y_{rjs}(\phi).
+\end{equation}
+Hence
+\begin{equation}
+\pi^{\mathrm{var}}_{rjs}(\phi)=\left(1-\frac{\widetilde{mc}_{rjs}(\phi)}{p_{rjs}(\phi)}\right)R_{rjs}(\phi).
+\label{eq:profit_share_step1}
+\end{equation}
+Now use the optimal pricing rule
+\begin{equation}
+p_{rjs}(\phi)=\frac{\sigma_s}{\sigma_s-1}\widetilde{mc}_{rjs}(\phi).
+\end{equation}
+Then
+\begin{equation}
+\frac{\widetilde{mc}_{rjs}(\phi)}{p_{rjs}(\phi)} = \frac{\sigma_s-1}{\sigma_s}.
+\end{equation}
+Substituting into \eqref{eq:profit_share_step1},
+\begin{equation}
+\pi^{\mathrm{var}}_{rjs}(\phi)=\left(1-\frac{\sigma_s-1}{\sigma_s}\right)R_{rjs}(\phi)=\frac{1}{\sigma_s}R_{rjs}(\phi).
+\label{eq:varprofit_share_final}
+\end{equation}
+This is the shortest derivation.
+
+It is also instructive to derive the same result in a second way.
+
+\subsubsection*{Alternative derivation using the markup wedge}
+
+Start from the pricing rule
+\begin{equation}
+p=\mu_s\widetilde{mc}=\frac{\sigma_s}{\sigma_s-1}\widetilde{mc}.
+\end{equation}
+Subtract \(\widetilde{mc}\) from both sides:
+\begin{align}
+p-\widetilde{mc}
+&=\left(\frac{\sigma_s}{\sigma_s-1}-1\right)\widetilde{mc}\\
+&=\frac{1}{\sigma_s-1}\widetilde{mc}.
+\end{align}
+Now divide by price \(p=\frac{\sigma_s}{\sigma_s-1}\widetilde{mc}\):
+\begin{equation}
+\frac{p-\widetilde{mc}}{p}=\frac{\frac{1}{\sigma_s-1}\widetilde{mc}}{\frac{\sigma_s}{\sigma_s-1}\widetilde{mc}}=\frac{1}{\sigma_s}.
+\end{equation}
+Since variable profit is margin times quantity and revenue is price times quantity,
+\begin{equation}
+\frac{\pi^{\mathrm{var}}}{R}=\frac{(p-\widetilde{mc})y}{py}=\frac{p-\widetilde{mc}}{p}=\frac{1}{\sigma_s}.
+\end{equation}
+Therefore
+\begin{equation}
+\pi^{\mathrm{var}}_{rjs}(\phi)=\frac{1}{\sigma_s}R_{rjs}(\phi).
+\end{equation}
+
+\subsubsection*{Economic meaning of the result}
+
+The result does \emph{not} mean that total profit is a constant share of revenue. It means only that \emph{variable profit}, before subtracting destination-level fixed costs and mode-level fixed costs, is a constant fraction of revenue under CES demand and constant-markup pricing. Total profit will vary discontinuously because of fixed costs and because firms may or may not serve different destinations.
+
+\subsection{Destination-level net profit and participation}
+
+To serve destination \(j\), the firm must pay fixed operating cost \(w_r f_{rjs}\). Net profit from destination \(j\) is therefore
+\begin{equation}
+\Pi_{rjs}(\phi)=\pi^{\mathrm{var}}_{rjs}(\phi)-w_r f_{rjs}.
+\end{equation}
+The firm serves destination \(j\) if and only if
+\begin{equation}
+\pi^{\mathrm{var}}_{rjs}(\phi)\ge w_r f_{rjs}.
+\label{eq:serve_destination_condition}
+\end{equation}
+Using \eqref{eq:revenue_phi_power} and \eqref{eq:varprofit_share_final}, this condition becomes
+\begin{equation}
+\frac{1}{\sigma_s}A_{rjs}(c_{m,s})\phi^{\sigma_s-1}\ge w_r f_{rjs}.
+\end{equation}
+This defines the destination-specific productivity cutoff
+\begin{equation}
+\phi^*_{rjs}=\left(\frac{\sigma_s w_r f_{rjs}}{A_{rjs}(c_{m,s})}\right)^{\frac{1}{\sigma_s-1}}.
+\label{eq:destination_cutoff_final}
+\end{equation}
+A firm serves destination \(j\) if and only if \(\phi\ge \phi^*_{rjs}\).
+
+\paragraph{Important interpretation.}
+The same firm can serve multiple destinations simultaneously. There is no exclusivity here. A firm compares the net gain from serving each destination separately, but total firm profit is the sum of profits across all destinations served.
+
+\section{Mode choice, total firm profits, compliance, and upgrading}
+
+\subsection{Why mode choice is the cleanest formulation}
+
+Rather than imposing compliance and upgrading cutoffs from the start, the cleanest formulation is to define a finite set of operating modes and let the firm choose the one with the highest total profit.
+
+\begin{itemize}[leftmargin=*]
+    \item If \(r=N\), the firm has two feasible modes:
+    \begin{equation}
+    \mathcal{M}_N=\{B,U\},
+    \end{equation}
+    where \(B\) denotes baseline (no upgrade) and \(U\) denotes upgraded.
+    \item If \(r=Q\), the firm has four feasible modes:
+    \begin{equation}
+    \mathcal{M}_Q=\{N0,NU,C0,CU\},
+    \end{equation}
+    where \(N\) means noncompliant, \(C\) means compliant, and the second component indicates whether the firm upgrades.
+\end{itemize}
+
+Each mode determines
+\begin{enumerate}[leftmargin=*]
+    \item the effective productivity, either \(\phi\) or \(\delta_s\phi\),
+    \item the intermediate cost, either \(c^N_{m,s}\) or \(c^C_{m,s}\),
+    \item the US delivery factor, depending on whether MFN tariffs apply,
+    \item the fixed costs paid at the firm level, namely compliance cost and/or upgrading cost.
+\end{enumerate}
+
+\subsection{Destination profits conditional on a mode}
+
+Take one mode \(x\in\mathcal{M}_r\). Let \(\phi^x\) denote productivity under that mode and \(c^x_{m,s}\) the associated intermediate-input cost. Then the mode-specific production marginal cost is
+\begin{equation}
+mc^x_{rs}(\phi)=\frac{1}{\phi^x}\frac{w_r^{\alpha_s}(c^x_{m,s})^{1-\alpha_s}}{\alpha_s^{\alpha_s}(1-\alpha_s)^{1-\alpha_s}}.
+\end{equation}
+Delivered marginal cost in destination \(j\) is
+\begin{equation}
+\widetilde{mc}^x_{rjs}(\phi)=\tau^x_{rjs}mc^x_{rs}(\phi).
+\end{equation}
+Price, revenue, and variable profit are then
+\begin{align}
+p^x_{rjs}(\phi)&=\mu_s\widetilde{mc}^x_{rjs}(\phi),\\
+R^x_{rjs}(\phi)&=E_{js}\left(\frac{p^x_{rjs}(\phi)}{P_{js}}\right)^{1-\sigma_s},\\
+\pi_{rjs}^{\mathrm{var},x}(\phi)&=\frac{1}{\sigma_s}R^x_{rjs}(\phi).
+\end{align}
+The destination-level contribution to firm profit under mode \(x\) is
+\begin{equation}
+\Pi^x_{rjs}(\phi)=\max\left\{\pi^{\mathrm{var},x}_{rjs}(\phi)-w_rf_{rjs},\,0\right\}.
+\label{eq:destination_contribution_mode}
+\end{equation}
+The max operator is a compact way of saying that the firm serves destination \(j\) only if net destination profit is nonnegative.
+
+\subsection{Firm-level total profit under a mode}
+
+Let the firm-level fixed cost associated with mode \(x\) be
+\begin{equation}
+F^x_{rs}=
+\begin{cases}
+0, & x=B,\\
+w_rf_s^U, & x=U,\\
+w_Qf_s^C, & x=C0,\\
+w_Qf_s^C+w_Qf_s^U, & x=CU,\\
+w_Qf_s^U, & x=NU,\\
+0, & x=N0.
+\end{cases}
+\end{equation}
+Then total operating profit under mode \(x\) is
+\begin{equation}
+\Pi^x_{rs}(\phi)=\sum_{j\in\{\mathrm{EG},\mathrm{US},\mathrm{RW}\}}\Pi^x_{rjs}(\phi)-F^x_{rs}.
+\label{eq:mode_profit_final}
+\end{equation}
+This equation is important because it makes clear that the firm's total operating profit is aggregated across destinations. A firm may simultaneously serve Egypt, the US, and the rest of the world.
+
+\subsection{Overall firm problem after entry}
+
+After drawing \(\phi\), the firm chooses the profit-maximizing mode or exits. Formally,
+\begin{equation}
+\Pi_{rs}(\phi)=\max\left\{0,\max_{x\in\mathcal{M}_r}\Pi^x_{rs}(\phi)\right\}.
+\label{eq:firm_overall_problem}
+\end{equation}
+This expression includes the option of not operating at all after entry if all feasible modes generate negative profit.
+
+\subsection{Compliance decision written explicitly}
+
+Although the mode formulation is the cleanest master representation, it is still useful to write the compliance comparison explicitly. For a QIZ firm, let
+\begin{align}
+\widetilde{\Pi}_{Qs}^N(\phi)&\equiv\max\{\Pi^{N0}_{Qs}(\phi),\Pi^{NU}_{Qs}(\phi)\},\\
+\widetilde{\Pi}_{Qs}^C(\phi)&\equiv\max\{\Pi^{C0}_{Qs}(\phi),\Pi^{CU}_{Qs}(\phi)\}.
+\end{align}
+The firm complies if and only if
+\begin{equation}
+\widetilde{\Pi}_{Qs}^C(\phi)\ge \widetilde{\Pi}_{Qs}^N(\phi).
+\label{eq:comply_condition_explicit}
+\end{equation}
+In many parameterizations this induces a compliance cutoff in productivity, but that cutoff should be viewed as a result, not as a primitive assumption.
+
+\subsection{Upgrading decision written explicitly}
+
+Likewise, define the best non-upgraded profit and the best upgraded profit for a firm in region \(r\), sector \(s\):
+\begin{align}
+\widetilde{\Pi}^{0}_{rs}(\phi)&\equiv \text{best profit among non-upgraded modes},\\
+\widetilde{\Pi}^{U}_{rs}(\phi)&\equiv \text{best profit among upgraded modes}.
+\end{align}
+The firm upgrades if and only if
+\begin{equation}
+\widetilde{\Pi}^{U}_{rs}(\phi)\ge \widetilde{\Pi}^{0}_{rs}(\phi).
+\label{eq:upgrade_condition_explicit}
+\end{equation}
+Again, in many parameterizations a productivity cutoff emerges, but it should be recovered from the model rather than imposed at the outset.
+
+\section{Aggregation and equilibrium}
+
+\subsection{Domestic goods-market clearing}
+
+There is no separate aggregate supply schedule in a monopolistic-competition CES model. Each firm sets a price, the market generates demand at that price, and the firm produces exactly the quantity demanded. So for any firm that serves destination \(j\), output sold there equals demand there:
+\begin{equation}
+y_{rjs}(\phi)=\left(\frac{p_{rjs}(\phi)}{P_{js}}\right)^{-\sigma_s}\frac{E_{js}}{P_{js}}.
+\end{equation}
+For the Egyptian market in particular, this is the domestic goods-market clearing condition at the variety level.
+
+\subsection{Domestic sector price index}
+
+The domestic CES price index must be generated by the prices of varieties that are actually sold in Egypt. Since the set of prices depends on region, productivity, and chosen mode, the exact expression is
+\begin{equation}
+P_{\mathrm{EG},s}^{1-\sigma_s}=\sum_{r\in\{Q,N\}}M_{rs}\int_{\phi_{\min,s}}^{\infty}\mathbf{1}\{\text{best mode of }(r,s,\phi)\text{ serves EG}\}\,\Big(p_{r,\mathrm{EG},s}^{\mathrm{best}}(\phi)\Big)^{1-\sigma_s}dG_s(\phi).
+\label{eq:peg_consistency_final}
+\end{equation}
+This is one of the fixed-point equations in equilibrium.
+
+\subsection{Expected profits and free entry}
+
+A potential entrant in region \(r\), sector \(s\), pays entry cost \(w_rf^E_{rs}\) before observing productivity. Free entry requires expected post-entry profit to equal the entry cost:
+\begin{equation}
+\int_{\phi_{\min,s}}^{\infty}\Pi_{rs}(\phi)\,dG_s(\phi)=w_rf^E_{rs}.
+\label{eq:freeentry_final}
+\end{equation}
+If entry into a region-sector pair is positive, this condition must hold with equality.
+
+\subsection{Regional labor supply and labor mobility}
+
+Let \(\lambda_r\) denote the share of Egypt's labor endowment located in region \(r\), with
+\begin{equation}
+L_r=\lambda_r L, \qquad \lambda_Q+\lambda_N=1.
+\end{equation}
+A simple reduced-form labor allocation rule is the logit expression
+\begin{equation}
+\lambda_r = \frac{(w_r/P_{\mathrm{EG}})^\kappa}{\sum_{r'\in\{Q,N\}}(w_{r'}/P_{\mathrm{EG}})^\kappa}.
+\label{eq:lambda_logit_final}
+\end{equation}
+Because \(P_{\mathrm{EG}}\) is common across regions, this simplifies to
+\begin{equation}
+\lambda_r = \frac{w_r^\kappa}{w_Q^\kappa+w_N^\kappa}.
+\end{equation}
+The only role of \(P_{\mathrm{EG}}\) in \eqref{eq:lambda_logit_final} is therefore notational unless region-specific living costs are later introduced.
+
+\subsection{Regional labor demand}
+
+Regional labor demand comes from three sources:
+\begin{enumerate}[leftmargin=*]
+    \item variable production labor,
+    \item fixed operating labor for served destinations and for compliance/upgrading,
+    \item entry labor.
+\end{enumerate}
+
+For a firm of type \((r,s,\phi)\) operating under its best mode, total output is
+\begin{equation}
+y^{\mathrm{best}}_{rs}(\phi)=\sum_{j\in\{\mathrm{EG},\mathrm{US},\mathrm{RW}\}} y^{\mathrm{best}}_{rjs}(\phi).
+\end{equation}
+Its variable labor demand is then
+\begin{equation}
+l^{\mathrm{best}}_{rs}(\phi)=\frac{\alpha_s}{w_r}mc^{\mathrm{best}}_{rs}(\phi)y^{\mathrm{best}}_{rs}(\phi).
+\end{equation}
+Aggregating across entrants gives variable labor demand
+\begin{equation}
+L_r^{\mathrm{var}}=\sum_{s\in S}M_{rs}\int l^{\mathrm{best}}_{rs}(\phi)\,dG_s(\phi).
+\end{equation}
+
+Fixed labor demand depends on the chosen mode. Let \(\mathcal{J}^{\mathrm{best}}_{rs}(\phi)\) denote the set of destinations served by a firm with \((r,s,\phi)\) under its best mode. Then its fixed labor demand is
+\begin{equation}
+\ell^{\mathrm{fix}}_{rs}(\phi)=\sum_{j\in\mathcal{J}^{\mathrm{best}}_{rs}(\phi)}f_{rjs}+\mathbf{1}\{\text{best mode complies}\}f_s^C+\mathbf{1}\{\text{best mode upgrades}\}f_s^U.
+\end{equation}
+Aggregating,
+\begin{equation}
+L_r^{\mathrm{fix}}=\sum_{s\in S}M_{rs}\int \ell^{\mathrm{fix}}_{rs}(\phi)\,dG_s(\phi).
+\end{equation}
+Entry labor demand is
+\begin{equation}
+L_r^{\mathrm{entry}}=\sum_{s\in S}M_{rs}f^E_{rs}.
+\end{equation}
+Total labor demand in region \(r\) is therefore
+\begin{equation}
+L_r^{\mathrm{demand}}=L_r^{\mathrm{var}}+L_r^{\mathrm{fix}}+L_r^{\mathrm{entry}}.
+\label{eq:labor_demand_region_final}
+\end{equation}
+Labor market clearing requires
+\begin{equation}
+L_r^{\mathrm{demand}}=L_r=\lambda_r L, \qquad r\in\{Q,N\}.
+\label{eq:labor_market_clearing_final}
+\end{equation}
+
+\subsection{Equilibrium definition}
+
+An equilibrium consists of
+\begin{equation*}
+\{w_r,\lambda_r,L_r,P_{\mathrm{EG},s},P_{\mathrm{EG}},E_{\mathrm{EG},s},M_{rs}\}_{r\in\{Q,N\},s\in S}
+\end{equation*}
+plus firm-level policy functions for mode choice, destination participation, prices, and quantities, such that:
+\begin{enumerate}[leftmargin=*]
+    \item households maximize utility given prices and income,
+    \item firms maximize profits given wages and market aggregates,
+    \item the domestic price indices satisfy \eqref{eq:peg_consistency_final},
+    \item the aggregate Egyptian price index satisfies \eqref{eq:aggregate_price_final},
+    \item sectoral expenditures satisfy \eqref{eq:sector_expenditure_final},
+    \item free entry holds in every active region-sector pair as in \eqref{eq:freeentry_final},
+    \item labor mobility satisfies \eqref{eq:lambda_logit_final},
+    \item regional labor markets clear as in \eqref{eq:labor_market_clearing_final}.
+\end{enumerate}
+
+\section{A compact system of equations for implementation}
+
+Although this note emphasizes derivation, it is useful to collect the key equations needed in computation.
+
+\subsection*{Household block}
+\begin{align}
+Y_{\mathrm{EG}} &= w_QL_Q+w_NL_N+T,\\
+P_{\mathrm{EG}} &= \left(\sum_s \beta_s P_{\mathrm{EG},s}^{1-\eta}\right)^{\frac{1}{1-\eta}},\\
+E_{\mathrm{EG},s} &= \beta_s\left(\frac{P_{\mathrm{EG},s}}{P_{\mathrm{EG}}}\right)^{1-\eta}Y_{\mathrm{EG}},\\
+q_s(\omega) &= \left(\frac{p_s(\omega)}{P_{\mathrm{EG},s}}\right)^{-\sigma_s}\frac{E_{\mathrm{EG},s}}{P_{\mathrm{EG},s}}.
+\end{align}
+
+\subsection*{Firm block}
+\begin{align}
+c^N_{m,s} &= p_{\mathrm{RW},s},\\
+c^C_{m,s} &= \frac{p_{\mathrm{IL},s}^{\gamma_s}p_{\mathrm{RW},s}^{1-\gamma_s}}{\gamma_s^{\gamma_s}(1-\gamma_s)^{1-\gamma_s}},\\
+mc_{rs}(\phi;c_{m,s}) &= \frac{1}{\phi}\frac{w_r^{\alpha_s}c_{m,s}^{1-\alpha_s}}{\alpha_s^{\alpha_s}(1-\alpha_s)^{1-\alpha_s}},\\
+\widetilde{mc}_{rjs}(\phi) &= \tau_{rjs}mc_{rs}(\phi;c_{m,s}),\\
+p_{rjs}(\phi) &= \frac{\sigma_s}{\sigma_s-1}\widetilde{mc}_{rjs}(\phi),\\
+R_{rjs}(\phi) &= E_{js}\left(\frac{p_{rjs}(\phi)}{P_{js}}\right)^{1-\sigma_s},\\
+\pi^{\mathrm{var}}_{rjs}(\phi) &= \frac{1}{\sigma_s}R_{rjs}(\phi),\\
+\Pi_{rjs}(\phi) &= \max\{\pi^{\mathrm{var}}_{rjs}(\phi)-w_rf_{rjs},0\}.
+\end{align}
+
+\subsection*{Mode choice}
+\begin{align}
+\Pi^x_{rs}(\phi)&=\sum_j \Pi^x_{rjs}(\phi)-F^x_{rs},\\
+\Pi_{rs}(\phi)&=\max\{0,\max_{x\in\mathcal{M}_r}\Pi^x_{rs}(\phi)\}.
+\end{align}
+
+\subsection*{Equilibrium block}
+\begin{align}
+P_{\mathrm{EG},s}^{1-\sigma_s}&=\sum_r M_{rs}\int \mathbf{1}\{\text{best mode serves EG}\}\left(p_{r,\mathrm{EG},s}^{\mathrm{best}}(\phi)\right)^{1-\sigma_s}dG_s(\phi),\\
+\int \Pi_{rs}(\phi)\,dG_s(\phi)&=w_rf^E_{rs},\\
+\lambda_r&=\frac{(w_r/P_{\mathrm{EG}})^\kappa}{\sum_{r'}(w_{r'}/P_{\mathrm{EG}})^\kappa},\\
+L_r^{\mathrm{demand}}&=\lambda_r L.
+\end{align}
+
+\section{Comments on modeling choices}
+
+\subsection{Why the intermediate input is kept reduced-form}
+
+The current formulation keeps the final-good production function simple by using one composite intermediate \(m\). The effect of QIZ rules is captured by changing the unit cost of that composite. This is usually the right level of abstraction if the main question is how the QIZ policy affects export participation, regional wages, compliance, and upgrading. A richer input-output structure can be added later, but it is not needed to make the current model internally complete.
+
+\subsection{Why total firm profit must be aggregated across destinations}
+
+The firm's destination choices are separate, but they are not mutually exclusive. A firm can serve Egypt, the US, and the rest of the world all at once. Therefore total operating profit is the sum of net destination profits, minus any firm-level fixed costs associated with the chosen operating mode. This is why the correct firm objective is \eqref{eq:mode_profit_final}, not a single-destination profit expression.
+
+\subsection{Why there is no separate supply-equals-demand equation in the firm block}
+
+In monopolistic competition, the firm sets its price and then produces exactly the quantity demanded at that price. So the quantity equation itself is the market-clearing condition at the variety level. There is no need to write a separate ``supply equals demand'' equation in addition to the CES demand equation.
+
+\section{Conclusion}
+
+The model is now fully specified in a self-contained way. The household block generates sectoral expenditures and variety demand. The firm block maps productivity into marginal cost, prices, revenues, destination participation, and total profits. The QIZ mechanism operates through a trade-off between higher compliant input cost and lower US market access cost. Upgrading operates through a fixed cost that raises productivity multiplicatively. Equilibrium ties together household demand, firm behavior, domestic price indices, free entry, wages, and regional labor allocation.
+
+This note is intended to be used as the reference derivation document before implementing a numerical solution.
+
+\end{document}

@@ -1,0 +1,14 @@
+{
+  "f_dom_T": 1.01219,
+  "f_dom_O": 1.0038606896551725,
+  "f_export_US_N_T": 28.0,
+  "q_us_access_ratio_T": 0.02,
+  "f_export_RW_T": 64.37666865158079,
+  "f_export_US_O": 2.0,
+  "f_export_RW_O": 3.587517395019532,
+  "f_entry_Q_T": 1.2,
+  "f_entry_Q_O": 0.3,
+  "fC_mean_T": 2.0,
+  "sigma_C_T": 0.2,
+  "f_upgrade_T": 3.45
+}

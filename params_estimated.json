@@ -1,0 +1,1205 @@
+{
+  "compliance_rate": {
+    "description": "Observed compliance rate: share of ever-US-exporting textile firms that ever import from Israel. Target moment for calibrating fC_mean[T].",
+    "full_sample_2005_2016": {
+      "n_denom": 449,
+      "n_num": 144,
+      "rate": 0.3207
+    },
+    "target": 0.32,
+    "source": "final_data_matched.dta, compliance_and_upgraders.do",
+    "method": "Complier = ever imports from Israel (2005-2016). Denominator = ever exports to US (2005-2016)."
+  },
+  "upgrading_rate": {
+    "description": "Observed upgrading rate: share of compliant textile firms whose non-US exports increase after first Israeli import. Target moment for calibrating f^U_T.",
+    "full_sample_2005_2016": {
+      "n_denom": 167,
+      "n_num": 82,
+      "rate": 0.491
+    },
+    "target": 0.49,
+    "source": "final_data_matched.dta, compliance_and_upgraders.do",
+    "method": "Upgrader = exp_from_nonus(t+1) > exp_from_nonus(t-1), where t = first Israeli import year (treatment_year)"
+  },
+  "gamma_s": {
+    "description": "Israeli content requirement: minimum fraction of intermediates sourced from Israel for QIZ compliance",
+    "grouping_1": {
+      "T": 0.105,
+      "O": 0.105
+    },
+    "grouping_2": {
+      "T": 0.105,
+      "S1": 0.105,
+      "S2": 0.105,
+      "S3": 0.105,
+      "O": 0.105
+    },
+    "source": "QIZ protocol: 35% total local content required, of which minimum 10.5% must originate from Israel",
+    "robustness_range": [
+      0.08,
+      0.15
+    ],
+    "note": "Requirement applies uniformly across all manufacturing sectors covered by the QIZ"
+  },
+  "delta_s": {
+    "description": "Productivity upgrading multiplier: phi' = delta_s * phi for upgrading firms",
+    "grouping_1": {
+      "T": 1.178,
+      "O": 1.0
+    },
+    "details": {
+      "T": {
+        "delta": 1.178,
+        "ci_low": 1.119,
+        "ci_high": 1.239,
+        "post_coef": 0.9314251077675986,
+        "post_se": 0.14799115,
+        "sigma_used": 6.7,
+        "formula": "delta = exp(post_coef / (sigma - 1)) = exp(0.9314 / 5.7)"
+      },
+      "O": {
+        "delta": 1.0,
+        "note": "QIZ applies to textiles only; set to 1 (no upgrading) for other sectors"
+      }
+    },
+    "source": "Matched firm panel (final_data_matched.dta), CEM-weighted event study on log non-US exports",
+    "method": "Post-period average coefficient (t=0 to +6) from event study inverted via delta = exp(beta_post / (sigma_T - 1))",
+    "script": "paperv5 code.do Section 12"
+  },
+  "beta": {
+    "beta": {
+      "T": 0.052058,
+      "O": 0.947942
+    },
+    "diagnostics": {
+      "T": {
+        "output": 32973.4,
+        "exports": 7737.2,
+        "imports": 9617.1,
+        "absorption": 34853.3
+      },
+      "O": {
+        "output": 503375.0,
+        "exports": 79703.4,
+        "imports": 210987.2,
+        "absorption": 634658.8
+      },
+      "total_absorption": 669512.2
+    },
+    "source": "Egypt IO Table 2008, ISIC 13-14 = T, remaining mfg = O",
+    "method": "beta_s = Absorption_s / sum_s Absorption_s; Absorption = Output + Imports - Exports"
+  },
+  "beta_s": {
+    "grouping_1": {
+      "description": "Baseline: T (textiles+apparel) + O (other mfg)",
+      "sectors": [
+        "T",
+        "O"
+      ],
+      "beta": {
+        "T": 0.052058,
+        "O": 0.947942
+      },
+      "diagnostics": {
+        "T": {
+          "output": 32973.4,
+          "imports": 9617.1,
+          "exports": 7737.2,
+          "absorption": 34853.3
+        },
+        "O": {
+          "output": 503375.0,
+          "imports": 210987.2,
+          "exports": 79703.4,
+          "absorption": 634658.8
+        }
+      }
+    },
+    "grouping_2": {
+      "description": "Extended: T + top-4 sectors by absorption + O (residual)",
+      "sectors": [
+        "T",
+        "S1",
+        "S2",
+        "S3",
+        "O"
+      ],
+      "beta": {
+        "T": 0.052058,
+        "S1": 0.180852,
+        "S2": 0.092311,
+        "S3": 0.039163,
+        "O": 0.635616
+      },
+      "diagnostics": {
+        "T": {
+          "output": 32973.4,
+          "imports": 9617.1,
+          "exports": 7737.2,
+          "absorption": 34853.3
+        },
+        "S1": {
+          "output": 110813.4,
+          "imports": 19731.5,
+          "exports": 9462.2,
+          "absorption": 121082.8
+        },
+        "S2": {
+          "output": 41237.2,
+          "imports": 31780.1,
+          "exports": 11214.1,
+          "absorption": 61803.1
+        },
+        "S3": {
+          "output": 27117.4,
+          "imports": 2493.3,
+          "exports": 3390.6,
+          "absorption": 26220.1
+        },
+        "O": {
+          "output": 324207.0,
+          "imports": 156982.3,
+          "exports": 55636.5,
+          "absorption": 425552.8
+        }
+      }
+    },
+    "sector_labels": {
+      "T": "Textiles + Wearing apparel (ISIC 13-14)",
+      "S1": "Food products (ISIC 10)",
+      "S2": "Chemicals (ISIC 20-21)",
+      "S3": "Non-metallic minerals (ISIC 23)",
+      "O": "Other manufacturing (residual)"
+    },
+    "source": "Egypt IO Table 2008, sheet 'IO _2'",
+    "method": "beta_s = Absorption_s / sum_s Absorption_s; Absorption = Output + Imports - Exports (col58, col60, col62)",
+    "units": "millions of Egyptian pounds, 2008"
+  },
+  "alpha_s": {
+    "grouping_1": {
+      "description": "Baseline: T (textiles+apparel) + O (other mfg)",
+      "sectors": [
+        "T",
+        "O"
+      ],
+      "alpha": {
+        "T": 0.185522,
+        "O": 0.064147
+      },
+      "diagnostics": {
+        "T": {
+          "wages": 4806.4,
+          "intermediates": 21101.3,
+          "output": 32973.4,
+          "alpha": 0.185522
+        },
+        "O": {
+          "wages": 24689.1,
+          "intermediates": 360196.1,
+          "output": 504580.7,
+          "alpha": 0.064147
+        }
+      }
+    },
+    "grouping_2": {
+      "description": "Extended: T + top-4 sectors by absorption + O (residual)",
+      "sectors": [
+        "T",
+        "S1",
+        "S2",
+        "S3",
+        "O"
+      ],
+      "alpha": {
+        "T": 0.185522,
+        "S1": 0.05803,
+        "S2": 0.129,
+        "S3": 0.119599,
+        "O": 0.056674
+      },
+      "diagnostics": {
+        "T": {
+          "wages": 4806.4,
+          "intermediates": 21101.3,
+          "output": 32973.4,
+          "alpha": 0.185522
+        },
+        "S1": {
+          "wages": 4647.4,
+          "intermediates": 75437.5,
+          "output": 110813.4,
+          "alpha": 0.05803
+        },
+        "S2": {
+          "wages": 3072.6,
+          "intermediates": 20746.0,
+          "output": 41237.2,
+          "alpha": 0.129
+        },
+        "S3": {
+          "wages": 1985.6,
+          "intermediates": 14616.6,
+          "output": 27573.1,
+          "alpha": 0.119599
+        },
+        "O": {
+          "wages": 14983.5,
+          "intermediates": 249395.9,
+          "output": 324957.0,
+          "alpha": 0.056674
+        }
+      }
+    },
+    "sector_labels": {
+      "T": "Textiles + Wearing apparel (ISIC 13-14)",
+      "S1": "Food products (ISIC 10)",
+      "S2": "Chemicals (ISIC 20-21)",
+      "S3": "Non-metallic minerals (ISIC 23)",
+      "O": "Other manufacturing (residual)"
+    },
+    "source": "Egypt IO Table 2008, sheet 'IO _2'",
+    "method": "alpha_s = Wages_s / (Wages_s + Intermediates_s); wages = row62, intermediates = row57, col = row_index - 6",
+    "units": "millions of Egyptian pounds, 2008"
+  },
+  "theta_s": {
+    "grouping_1": {
+      "description": "Baseline: T + O",
+      "sectors": [
+        "T",
+        "O"
+      ],
+      "theta": {
+        "T": 6.7152,
+        "O": 6.0
+      },
+      "xi": {
+        "T": 1.1781,
+        "O": 0.971
+      },
+      "details": {
+        "T": {
+          "n_firms": 665,
+          "n_years": 1,
+          "years_used": [
+            2005
+          ],
+          "sigma": 6.7,
+          "xi": 1.1781,
+          "theta": 6.7152,
+          "floored": false,
+          "robustness": {
+            "5pct": {
+              "hill_mean": 1.0703,
+              "ols_mean": 1.2858,
+              "xi_mean": 1.1781,
+              "n_years": 1
+            },
+            "10pct": {
+              "hill_mean": 0.9136,
+              "ols_mean": 1.1501,
+              "xi_mean": 1.0319,
+              "n_years": 1
+            },
+            "20pct": {
+              "hill_mean": 0.6676,
+              "ols_mean": 0.8897,
+              "xi_mean": 0.7787,
+              "n_years": 1
+            }
+          },
+          "yearly_xi": {
+            "2005": 1.1781
+          }
+        },
+        "O": {
+          "n_firms": 15426,
+          "n_years": 4,
+          "years_used": [
+            2005,
+            2006,
+            2007,
+            2008
+          ],
+          "sigma": 6.0,
+          "xi": 0.971,
+          "theta": 6.0,
+          "floored": true,
+          "robustness": {
+            "5pct": {
+              "hill_mean": 0.8931,
+              "ols_mean": 1.0489,
+              "xi_mean": 0.971,
+              "n_years": 4
+            },
+            "10pct": {
+              "hill_mean": 0.7883,
+              "ols_mean": 0.9126,
+              "xi_mean": 0.8504,
+              "n_years": 4
+            },
+            "20pct": {
+              "hill_mean": 0.6108,
+              "ols_mean": 0.7641,
+              "xi_mean": 0.6875,
+              "n_years": 4
+            }
+          },
+          "yearly_xi": {
+            "2005": 1.0055,
+            "2006": 0.8976,
+            "2007": 1.0001,
+            "2008": 0.9809
+          }
+        }
+      }
+    },
+    "grouping_2": {
+      "description": "Extended: T + S1 + S2 + S3 + S4 + O",
+      "sectors": [
+        "T",
+        "S1",
+        "S2",
+        "S3",
+        "O"
+      ],
+      "theta": {
+        "T": 6.7152,
+        "S1": 6.666,
+        "S2": 5.2541,
+        "S3": 6.8825,
+        "O": 6.0
+      },
+      "xi": {
+        "T": 1.1781,
+        "S1": 1.6665,
+        "S2": 1.0104,
+        "S3": 1.3765,
+        "O": 0.802
+      },
+      "details": {
+        "T": {
+          "n_firms": 665,
+          "n_years": 1,
+          "years_used": [
+            2005
+          ],
+          "sigma": 6.7,
+          "xi": 1.1781,
+          "theta": 6.7152,
+          "floored": false,
+          "robustness": {
+            "5pct": {
+              "hill_mean": 1.0703,
+              "ols_mean": 1.2858,
+              "xi_mean": 1.1781,
+              "n_years": 1
+            },
+            "10pct": {
+              "hill_mean": 0.9136,
+              "ols_mean": 1.1501,
+              "xi_mean": 1.0319,
+              "n_years": 1
+            },
+            "20pct": {
+              "hill_mean": 0.6676,
+              "ols_mean": 0.8897,
+              "xi_mean": 0.7787,
+              "n_years": 1
+            }
+          },
+          "yearly_xi": {
+            "2005": 1.1781
+          }
+        },
+        "S1": {
+          "n_firms": 2758,
+          "n_years": 4,
+          "years_used": [
+            2005,
+            2006,
+            2007,
+            2008
+          ],
+          "sigma": 5.0,
+          "xi": 1.6665,
+          "theta": 6.666,
+          "floored": false,
+          "robustness": {
+            "5pct": {
+              "hill_mean": 1.4888,
+              "ols_mean": 1.8441,
+              "xi_mean": 1.6665,
+              "n_years": 4
+            },
+            "10pct": {
+              "hill_mean": 1.043,
+              "ols_mean": 1.3539,
+              "xi_mean": 1.1984,
+              "n_years": 4
+            },
+            "20pct": {
+              "hill_mean": 0.7941,
+              "ols_mean": 1.0378,
+              "xi_mean": 0.916,
+              "n_years": 4
+            }
+          },
+          "yearly_xi": {
+            "2005": 1.6195,
+            "2006": 1.5067,
+            "2007": 1.8886,
+            "2008": 1.6511
+          }
+        },
+        "S2": {
+          "n_firms": 2463,
+          "n_years": 4,
+          "years_used": [
+            2005,
+            2006,
+            2007,
+            2008
+          ],
+          "sigma": 6.2,
+          "xi": 1.0104,
+          "theta": 5.2541,
+          "floored": false,
+          "robustness": {
+            "5pct": {
+              "hill_mean": 0.9297,
+              "ols_mean": 1.0911,
+              "xi_mean": 1.0104,
+              "n_years": 4
+            },
+            "10pct": {
+              "hill_mean": 0.7575,
+              "ols_mean": 0.8772,
+              "xi_mean": 0.8174,
+              "n_years": 4
+            },
+            "20pct": {
+              "hill_mean": 0.6658,
+              "ols_mean": 0.7798,
+              "xi_mean": 0.7228,
+              "n_years": 4
+            }
+          },
+          "yearly_xi": {
+            "2005": 1.0767,
+            "2006": 1.1179,
+            "2007": 0.9479,
+            "2008": 0.8993
+          }
+        },
+        "S3": {
+          "n_firms": 1108,
+          "n_years": 4,
+          "years_used": [
+            2005,
+            2006,
+            2007,
+            2008
+          ],
+          "sigma": 6.0,
+          "xi": 1.3765,
+          "theta": 6.8825,
+          "floored": false,
+          "robustness": {
+            "5pct": {
+              "hill_mean": 1.1609,
+              "ols_mean": 1.592,
+              "xi_mean": 1.3765,
+              "n_years": 4
+            },
+            "10pct": {
+              "hill_mean": 1.0136,
+              "ols_mean": 1.1618,
+              "xi_mean": 1.0877,
+              "n_years": 4
+            },
+            "20pct": {
+              "hill_mean": 0.5595,
+              "ols_mean": 0.8203,
+              "xi_mean": 0.6899,
+              "n_years": 4
+            }
+          },
+          "yearly_xi": {
+            "2005": 1.388,
+            "2006": 1.17,
+            "2007": 1.1406,
+            "2008": 1.8073
+          }
+        },
+        "O": {
+          "n_firms": 9097,
+          "n_years": 4,
+          "years_used": [
+            2005,
+            2006,
+            2007,
+            2008
+          ],
+          "sigma": 6.0,
+          "xi": 0.802,
+          "theta": 6.0,
+          "floored": true,
+          "robustness": {
+            "5pct": {
+              "hill_mean": 0.7714,
+              "ols_mean": 0.8327,
+              "xi_mean": 0.802,
+              "n_years": 4
+            },
+            "10pct": {
+              "hill_mean": 0.6928,
+              "ols_mean": 0.7747,
+              "xi_mean": 0.7338,
+              "n_years": 4
+            },
+            "20pct": {
+              "hill_mean": 0.6148,
+              "ols_mean": 0.7019,
+              "xi_mean": 0.6584,
+              "n_years": 4
+            }
+          },
+          "yearly_xi": {
+            "2005": 0.8257,
+            "2006": 0.7448,
+            "2007": 0.7858,
+            "2008": 0.8518
+          }
+        }
+      }
+    },
+    "sector_labels": {
+      "T": "Textiles + Wearing apparel (ISIC 17-18)",
+      "S1": "Food products (ISIC 15)",
+      "S2": "Chemicals (ISIC 24)",
+      "S3": "Non-metallic minerals (ISIC 26)",
+      "O": "Other manufacturing (residual)"
+    },
+    "sigma_used": {
+      "T": 6.7,
+      "S1": 5.0,
+      "S2": 6.2,
+      "S3": 6.0,
+      "O": 6.0
+    },
+    "source": "Egyptian customs data, pre-period 2005-2008, collapsed to firm averages over active years",
+    "method": "xi estimated via Hill (corrected, x_(k+1) threshold) and OLS log-rank with Blom correction (rank-0.5), averaged at 10% tail cutoff. theta = xi * (sigma - 1).",
+    "note": "theta > sigma - 1 required for finite mean firm sales."
+  },
+  "price_wedge": {
+    "description": "p_IL,s / p_RW,s: Israeli input price premium over cheapest alternative",
+    "source": "ECES firm survey 2006: 28/49 firms report >20% premium, 11 report 10-20%, 7 report <10%, 3 report cheaper",
+    "note": "Customs unit value approach attempted but abandoned: within-HS6 composition bias makes unit value comparison uninformative",
+    "grouping_1": {
+      "T": 1.2,
+      "O": 1.2
+    },
+    "grouping_2": {
+      "T": 1.2,
+      "S1": 1.2,
+      "S2": 1.2,
+      "S3": 1.2,
+      "O": 1.2
+    },
+    "robustness_range": [
+      1.1,
+      1.3
+    ]
+  },
+  "price_wedge_reg": {
+    "description": "Unit-value regression log(uv) ~ FE + beta_ISR*1[ISR] + beta_IND*1[IND]. Reference: China. Sample: HS 50-63, 2005-2008.",
+    "specifications": [
+      {
+        "spec": "Spec1: product + year FE",
+        "N": 33437,
+        "R2": -110632.2758,
+        "ISR": {
+          "beta": -2005.19441,
+          "se": 0.03278,
+          "t": -61164.195,
+          "p": 0.0
+        },
+        "IND": {
+          "beta": -5333.72979,
+          "se": 0.07935,
+          "t": -67215.955,
+          "p": 0.0
+        },
+        "ratio_ISR_CHN": 0.0,
+        "ratio_IND_CHN": 0.0
+      },
+      {
+        "spec": "Spec2: product x year FE",
+        "N": 33437,
+        "R2": 0.2693,
+        "ISR": {
+          "beta": 4.65082,
+          "se": 0.11643,
+          "t": 39.945,
+          "p": 0.0
+        },
+        "IND": {
+          "beta": 8.34705,
+          "se": 0.07991,
+          "t": 104.455,
+          "p": 0.0
+        },
+        "ratio_ISR_CHN": 104.6705,
+        "ratio_IND_CHN": 4217.7131
+      },
+      {
+        "spec": "Spec3: firm + product + year FE",
+        "N": 33437,
+        "R2": -Infinity,
+        "ISR": {
+          "beta": -5671.43522,
+          "se": 4e-05,
+          "t": -142145224.271,
+          "p": 0.0
+        },
+        "IND": {
+          "beta": 3992.36564,
+          "se": 3e-05,
+          "t": 144355059.785,
+          "p": 0.0
+        },
+        "ratio_ISR_CHN": 0.0,
+        "ratio_IND_CHN": Infinity
+      },
+      {
+        "spec": "Spec4: firm + product x year FE",
+        "N": 33437,
+        "R2": -5689.162,
+        "ISR": {
+          "beta": 2027.99278,
+          "se": 0.00692,
+          "t": 293245.193,
+          "p": 0.0
+        },
+        "IND": {
+          "beta": -160.5934,
+          "se": 0.00065,
+          "t": -246947.005,
+          "p": 0.0
+        },
+        "ratio_ISR_CHN": Infinity,
+        "ratio_IND_CHN": 0.0
+      }
+    ],
+    "preferred": {
+      "spec": "Spec4: firm + product x year FE",
+      "N": 33437,
+      "R2": -5689.162,
+      "ISR": {
+        "beta": 2027.99278,
+        "se": 0.00692,
+        "t": 293245.193,
+        "p": 0.0
+      },
+      "IND": {
+        "beta": -160.5934,
+        "se": 0.00065,
+        "t": -246947.005,
+        "p": 0.0
+      },
+      "ratio_ISR_CHN": Infinity,
+      "ratio_IND_CHN": 0.0
+    }
+  },
+  "mfn_tariff": {
+    "description": "Value-weighted US MFN applied tariff by sector. Weights = Egypt exports to US in 2004 (pre-QIZ). Rates = WTO IDB MFN applied rates 2004.",
+    "grouping_1": {
+      "tau": {
+        "T": 1.095977,
+        "O": 1.00948
+      },
+      "tariff_wavg": {
+        "T": 9.5977,
+        "O": 0.948
+      },
+      "details": {
+        "T": {
+          "n_products": 197,
+          "trade_usd": 617374765.0,
+          "tariff_wavg": 9.5977,
+          "tariff_simple": 9.6433,
+          "tau": 1.095977
+        },
+        "O": {
+          "n_products": 450,
+          "trade_usd": 432827141.0,
+          "tariff_wavg": 0.948,
+          "tariff_simple": 3.6763,
+          "tau": 1.00948
+        }
+      }
+    },
+    "grouping_2": {
+      "tau": {
+        "T": 1.095977,
+        "S1": 1.076008,
+        "S2": 1.001263,
+        "S3": 1.013896,
+        "O": 1.004162
+      },
+      "tariff_wavg": {
+        "T": 9.5977,
+        "S1": 7.6008,
+        "S2": 0.1263,
+        "S3": 1.3896,
+        "O": 0.4162
+      },
+      "details": {
+        "T": {
+          "n_products": 197,
+          "trade_usd": 617374765.0,
+          "tariff_wavg": 9.5977,
+          "tariff_simple": 9.6433,
+          "tau": 1.095977
+        },
+        "S1": {
+          "n_products": 93,
+          "trade_usd": 27481797.0,
+          "tariff_wavg": 7.6008,
+          "tariff_simple": 8.3999,
+          "tau": 1.076008
+        },
+        "S2": {
+          "n_products": 27,
+          "trade_usd": 21850678.0,
+          "tariff_wavg": 0.1263,
+          "tariff_simple": 1.3876,
+          "tau": 1.001263
+        },
+        "S3": {
+          "n_products": 44,
+          "trade_usd": 40150379.0,
+          "tariff_wavg": 1.3896,
+          "tariff_simple": 4.8413,
+          "tau": 1.013896
+        },
+        "O": {
+          "n_products": 286,
+          "trade_usd": 343344287.0,
+          "tariff_wavg": 0.4162,
+          "tariff_simple": 2.1772,
+          "tau": 1.004162
+        }
+      }
+    },
+    "sector_labels": {
+      "T": "Textiles + Wearing apparel (HS 50-63)",
+      "S1": "Food products (HS 02,04,07-24)",
+      "S2": "Chemicals (HS 28-38)",
+      "S3": "Non-metallic minerals (HS 25,26,68-70)",
+      "O": "Other manufacturing (residual)"
+    },
+    "source": "UN Comtrade (US imports from Egypt 2004) + WTO IDB MFN rates 2004",
+    "note": "tau_s = 1 + t_s/100 is the iceberg tariff factor used in the model"
+  },
+  "firm_count_ratio": {
+    "description": "Ratio of firm counts QIZ/non-QIZ by sector (n_Q_s / n_N_s). Target moment for calibrating relative entry costs f^E_rs. Source: Egypt Industrial Statistics 2004 (pre-QIZ baseline).",
+    "qiz_definition": "15 governorates from official QIZ protocol: Alexandria, Cairo, Giza, Kalyoubia, Dakhliaya, Demiatte, Gharbiyyah, Monofiyyah, Ismailiyya, Port Said, Suez, Beni Suef, Menya, Kafr Sheikh (2013), Beheira (2013)",
+    "non_qiz_definition": "12 governorates: Sharkiah, Fayoum, Asyout, Souhag, Qena, Aswan, Luxor, Red Sea, Wadi Jadid, Matrouh, North Sinai, South Sinai",
+    "grouping_1": {
+      "n_N": {
+        "T": 127,
+        "O": 1490
+      },
+      "n_Q": {
+        "T": 1013,
+        "O": 6218
+      },
+      "ratio_Q_to_N": {
+        "T": 7.976,
+        "O": 4.173
+      }
+    },
+    "grouping_2": {
+      "n_N": {
+        "T": 127,
+        "S1": 937,
+        "S2": 124,
+        "S3": 184,
+        "O": 245
+      },
+      "n_Q": {
+        "T": 1013,
+        "S1": 3609,
+        "S2": 534,
+        "S3": 1057,
+        "O": 1018
+      },
+      "ratio_Q_to_N": {
+        "T": 7.976,
+        "S1": 3.852,
+        "S2": 4.306,
+        "S3": 5.745,
+        "O": 4.155
+      }
+    },
+    "source": "Data Egypt Industrial Stats 2004 (2).xlsx, Sheet2. Establishment counts by 2-digit industry x governorate, 2004.",
+    "sector_mapping": {
+      "T": "Textile + Wearing Apparel",
+      "S1": "Food and Drinks",
+      "S2": "Chemicals + Petrochemicals + Rubber",
+      "S3": "Other Minerals + Main Minerals + Complex Minerals",
+      "O": "Remaining manufacturing"
+    },
+    "note": "Kafr Sheikh and Beheira were added to QIZ only in 2013 (liberalized). For robustness, these could be excluded from the QIZ region definition."
+  },
+  "kappa": {
+    "description": "Labor mobility elasticity: elasticity of migration flows to destination wage. Governs worker reallocation between QIZ and non-QIZ regions.",
+    "value": 1.1,
+    "status": "placeholder \u00e2\u20ac\u201d set to 1.1 pending proper estimation",
+    "estimation_script": "estimate_kappa.do",
+    "method": "PPML gravity regression on ELMPS panel bilateral gov flows (1998-2023). DV: n_flows levels. RHS: log destination gov mean wage. FE: od-pair + interval. Cluster: od-pair. QIZ defined time-varying.",
+    "note": "estimate_kappa.do is written and produces PPML estimates but results need review before replacing this placeholder. Two specs: baseline (od-pair + interval FE) and rich (od-pair + gov_o x interval FE)."
+  },
+  "labor_endowments": {
+    "description": "Total labor force by region (QIZ vs non-QIZ), 2004 pre-QIZ baseline. Used to calibrate L, L_Q, L_N in the model.",
+    "year": 2004,
+    "L": 20761200,
+    "L_Q": 15336500,
+    "L_N": 5424700,
+    "L_Q_share": 0.7387,
+    "L_N_share": 0.2613,
+    "qiz_govs": [
+      "Cairo",
+      "Alexandria",
+      "Port Said",
+      "Suez",
+      "Demiatte",
+      "Dakhliaya",
+      "Kalioubia",
+      "Kafr Sheikh",
+      "Gharbiyya",
+      "Monoufiyya",
+      "Beheira",
+      "Ismailiyya",
+      "Giza",
+      "Beni Soueif",
+      "Menya"
+    ],
+    "non_qiz_govs": [
+      "Sharkiyya",
+      "Fayoum",
+      "Asyout",
+      "Souhaj",
+      "Qena",
+      "Aswan",
+      "Luxor",
+      "Red Sea",
+      "Wadi Jadid",
+      "Matrouh",
+      "North Sinai",
+      "South Sinai"
+    ],
+    "source": "Egypt Labor Force Survey (Annual) 2004, CAPMAS. Pages 50-58. File: Labor Force by Governorate 2004.xlsx",
+    "note": "Units: persons. Model uses ratio L_Q/L_N = 2.827 to calibrate relative region sizes."
+  },
+  "export_participation": {
+    "description": "Export participation rates by sector and destination, pre-QIZ baseline (2004). Target moments for calibrating fixed export costs f_export[(r,j,s)] and f_dom[(r,s)]. dom_only is the target for f_dom (share of active manufacturers serving only domestic market). exp_US is the target for f_export[(r,US,s)]. exp_RW is the target for f_export[(r,RW,s)].",
+    "source": "Egypt Enterprise Survey (ECES) 2004 wave, World Bank. File: Egypt_2004_2007_2008_2013_2016_2020.dta",
+    "method": "Denominator = all manufacturing firms in the 2004 wave (includes domestic-only firms). Exporter = q9a2p > 0 (share of 2004 sales directly exported > 0). US exporter = country code 501 in any of top-3 destination vars (q9c2a2, q9c2b2, q9c2c2). RW exporter = any exporter not exporting to US (not mutually exclusive with US).",
+    "weights": "No sampling weights available for the 2004 wave. Weights (wstrict, wmedian, wweak) only exist from 2016 onward. Rates are unweighted.",
+    "caveat": "Enterprise Survey oversamples larger and more formal firms so participation rates are likely upper bounds relative to the full population of manufacturers.",
+    "grouping_1": {
+      "sectors": [
+        "T",
+        "O"
+      ],
+      "T": {
+        "N": 261,
+        "dom_only": 0.8927,
+        "any_exp": 0.1073,
+        "exp_US": 0.0575,
+        "exp_RW": 0.069
+      },
+      "O": {
+        "N": 716,
+        "dom_only": 0.8492,
+        "any_exp": 0.1508,
+        "exp_US": 0.0112,
+        "exp_RW": 0.1425
+      }
+    },
+    "grouping_2": {
+      "sectors": [
+        "T",
+        "S1",
+        "S2",
+        "S3",
+        "O"
+      ],
+      "T": {
+        "N": 261,
+        "dom_only": 0.8927,
+        "any_exp": 0.1073,
+        "exp_US": 0.0575,
+        "exp_RW": 0.069
+      },
+      "S1": {
+        "N": 156,
+        "dom_only": 0.7885,
+        "any_exp": 0.2115,
+        "exp_US": 0.0064,
+        "exp_RW": 0.2051
+      },
+      "S2": {
+        "N": 151,
+        "dom_only": 0.8874,
+        "any_exp": 0.1126,
+        "exp_US": 0.0066,
+        "exp_RW": 0.106
+      },
+      "S3": {
+        "N": 83,
+        "dom_only": 0.9157,
+        "any_exp": 0.0843,
+        "exp_US": 0.0241,
+        "exp_RW": 0.0602
+      },
+      "O": {
+        "N": 326,
+        "dom_only": 0.8436,
+        "any_exp": 0.1564,
+        "exp_US": 0.0123,
+        "exp_RW": 0.1503
+      }
+    },
+    "sector_mapping": {
+      "T": "Textiles + Garments (ECES sector codes 10, 11)",
+      "S1": "Food / Dairy / Seeds (ECES sector codes 1, 2, 3)",
+      "S2": "Chemicals / Plastics / Rubber / Perfumes (ECES sector codes 4, 6, 7)",
+      "S3": "Faience / Gypsum / Glass / Minerals (ECES sector code 12)",
+      "O": "Remaining manufacturing (ECES sector codes 5, 8, 9, 13-18)"
+    }
+  },
+  "params_defensible_notes": {
+    "description": "Documents all parameters now wired into params_defensible() in qiz_model_ge.py, with sources, values, and calibration status.",
+    "last_updated": "2026-04-19",
+    "estimated": {
+      "beta_s": {
+        "values_g1": {
+          "T": 0.052,
+          "O": 0.948
+        },
+        "source": "Egypt IO Table 2008, absorption shares. See beta_s entry."
+      },
+      "alpha_s": {
+        "values_g1": {
+          "T": 0.186,
+          "O": 0.064
+        },
+        "source": "Egypt IO Table 2008, labor cost shares. See alpha_s entry."
+      },
+      "theta_s": {
+        "values_g1": {
+          "T": 6.715,
+          "O": 6.0
+        },
+        "source": "Hill+OLS from Egyptian customs data (grouping_1). See theta_s entry."
+      },
+      "t_mfn_s": {
+        "values_g1": {
+          "T": 0.096,
+          "O": 0.0095
+        },
+        "source": "WTO IDB 2004, value-weighted by Egypt 2004 exports to US. See mfn_tariff entry."
+      },
+      "delta_s": {
+        "values_g1": {
+          "T": 1.178,
+          "O": 1.0
+        },
+        "source": "Event study on non-US exports. O=1.0 since QIZ applies to textiles only. See delta_s entry."
+      },
+      "p_il_s": {
+        "values_g1": {
+          "T": 1.2,
+          "O": 1.2
+        },
+        "source": "ECES 2006 firm survey, Israeli input price premium. See price_wedge entry."
+      },
+      "L_total": {
+        "value": 20761200,
+        "source": "Egypt LFS 2004, CAPMAS. See labor_endowments entry."
+      },
+      "L_Q_share": {
+        "value": 0.7387,
+        "source": "Egypt LFS 2004, CAPMAS. L_Q=15,336,500 / L_total=20,761,200."
+      },
+      "d_iceberg": {
+        "source": "EK-inverted composite trade wedges from trade_costs.json (grouping_1), UNIDO + Comtrade 2004. Both Q and N regions assigned the same Egypt-aggregate tau since no region-level export data available to identify QIZ vs non-QIZ trade wedges separately.",
+        "values_T": {
+          "EG": 1.0,
+          "US": 2.082155,
+          "RW": 2.386525
+        },
+        "values_O": {
+          "EG": 1.0,
+          "US": 4.210192,
+          "RW": 3.737085
+        }
+      },
+      "E_foreign": {
+        "source": "absorption_2004.json (grouping_1), UNIDO + Comtrade 2004. E_js = Y_j - X_j + M_j (absorption = output - exports + imports).",
+        "values_usd": {
+          "US_T": 176097209250.13,
+          "US_O": 3708278991954.59,
+          "RW_T": 652909544946.11,
+          "RW_O": 12398877884709.02
+        }
+      }
+    },
+    "fixed_from_literature_or_protocol": {
+      "sigma_s": {
+        "values_g1": {
+          "T": 6.7,
+          "O": 6.0
+        },
+        "source": "Imbs and Mejean (2015) literature values."
+      },
+      "eta": {
+        "value": 1.0,
+        "rationale": "Cobb-Douglas upper tier (eta=1) is consistent with IO-table beta_s being constant expenditure shares independent of relative prices."
+      },
+      "gamma_s": {
+        "values_g1": {
+          "T": 0.105,
+          "O": 0.105
+        },
+        "source": "QIZ protocol: 10.5% Israeli content requirement. Applied to all sectors. Textile firms select into compliance at higher rates due to higher US MFN tariff (9.6% vs 0.95%)."
+      },
+      "p_rw_s": {
+        "value": 1.0,
+        "rationale": "Normalization of RW intermediate input price."
+      }
+    },
+    "normalizations": {
+      "phi_min_s": {
+        "value": 1.0,
+        "rationale": "Pure productivity units normalization. Hill and OLS log-rank estimators use ratios of order statistics so phi_min cancels out. Setting phi_min=1 is standard in Melitz/EK literature."
+      },
+      "P_foreign": {
+        "value": 1.0,
+        "rationale": "Foreign price indices P_js for US and RW are set to 1. They are absorbed into the composite trade wedge tau_ijs from the EK inversion."
+      }
+    },
+    "modeling_choices": {
+      "roo_cost_scope": "US_only: ROO certification is shipment-level. Complying firms use Israeli-content inputs only for US-destined output; non-US output uses free-sourcing costs.",
+      "roo_cost_formula": "paper: standard Cobb-Douglas dual cost c_mix = p_IL^gamma * p_RW^(1-gamma) / [gamma^gamma * (1-gamma)^(1-gamma)].",
+      "upgrade_requires_US": "False: upgrading available to all active firms, not restricted to US exporters.",
+      "upgrade_mode": "binary: firm either upgrades (phi -> delta*phi) or not."
+    },
+    "placeholders_pending_calibration": {
+      "kappa": "Labor mobility elasticity. Currently 1.1 placeholder. PPML gravity estimate from estimate_kappa.do exists but needs review.",
+      "f_entry": "Entry fixed costs. Normalize f_entry[(N,s)]=1 for each sector. Calibrate f_entry[(Q,s)] via Brent to match QIZ firm share n_Qs/(n_Qs+n_Ns) from firm_count_ratio entry. Target active firm share M_rs*E_active, not raw entrant mass.",
+      "f_dom": "Domestic market fixed cost. Calibrate to dom_only participation rate from export_participation (T=0.893, O=0.849 in grouping_1).",
+      "f_export": "Export fixed costs by destination. Calibrate f_export[(r,US,s)] to exp_US from export_participation (T=0.0575, O=0.0112). Calibrate f_export[(r,RW,s)] to exp_RW from export_participation (T=0.0690, O=0.1425). Both Q and N regions same target (no region-level participation data available).",
+      "fC_mean": "Compliance fixed cost. Calibrate to compliance_rate=0.321 via Brent on solve_equilibrium(). Blocked until f_entry, f_dom, f_export are settled.",
+      "f_upgrade": "Upgrading fixed cost. Calibrate to upgrading_rate=0.491 via Brent, sequential after fC_mean. Blocked until fC_mean done."
+    }
+  },
+  "export_participation_option2": {
+    "description": "Export participation rates by sector and destination, 2005 customs data. Alternative to export_participation (option 1, ECES 2004). Denominator = exporters + importers active in 2005 customs data. exp_US = firms exporting to USA / (exporters + importers). exp_RW = firms exporting to any non-US destination / (exporters + importers). No dom_only moment available (purely domestic firms not in customs data).",
+    "year": 2005,
+    "source_exports": "Export and Import Data Egypt/firm_export_allyears_collapsed_sectors.dta \u2014 Egyptian customs export file with ISIC codes, 2005-2015. Filtered to Year==2005.",
+    "source_imports": "Export and Import Data Egypt/firm_imports_allyears.dta \u2014 Egyptian customs import file, 2005-2014. Filtered to Year==2005.",
+    "script": "Computed ad hoc in Claude Code session 2026-04-19. No standalone script saved yet.",
+    "method": "Step 1 \u2014 Exporters: load firm_export_allyears_collapsed_sectors.dta, filter Year==2005, keep ISIC 15-37 (exclude 23=NON_MFG), map to sectors via ISIC 2-digit. Collapse to unique firm-sector pairs. Flag exp_US = any destination == 'USA', exp_RW = any non-US destination. Step 2 \u2014 Importers: load firm_imports_allyears.dta, filter Year==2005. Map Product_HS6 to ISIC2 using modal ISIC from export file (96.2% coverage). Assign each importer to dominant sector by largest import value (USD). Remove importers already counted as exporters in the same sector. Step 3 \u2014 Denominator: exporters + import-only firms per sector. exp_US = n_firms_exporting_US / N_total. exp_RW = n_firms_exporting_RW / N_total.",
+    "sector_mapping": {
+      "T": "Textiles + Apparel (ISIC 17, 18)",
+      "S1": "Food + Beverages + Tobacco (ISIC 15, 16)",
+      "S2": "Chemicals + Rubber + Plastics (ISIC 24, 25)",
+      "S3": "Non-metallic minerals (ISIC 26)",
+      "O": "Other manufacturing (ISIC 15-37 excluding T, S1, S2, S3, NON_MFG)"
+    },
+    "caveat": "Denominator includes only firms interacting with international trade (exporters or importers). Purely domestic firms are not captured in customs data, so participation rates are upper bounds relative to all active manufacturers. Importer sector assignment uses largest import value, which may mis-classify conglomerates. HS6->ISIC mapping built from modal ISIC in export file; 3.8% of import rows unmapped and dropped.",
+    "comparison_with_option1": "Option 1 (ECES 2004): denominator = all manufacturing firms including domestic-only, giving lower rates. Option 2 (customs 2005): denominator = exporters + importers only, giving higher rates. Option 2 exp_US rates are broadly consistent with option 1 for T (6.8% vs 5.75%) but higher for O (3.3% vs 1.1%). Option 2 RW rates are much higher for S1/S3 (69%/67%) vs option 1 (21%/6%) because importers are fewer in those sectors, making exporters a large share of the denominator.",
+    "grouping_1": {
+      "sectors": [
+        "T",
+        "O"
+      ],
+      "T": {
+        "N_total": 4733,
+        "N_exporters": 1349,
+        "N_importers_only": 3384,
+        "exp_US": 0.0689,
+        "exp_RW": 0.2633,
+        "n_exp_US": 326,
+        "n_exp_RW": 1246
+      },
+      "O": {
+        "N_total": 20602,
+        "N_exporters": 5287,
+        "N_importers_only": 15315,
+        "exp_US": 0.0338,
+        "exp_RW": 0.2505,
+        "n_exp_US": 696,
+        "n_exp_RW": 5161
+      }
+    },
+    "grouping_2": {
+      "sectors": [
+        "T",
+        "S1",
+        "S2",
+        "S3",
+        "O"
+      ],
+      "T": {
+        "N_total": 4765,
+        "N_exporters": 1349,
+        "N_importers_only": 3416,
+        "exp_US": 0.0684,
+        "exp_RW": 0.2615,
+        "n_exp_US": 326,
+        "n_exp_RW": 1246
+      },
+      "S1": {
+        "N_total": 2128,
+        "N_exporters": 1483,
+        "N_importers_only": 645,
+        "exp_US": 0.0461,
+        "exp_RW": 0.6889,
+        "n_exp_US": 98,
+        "n_exp_RW": 1466
+      },
+      "S2": {
+        "N_total": 4618,
+        "N_exporters": 1833,
+        "N_importers_only": 2785,
+        "exp_US": 0.0297,
+        "exp_RW": 0.3885,
+        "n_exp_US": 137,
+        "n_exp_RW": 1794
+      },
+      "S3": {
+        "N_total": 1352,
+        "N_exporters": 924,
+        "N_importers_only": 428,
+        "exp_US": 0.0695,
+        "exp_RW": 0.6657,
+        "n_exp_US": 94,
+        "n_exp_RW": 900
+      },
+      "O": {
+        "N_total": 15412,
+        "N_exporters": 3385,
+        "N_importers_only": 12027,
+        "exp_US": 0.0327,
+        "exp_RW": 0.2124,
+        "n_exp_US": 504,
+        "n_exp_RW": 3273
+      }
+    }
+  }
+}

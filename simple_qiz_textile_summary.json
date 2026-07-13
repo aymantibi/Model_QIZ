@@ -1,0 +1,96 @@
+{
+  "model": {
+    "regions": [
+      "Q"
+    ],
+    "sectors": [
+      "T"
+    ],
+    "upgrading": "off",
+    "roo_cost_formula": "normalized",
+    "roo_cost_scope": "US_only",
+    "use_admin_wedge": false,
+    "entry_cost_normalization": 1.0
+  },
+  "targets": {
+    "dom_only": 0.8927,
+    "exp_US": 0.0575,
+    "exp_RW": 0.069,
+    "compliance_rate": 0.321
+  },
+  "stage1_best": {
+    "state": {
+      "f_dom_T": 0.8,
+      "f_export_US_T": 10.0,
+      "f_export_RW_T": 20.0
+    },
+    "loss": 1.7574558338584132,
+    "participation_off": {
+      "dom_only": 0.9130434782608693,
+      "exp_US": 0.043478260869565175,
+      "exp_RW": 0.08695652173913035,
+      "active_share": 0.23000000000000023
+    }
+  },
+  "stage2_best": {
+    "fC_mean_T": 12.0,
+    "loss": 0.03690473701482208,
+    "compliance_share_on": 0.3286842422673752,
+    "sigma_C_T": 0.35
+  },
+  "params": {
+    "f_dom_T": 0.8,
+    "f_export_US_T": 10.0,
+    "f_export_RW_T": 20.0,
+    "f_entry_Q_T": 1.0,
+    "fC_mean_T": 12.0,
+    "sigma_C_T": 0.35,
+    "t_mfn_T": 0.096,
+    "gamma_T": 0.105
+  },
+  "qiz_on_moments": {
+    "active_share": 0.23000000000000023,
+    "any_export_share_among_active": 0.08695652173913035,
+    "domestic_only_share_among_active": 0.9130434782608693,
+    "US_export_share_among_active": 0.043478260869565175,
+    "RW_export_share_among_active": 0.08695652173913035,
+    "compliance_share_among_active": 0.014290619229016298,
+    "compliance_share_among_US_exporters": 0.3286842422673752,
+    "upgrade_share_among_active": 0.0,
+    "upgrade_intensity_among_active": 0.0
+  },
+  "qiz_off_moments": {
+    "active_share": 0.23000000000000023,
+    "any_export_share_among_active": 0.08695652173913035,
+    "domestic_only_share_among_active": 0.9130434782608693,
+    "US_export_share_among_active": 0.043478260869565175,
+    "RW_export_share_among_active": 0.08695652173913035,
+    "compliance_share_among_active": 0.0,
+    "compliance_share_among_US_exporters": 0.0,
+    "upgrade_share_among_active": 0.0,
+    "upgrade_intensity_among_active": 0.0
+  },
+  "trade_on": {
+    "US_exports": 0.3599914653354874,
+    "RW_exports": 1.2228738199426046,
+    "US_exporters": 0.0022530704393707293,
+    "RW_exporters": 0.0045061408787414586,
+    "avg_US_rev_per_exporter": 159.7781671823945,
+    "avg_RW_rev_per_exporter": 271.3794026528853
+  },
+  "trade_off": {
+    "US_exports": 0.3052430723830281,
+    "RW_exports": 1.2219310667636216,
+    "US_exporters": 0.0022401385131385213,
+    "RW_exporters": 0.0044802770262770426,
+    "avg_US_rev_per_exporter": 136.2608028890904,
+    "avg_RW_rev_per_exporter": 272.73560532014795
+  },
+  "welfare_on": 0.4878087325088696,
+  "welfare_off": 0.4873823006882458,
+  "welfare_pct": 0.08749431811980735,
+  "US_exports_pct": 17.93599852243637,
+  "RW_exports_pct": 0.07715273018469304,
+  "US_exporters_pct": 0.5772824384010944,
+  "RW_exporters_pct": 0.5772824384010944
+}

@@ -1,0 +1,1821 @@
+
+
+===== PAGE 1 =====
+Conditional Trade Policy for Peace?
+The Economic Effects of QIZs in the
+Middle East
+Ayman Al-Tibi∗
+January 2026
+Preliminary draft
+Abstract
+This paper examines how conditional trade policies with input-sourcing require-
+ments affect firms’ exports, production, and labor outcomes. I study Egypt’s Qual-
+ifying Industrial Zones (QIZ) program, which grants duty-free access to the U.S.
+marketconditional on sourcing inputs from Israel. I estimate event-studyand triple-
+difference specifications using firm-level customs data, industrial census records, and
+labor force surveys.I find large and persistent export gains along both intensive and
+extensivemarginsalongsideimprovementsinoutput, productivity, employment, and
+wages. The improvements are driven by U.S. market access rather than the quality
+of Israeli inputs. To map these firm-level responses into aggregate and welfare impli-
+cations, I develop a quantitative heterogeneous-firm trade model with endogenous
+QIZ compliance, rules-of-origin costs, and productivity upgrading. The framework
+is used to quantify the program’s economy-wide effects and conduct counterfactual
+analysesthatvarytheIsraelicontentrequirement, highlightingthetrade-offbetween
+policy conditionality and gains from market access.
+Keywords: Trade policy, Place-based policies, QIZ, Industrial Policy, Development
+∗University of Mannheim, atibi@mail.uni-mannheim.de
+I thank Antonio Ciccone, Philipp Ager, and Jan Schymick for their guidance, and seminar participants at
+the University of Mannheim, YSI Workshop at UNU-MERIT, and the FHM+ development workshop for helpful
+comments.
+1
+
+===== PAGE 2 =====
+1 Introduction
+In recent decades, there has been increased interest in place-based policies and their
+role in stimulating local development and job creation. At the same time, trade
+has long been recognized as a powerful driver of economic growth and productivity,
+dating back to the Industrial Revolution and even earlier. Yet the interaction be-
+tween these two areas remains less well understood. What happens when a trade
+policy is tied to a specific location? And what are the consequences when preferen-
+tial market access is granted only to firms operating in certain regions and sourcing
+inputs from particular partners? This paper explores this intersection by studying
+the economic effects of Qualifying Industrial Zones (QIZs), a policy instrument that
+links place-based targeting to conditional trade preferences.
+Under the QIZ program, firms located in designated zones in Egypt and Jor-
+dan receive duty-free access to the U.S. market conditional on sourcing a minimum
+share of inputs from Israel. This design reflects economic and geopolitical objec-
+tives simultaneously, making QIZs a unique setting for analyzing how geographic
+targeting, trade incentives, and input-sourcing rules interact. The central research
+question of this paper is therefore:
+How do conditional, place-based trade preferences affect firm productivity, export
+upgrading, and local labor-market outcomes?
+The literature on place-based policies has expanded considerably in both devel-
+oped and developing countries (Neumark, 2018). Evidence shows that geographi-
+callytargetedinterventionscanraiseemployment, output, andproductivitythrough
+agglomeration effects, although impacts vary widely with local conditions and in-
+stitutional design (Lu, Wang, & Zhu, 2019; Wang, 2013; Siegloch, Wehrhöfer, &
+Etzel, 2025; Kline & Moretti, 2014a). In parallel, the literature on trade policy
+documents substantial gains in productivity and firm upgrading when barriers to
+trade are reduced (Amiti & Konings, 2007; Bustos, 2011). However, much less is
+known about trade policies that are both conditional and geographically targeted,
+and how they shape firms, workers, and regional economic activity.
+This paper contributes to both literatures by evaluating the economic and labor-
+market effects of QIZs, primarily in Egypt with supporting evidence from Jordan.
+By examining a policy that conditions preferential market access on both location
+and input sourcing, the paper sheds new light on the interaction between spatial
+targeting, supply-chain rules, and firm behavior.
+2
+
+===== PAGE 3 =====
+The Qualifying Industrial Zone (QIZ) agreement was first established between
+Jordan, Israel, and the United States in 1996 and implemented in Jordan in 1998.
+It designated specific regions within Jordan as QIZs, allowing firms located in these
+areas, toexporttotheUnitedStatestarifffreeandquotafree(Pelzman, 2011). This
+preferential access was conditional on the use of a specified minimum share of inputs
+sourced from Israel. In essence, the agreement extended the benefits of the United
+States–Israel Free Trade Agreement to eligible firms operating within designated
+zones in Jordan, provided they incorporated Israeli inputs into their production
+process. Although it used different tools, the logic behind the QIZ agreement re-
+sembled that of the Marshall Plan, in that it aimed to stimulate development and
+foster economic integration among countries previously in conflict, with the expec-
+tation of generating a virtuous cycle of peace and prosperity (Bianchi & Giorcelli,
+2023; Yadav, 2007). In 2004, Egypt signed a similar agreement with Israel and the
+US, and specific areas within it were designated as QIZs. In both Egypt and Jordan,
+these zones were introduced gradually over time. The key difference is that in Jor-
+dan, QIZs were mainly fenced industrial zones, while in Egypt, entire administrative
+regions were designated as QIZs ([Author name redacted], 2013).
+When observing the aggregate evolution of trade between each of Egypt and
+Jordan, with both Israel and the US, we notice that both imports from Israel and
+exports to the U.S have increased substantially after the QIZ agreement was en-
+forced. Was this increase in trade a consequence of the QIZ agreement or a product
+of international trade dynamics that are not specific to this agreement? To answer
+this question, I apply the synthetic control method and compare Egyptian and Jor-
+danian exports to the United States and imports from Israel to their respective syn-
+thetic control created from a pool of other countries. The synthetic control matches
+the trade dynamics prior to the implementation of the QIZ agreement in each of the
+two countries. I find that after the implementation of the QIZ agreement, manufac-
+turing (and more specifically textile and apparel) exports from Egypt and Jordan to
+the United States increased substantially compared to their synthetic counterparts.
+Total imports from Israel increased substantially relative to the synthetic control
+as well. These results suggest that the QIZ agreement might have achieved two
+of its objectives, stimulating trade in Egypt and Jordan and promoting regional
+economic integration with Israel. A closer look at Jordan, which signed a free trade
+agreement with the United States in 2004 that was fully implemented by 2010, we
+observe a sharp decline in imports from Israel after 2010, even as exports to the
+United States continued to grow. This suggests that Jordan’s trade with Israel was
+3
+
+===== PAGE 4 =====
+not driven by deeper cultural or political ties, but was instead a pragmatic economic
+choice shaped by the incentives of the QIZ agreement. Once a more favorable alter-
+native—the United States–Jordan Free Trade Agreement—became fully available,
+imports from Israel declined and integration as measured by trade weakened.
+I further investigate the case of Egypt and compare its exports to the United
+States with those of its synthetic control and ask whether the observed increase
+can be explained solely by rising demand from U.S. consumers. To do this, I use
+estimates of the price elasticity of substitution for U.S. textile and apparel imports
+and calculate whether the tariff reductions, if fully passed through to prices, are
+sufficient to account for the export increase (Feenstra, Luck, Obstfeld, &Weinstein,
+2018; Lashkaripour, 2022). While a demand-driven explanation accounts for a large
+share of the observed growth, a substantial and statistically significant portion re-
+mains unexplained. This suggests that the QIZ agreement may have also led to
+productivity gains, particularly through increases in total factor productivity.
+Holding on to this insight, which suggests that affected industries may have
+experienced productivity increases, I zoom in on Egypt and investigate the effects
+of the QIZ agreement at the micro level. To do so, I use two identification strategies.
+The first strategy builds on the requirements of the QIZ agreement. To access the
+U.S. market under this agreement, firms are required to use a fixed share of their
+inputs from Israel in their production process. Although the agreement allows all
+firms to benefit from preferential access, most firms that actually used the policy
+were in the textile and apparel sector, followed by firms in the food sector. This
+is because the benefits of the QIZ agreement could only be fully realized by firms
+producing goods with otherwise high MFN tariffs, which justify the use of higher-
+cost Israeli inputs. A firm would only benefit from the QIZ if the tariff reduction
+exceeded the additional cost of Israeli inputs, and this condition was met primarily
+for textile and apparel products.
+Using Egyptian firm-level customs data on imports and exports at the HS6
+product level from 2005 to 2016, I estimate event-study models where the “event”
+is defined as the moment a textile firm begins importing from Israel after previ-
+ously never doing so (see Alfaro-Ureña, Manelici, and Vasquez, 2022, for a similar
+approach). Since both data and anecdotal evidence suggest that importing from
+Israel is more costly than importing from other countries (Author name redacted,
+2013), only firms that benefit from a sufficiently large tariff reduction have a clear
+incentive to do so. This makes first-time importing from Israel a reasonable proxy
+for entry into QIZ treatment status. I find that the exports of treated firms to the
+4
+
+===== PAGE 5 =====
+United States rise substantially and that these increases persist in the long run.
+Restricting the sample to textile and apparel firms, I find that firms that begin
+importing from Israel not only export more to the United States but also expand
+exports to non-U.S. destinations relative to control firms, with effects that remain
+over time. I also find sizable and persistent effects of entry into importing from
+Israel on the number of products exported and the number of destinations served.
+Exploring heterogeneity across firm types, I find that earlier-treated, incumbent,
+and larger firms drive much of the observed effects, consistent with Egger, Nigai,
+and Shingal (2024).
+The identification of these effects relies on the parallel-trends assumption be-
+tweentreatedandcontrolfirms. Althoughthisassumptioncannotbetesteddirectly,
+I assess its plausibility by showing that treated and control firms follow similar pre-
+treatment trends in all outcome variables. To further strengthen the analysis, I
+conduct two placebo tests. The first defines a placebo sector, for example wood and
+furniture, and applies the same event-study approach. The second assigns a placebo
+country and defines the event as beginning to import from that country rather than
+from Israel. In both tests, I find null effects, which reinforces the validity of the main
+findings. The results are also robust to a wide range of alternative specifications
+and robustness checks.
+The second identification strategy exploits the staggered rollout of QIZs across
+Egyptianregionstogetherwiththefactthatthepolicyprimarilytargetedthetextile
+and apparel sectors. This setting allows me to estimate a triple-difference model,
+where the coefficient of interest is the interaction between time, treated-region, and
+treated-sector indicators. Using the available firm-level information from two indus-
+trial censuses and focusing on the most recent QIZ expansion in 2013, I find that
+textile firms in treated regions import more inputs, are more productive, and em-
+ploy more workers, particularly men. Balance tests indicate that the pre-treatment
+sample is well balanced across a broad set of firm characteristics.
+Applying the same empirical strategy to annual labor force surveys, I find pos-
+itive effects of QIZs on wages and formality, measured by social-insurance cover-
+age. Two advantages of the labor-force surveys are that they allow direct tests of
+the parallel-trends assumption and make it possible to condition on workers’ oc-
+cupations. The positive effects appear to be concentrated among men, while the
+estimates for women are considerably noisier. This pattern contrasts with evidence
+from countries such as Bangladesh, where the expansion of the textile industry has
+been shown to disproportionately benefit women (Heath & Mobarak, 2015).
+5
+
+===== PAGE 6 =====
+Motivated by this evidence, I develop a quantitative heterogeneous-firm trade
+model tailored to the QIZ setting. The model features endogenous export partic-
+ipation, compliance with rules-of-origin through costly Israeli input sourcing, and
+productivity upgrading induced by access to the U.S. market. This structure allows
+the model to aggregate firm-level responses into economy-wide effects, quantify wel-
+fare changes, and evaluate counterfactual policy designs. In particular, I wille use
+the framework to trace how the gains from market access depend on the stringency
+of the Israeli content requirement, varying it from its baseline level in the agreement
+to no content requirement. While the reduced-form estimates identify large export
+and labor-market impacts, the model is needed to distinguish the roles of selec-
+tion, compliance costs, and upgrading, and to assess how alternative rules-of-origin
+would reshape both aggregate welfare and the distribution of gains across firms and
+regions.
+Beyond the literature referenced so far, this paper is closely related to three
+strands of research. The first is the literature on trade liberalization and trade
+policy, which examines how agreements that reduce trade barriers affect firms and
+workers (Autor et al., 2013; Opalova, 2010; Costa et al., 2016; Choi et al., 2024).
+A growing body of work emphasizes the role of agreement design, including rules
+of origin and conditional market access. Sytsma (2022) shows that relaxing rules
+of origin can expand firm participation in preferential trade schemes, underscoring
+the importance of input-sourcing constraints for understanding heterogeneous firm
+responses. Another related line of work uses export shocks as quasi-experiments.
+Lane (2025) and Barteska et al. (2025) exploit large, plausibly exogenous foreign-
+demand shocks to study how firms upgrade, raise productivity, and expand into new
+markets.
+The second strand is the literature on industrial policy. Much recent work
+has shifted toward micro-founded evidence on targeted interventions. Lane (2024)
+analyzes Korea’s manufacturing push and documents large and persistent firm-
+level upgrading effects. Manelici and Pantea (2021) study Romania’s IT-sector
+tax exemption and show that a narrowly targeted policy can generate productiv-
+ity spillovers and labor-market impacts in treated regions. These papers highlight
+that industrial-policy outcomes depend heavily on sectoral focus, implementation
+details, and existing industrial structure.
+The third strand is the literature on place-based policies. Most early work fo-
+cuses on developed countries (Neumark, 2015), but a growing number of studies
+analyze developing contexts. Wang (2013) shows that special economic zones in
+6
+
+===== PAGE 7 =====
+China attract foreign direct investment and raise wages, while Gallé et al. (2024)
+find that zones in India accelerate structural transformation, especially for women.
+Similar studies examine zones in Vietnam and Africa (Abagna, Hornok, and Mu-
+lyukova, 2025; Treibich et al., 2025; Tafese, Lay, and Tran, 2025).
+This paper contributes to all three literatures by studying a policy that is si-
+multaneously a place-based intervention, a form of industrial targeting focused on
+textiles and apparel, and a conditional trade policy tied to sourcing requirements
+and preferential access to the U.S. market.
+AcomprehensiveoverviewofthehistoryofQIZsinEgyptandJordanisprovided
+by a U.S. Congress report (Author name redacted, 2013). Several papers have
+studied the effects of QIZs on trade and employment in Egypt (Yadav, 2007; Nugent
+and Abdulatif, 2010) and in Jordan (Warad, 2010; Pelzman, 2011; Saif, 2006).
+However,thesestudiesrelyonaggregatedataanddonotattempttocausallyidentify
+the effects of QIZs. This paper contributes to the literature by using microdata from
+Egypt and applying econometric methods to estimate the causal impact of QIZs on
+firms and workers. To the best of my knowledge, this is the first study to apply
+microeconometric methods, such as event-studies and triple-difference designs to
+examine the effect of a place based conditional trade policy, like the QIZ, on firm-
+level and labor outcomes.
+The remainder of the paper is organized as follows. Section 2 provides back-
+ground on the institutional context and history of the QIZ agreements. Section 3
+describes the data. Section 4 outlines the empirical strategies. Section 5 presents
+descriptive statistics and the SCM results from the aggregate trade data. Section
+6 presents the event-study firm level results from customs data. Section 7 and 8,
+presents results from the industrial censuses and labor force surveys by employing
+a triple differences design. Section 9 introduces the quantitative heterogeneous-firm
+model and uses it to quantify welfare effects and conduct counterfactual analyses
+that vary the Israeli content requirement. Section 10 discusses the results, and
+section 10 concludes.
+2 Institutional Context and History
+The Arab–Israeli conflict in the 20th century involved multiple Arab countries en-
+gaging in wars with Israel in an effort to secure the rights of Palestinians to return
+to their homes and establish an independent state. During the conflict, particu-
+larly after the 1960s, the United States aligned itself with Israel, while the Soviet
+7
+
+===== PAGE 8 =====
+Union supported the Arab states involved (Khalidi, 2020). In 1979, Egypt and Is-
+rael signed the Camp David Peace Accords, which formally ended the state of war
+between them following the October War of 1973. Later, in 1994, Jordan and Israel
+signed the Wadi Araba Peace Treaty, following the 1993 Oslo Accords between the
+Palestine Liberation Organization and Israel. Both peace treaties were brokered by
+the United States, which had a strategic and geopolitical interest in aligning these
+parties more closely within its sphere of influence.
+The conflict left the economies of the arab states weaker and inflicted significant
+economic and political costs on them. To further consolidate this regional alignment
+and strengthen the cold peace between its allies, the U.S. offered Jordan and Egypt
+the QIZ agreement in 1996. The agreement states that upon the agreement of Israel
+with its Arab partner (Egypt or Jordan), certain regions would be designated as
+QIZs and would benefit from special trade privileges in the U.S. Firms producing
+within these QIZ regions would be eligible to export to the U.S tariff free and qouta
+free upon sourcing a fixed amount of inputs from the country itself, and from Israel.
+Moreover, a substantial transformation of the product must take place within the
+QIZs. For both Jordan and Egypt, country input shares should total 35 %of the
+appraised value of the product upon entry to the U.S. For Jordan, of these 35 %,
+8%should come from Israel, 11.7 %from Jordan itself, and the remaining 15.3 %
+from any combination of Jordanian QIZ, Israel, the U.S, and the West bank and
+Gaza strip (Author name redacted, 2013). For Egypt, of these 35 %, 10.5 %should
+come from Israel, another 10.5 %from Egypt itself, and the remaining 15.3 %from
+any combination of Jordanian QIZ, Israel, the U.S, and the West bank and Gaza
+strip (Author name redacted, 2013).
+Egypt’s entry into the agreement came in 2004, much later than Jordan’s par-
+ticipation in 1996. Initially, Egypt was skeptical of the QIZ arrangement, in part
+becauseitwasalreadybenefitingfromtheWorldTradeOrganization(WTO)Agree-
+ment on Textiles and Clothing (ATC) (WTO, n.d.). However, the expiration of the
+ATC in January 2005 pushed Egypt to explore alternative mechanisms to maintain
+preferential market access, including the QIZ agreement (Author name redacted,
+2013). The observed success of the QIZs in Jordan, particularly in boosting ex-
+ports and creating new jobs, made the idea more appealing, provided it did not
+provoke public backlash. To preempt such concerns, the Egyptian government in-
+sured the support of the Islamic institution of Al-Azhar before formally entering the
+agreement (Raya, 2006).
+QIZs were added in both Jordan and Egypt successively in a staggered manner.
+8
+
+===== PAGE 9 =====
+Figure 1: Map of Egyptian QIZs
+A key difference between the two countries lies in the spatial design of the zones.
+In Jordan, QIZs were typically fenced industrial areas located in rural regions. In
+contrast, EgyptdesignatedentireadministrativedistrictsasQIZs, meaningthatany
+firm operating within those districts could potentially benefit from the agreement.
+Figure 1 shows the geographic distribution of QIZ regions across Egypt.
+Another important aspect is that, initially, firms located within Egyptian QIZs
+needed individual approval from a joint QIZ committee in order to qualify for the
+agreement. This committee included representatives from Egypt, Israel, and the
+United States (QIZ Egypt, n.d.). In practice, these approvals were granted almost
+exclusively to textile and apparel firms. Even after the 2013 liberalization, when
+the United States confirmed that all firms and facilities, both existing and future,
+located within designated QIZ districts would automatically qualify, participation
+remained concentrated in the textile and apparel sector. Over time, firms in the
+food processing sector also began to join the program in increasing numbers, as
+shown in Figure 2. The reason why firms from other sectors have not participated
+isthatU.S.tariffsontheirproductstendtobealreadzrelativelylow, andasaresult,
+the cost savings from tariff exemptions under the QIZ agreement are not enough
+to offset the higher input costs associated with sourcing from Israel (Author name
+redacted, 2013). Industry accounts suggest that for firms to benefit meaningfully
+from the agreement, tariff rates must be at least 10 percent in order to create a
+sufficient margin to compete with lower-cost producers such as those in China and
+Bangladesh(ibid).
+9
+
+===== PAGE 10 =====
+133471188762
+0 200 400 600 800
+Number of CompaniesPrinting IndustriesEngineering IndustriesPlastic ProductsBase MetalsLeather ProductsChemical ProductsFood IndustryTextile & RMGOfficial Qualified Industrial Zones DataQIZ Companies by Sector (Egypt 2025)Figure 2: QIZ Companies by Sector
+The daily administration of the program is overseen by an official unit within
+both Egypt and Jordan, known as the QIZ Unit. These units are responsible for
+registering firms, issuing and renewing certifications, and facilitating all adminis-
+trative procedures related to participation in the program. In addition, according
+to the QIZ protocols, a joint committee composed of Israeli and Egyptian or Jor-
+danian representatives is required to meet on a quarterly basis to coordinate and
+oversee the implementation of the agreement (QIZ Egypt, n.d.). However, since Jor-
+dan signed its own Free Trade Agreement with the United States in 2004—which
+was fully implemented by 2010 to cover all products, including those produced in
+QIZs—the QIZ agreement gradually became obsolete. Unlike the QIZ framework,
+the FTA does not impose input sourcing requirements, making it a more flexible
+and attractive option for Jordanian exporters (Saif, 2006, Areiel &Yahn, 2019).
+The expansion of QIZs in both Jordan and Egypt is a trilateral decision. This
+means that Egypt or Jordan must first reach an agreement with Israel on desig-
+nating a new QIZ, after which the United States must also approve the addition.
+U.S. approval is typically granted through the Office of the United States Trade
+Representative, which oversees trade agreements on behalf of the U.S. government.
+10
+
+===== PAGE 11 =====
+3 Data
+Data on QIZs
+I compiled data on QIZs in Egypt from multiple sources. The primary source is the
+U.S. Federal Register, which documents each new addition to the QIZ program and
+records the governorate in which the zone is located as well as the date of its official
+designation. In the main analysis, I treat the governorate as the unit of treatment,
+since the remainder of the data is either representative at this level or only available
+at the governorate level. A governorate is therefore coded as treated if at least one
+area within its boundaries contains a QIZ. In addition, I gathered more granular
+information from the website of the Egyptian QIZ Unit, which provides the exact
+district locations of QIZs. I use this district-level data in a some of the robustness
+checks.
+Trade Data
+To explore what happens at the aggregate trade level and to compare the perfor-
+mance of the textile and apparel industry in these countries to a synthetic control
+before and after the introduction of QIZs, I use export and import data from UN
+Comtrade covering the period from 1990 to 2022. Specifically, I use the value of
+textile and apparel exports to the US and the values of import from Israel for all
+countries in the dataset. I exclude the US, European countries, Australia, New
+Zealand, Japan, and Canada from the donor group and hence effectively restrict
+the sample to the set of developing countries which are closer economically to Jor-
+dan and Egypt. Since the synthetic control method does not work if missing values
+exist, I exclude any country with missing values for years prior to the QIZ intro-
+duction year. I also interpolate any missing values post QIZ years for the same
+reason.
+Firm Level Data
+To explore what happens to firms that begin importing from Israel after previously
+not doing so, I use firm-level export and import data from 2005 to 2016 compiled
+by the General Organization for Export and Import Control (GOEIC). I get access
+to this data through the Economic Research Forum (ERF). The data includes the
+values of import and export by source countries and destination markets at the
+11
+
+===== PAGE 12 =====
+HS6 product level for the universe of Egyptian firms. By merging the export and
+import datasets through firm identifiers, I am able to track changes in firm behav-
+ior following the initiation of imports from Israel. Additionally, I can distinguish
+between incumbent firms and new entrants. I define new entrants as firms that do
+not appear in the export data in 2005, the first year of observation.
+To explore how production and labor adjust at the firm level, I use two waves
+of the Egyptian industrial census from 2012 and 2017, accessed through the ERF.
+Thesedataprovidedetailedinformationonfirmproduction, employment, andtrade,
+which allows me to evaluate how firms in regions included in the 2013 expansion of
+QIZs in Egypt change relative to firms in regions that were never included. A key
+limitation of this dataset is that firm location is reported only at the governorate
+level (similar to the state level in the United States). While some QIZs are des-
+ignated at the governorate level, others are defined at the district (county) level.
+Because of this data constraint, I classify a governorate as treated if any area within
+it receives QIZ designation.
+Labor Data
+To explore how QIZs affect workers differentially, I use the annual Labor Force
+Surveys from the Egyptian Statistical Office (CAPMAS) covering the years 2006 to
+2017. Since the first survey year available to me is 2006, I exclude all governorates
+that were treated in 2004–2005 and focus on the 2009 and 2013 expansions instead.
+The surveys are representative at the governorate level. I focus on wages and social-
+insurance coverage as outcome variables and examine how these outcomes evolve
+by gender for individuals working in the textile industry after a region receives QIZ
+status.
+4 Empirical Strategies
+To identify the causal impact of QIZs, I use three different empirical strategies.
+4.1 SCM: Aggregate Effects on Trade
+To examine the aggregate trade effects of QIZs, I use the Synthetic Control Method
+(SCM) to compare the evolution of textile and apparel exports to the United States
+and imports from Israel for Egypt and Jordan relative to a counterfactual which
+matches Egyptian and Jordanian outcomes in years prior to the QIZ agreement.
+12
+
+===== PAGE 13 =====
+This approach allows me to construct a counterfactual trajectory of what trade
+would have looked like in the absence of the agreement. The method is particularly
+suited to our setting given the focus on a single treated unit and the clear start of
+intervention years: 1998 for Jordan and 2005 for Egypt.
+I compile bilateral trade data from UN Comtrade for the years 1988 to 2022,
+focusing on exports of textiles and clothing to the U.S. and imports from Israel. The
+analysis is performed separately for each country and trade flow. For consistency,
+I restrict the sample to countries that have complete data on trade in these sectors
+during the pre-treatment period (1994–2004 for Egypt and 1990–1998 for Jordan).
+Countries with missing pre-treatment data are dropped, while missing values in
+the post-treatment period are linearly interpolated. To minimize confounding from
+other preferential trade agreements, I exclude developed economies and other coun-
+tries with advanced bilateral trade privileges with the United States (e.g., Mexico,
+Canada, Korea).
+LetJdenote the number of control countries. The goal is to select weights W=
+(w2, ..., w J+1)′,suchthattheweightedaverageofthecontrolunitsbestapproximates
+the pre-treatment characteristics of the treated country. Let X1be aK×1vector
+of pre-treatment trade outcomes for the treated country and X0the corresponding
+K×Jmatrix for the donor pool. The vector W∗is chosen to minimize the distance
+(X1−X0W)′V(X1−X0W), where Vis a positive semi-definite diagonal matrix
+that reflects the relative importance of predictors.
+The estimated treatment effect in year tis the difference between the actual
+outcome for the treated unit and the synthetic control:
+ˆα1t=Y1t−J+1X
+j=2w∗
+jYjt,
+where Y1tis the trade outcome for the treated country and Yjtis the outcome for
+control country jin year t.
+I construct the synthetic control using a combination of export and import val-
+ues in the years leading up to treatment (for example, 1994–2005 for Egypt) as
+predictors. Inference is based on placebo tests, in which the same model is esti-
+mated for each untreated country under the assumption that it was treated in the
+same year. The distribution of placebo effects is then used to assess the likelihood
+that the observed treatment effect could have occurred by chance.
+This analysis is intended to provide descriptive and indicative evidence at the
+aggregate level.
+13
+
+===== PAGE 14 =====
+4.2 Firm-Level Event Study: Entry into QIZ Treatment
+To estimate the impact of entering the QIZ agreement at the firm level, I exploit
+detailed administrative data on the universe of Egyptian exporters and importers
+between 2005 and 2016, disaggregated by HS6 product and partner country. I define
+a firm as treated if it begins importing from Israel in year tafter having no recorded
+imports from Israel in all years prior to t. Firms that never import from Israel over
+the entire sample period form the control group.
+Restricted Sample
+Restricting the sample to firms in the textile and apparel sector—the main benefi-
+ciaries of the QIZ agreement—I estimate the following event-study model:
+Yit=αi+ωt+CXX
+k=C0θkDk
+it+εit, (1)
+where Yitis the outcome of interest (e.g., exports to the U.S.), αiare firm fixed
+effects, ωtare year fixed effects, and Dk
+itare event-time dummies indicating kyears
+before or after firm ibegins importing from Israel. The omitted category is the
+year immediately prior to the treatment event. Standard errors are clustered at the
+firm-year level.
+This specification allows us to observe the dynamic effects of entering QIZ treat-
+ment over time. I show that exports to the U.S. increase significantly following
+entry, and that this effect persists in the long run. The event of importing from
+Israel acts as a strong and credible proxy for participation in the QIZ program,
+given the Israeli input requirement embedded in the agreement and the higher cost
+of sourcing inputs from Israel relative to other suppliers.
+Sectoral Comparison and Heterogeneity Analysis
+I then broaden the analysis to include firms from other manufacturing sectors to
+assess whether the observed effects are specific to textiles or indicative of wider
+patterns. Specifically, I compare textile firms that begin importing from Israel with
+firms in other sectors, while controlling for those that experience similar import-
+ing from Israel events. I exclude firms in the food and chemical sectors, as these
+industries also contain companies registered under the QIZ program.
+In this specification, I include sector-by-year fixed effects and interact the event-
+14
+
+===== PAGE 15 =====
+time dummies with a binary indicator for textile firms. I thus estimate:
+Yist=αi+ωt+λst+1Textile·CXX
+k=C0θkDk
+it+εist, (2)
+where λstare sector-by-year fixed effects and 1Textileequals one for firms in the
+textile and apparel sector. This setup captures how treated textile firms differ in
+their export dynamics compared to untreated firms in unrelated sectors.
+Standard errors are two way clustered at the firm level ane yeal to account for
+correlated shocks within firms through time. While this approach could introduce
+some attenuation due to unrelated sectoral shocks during the event window, it pro-
+vides a conservative test of whether the export gains following Israeli input sourcing
+are concentrated among QIZ-eligible firms.
+In another specification, i intereact the event dummies with all sectors of firms
+which show up in the list of registered firms. Hence, in this specification I look at
+the outcomes of textile, food, and chemical firms which experience an event relative
+to all other firms.
+4.3 Triple-Difference Design Using Industrial Census Data
+To assess how QIZs affected local firm outcomes through regional labor demand
+channels, i leverage the staggered geographic expansion of QIZs across Egypt and
+estimate a triple-difference (DDD) specification using firm-level census data from
+2012 and 2017. The 2013 expansion targeted several new governorates—most of
+them less developed—creating variation across sector, region, and time that I use
+for identification.
+I restrict the analysis to the textile and apparel sector, which was the primary
+target of the agreement, and estimate the following specification:
+Yigst=β1Textile s×TreatedGov g×Post t+γXigst+ωg+θt+ϕst+ψet+ϵigst(3)
+where Yigstis the outcome of interest (e.g., employment, wages) for firm i, in
+governorate g, sector s, and year t. The coefficient β1captures the differential
+change in the outcome for textile firms located in treated governorates after the
+QIZ expansion, relative to other firms.
+Xigstincludes firm-level controls such as age. Fixed effects include governorate
+15
+
+===== PAGE 16 =====
+(ωg), year ( θt), and sector by year ( ϕst) fixed effects to control for time-varying
+compositional shifts. Standard errors are clustered at the governorate level.
+Since only two census waves are available, I cannot conduct test for pre-trends.
+However, I implement a comprehensive balance check on pre-treatment observables
+(2012) to assess the similarity of treated and untreated firms across firm character-
+istics, input use, financial variables, and exposure to government programs. The
+results show no systematic differences, supporting the credibility of the identifying
+assumptions.
+4.4 Triple-Difference Design Using Labor Force Survey Data
+To examine how QIZ exposure differentially affects workers across genders, I use
+the annual Labor Force Surveys from 2006 to 2017, which are representative at the
+governorate level. I thus exploit the 2009 and 2013 expansions of QIZ areas and
+estimate the same triple-difference specification as in the firm-level analysis, now
+appliedtoindividuallabormarketoutcomessuchaswages, hoursworked, andsocial
+insurance status. The identification relies on parallel trends holding. I test for the
+existence of pretrends by estimating a dynamic version of (3) and looking at labor
+outcomes of treated vs untreated workers prior to QIZ expansions.
+5 Synthetic Control Method Results
+In this section, I present the baseline estimation results corresponding to the SCM
+empirical strategies outlined in Section 4. I begin by analyzing how the implemen-
+tation of QIZ agreements affected aggregate trade patterns in Egypt and Jordan
+using a synthetic control approach (Section 5.1). I then assess whether the change
+in exports could be explained by demand side effects alone. Examining textile and
+apparel exports in Jordan and Egypt to the US and their imports from Israel, I find
+a large increase in the amount after both implemented the QIZ agreements in 1998
+and 2004 respectively.
+5.1 SCM: Egypt
+Figure 3 compares Egyptian textile and apparel exports to the US, to its synthetic
+control. I observe a substantial increase in the value of textile and apparel exports
+from Egypt to the United States following the initial rollout of QIZs in late 2004.
+By 2011, exports had risen by approximately $ 1 billion. Interestingly, the increase
+16
+
+===== PAGE 17 =====
+0 500000 1000000 1500000Export Value (Thousand $) 
+1995 2000 2005 2010 2015 2020
+Year
+Egypt Synthetic ControlEgyptian Textile Exports to USFigure 3: Egyptian Textile and Apparel Exports to the US
+does not occur immediately relative to the synthetic control but exhibits a two-year
+lag, after which exports grow sharply. This delayed response can be explained by
+the expiration of the extension of the Multi-Fiber Agreement (MFA) in 2005, which
+previously imposed export quotas on each country (WTO, n.d.). Firms that were
+alreadyexportingtextilesandappareltotheUnitedStatesgraduallyshiftedtousing
+the QIZ agreement as an alternative mechanism after the removal of MFA quotas.
+In addition, the lag reflects the time required for find Israeli suppliers, complete
+bureacratic requirements, and find buyer from the United States to export.
+Figure 4 displays the total value of Egyptian imports from Israel alongside a
+synthetic control. We can see a sharp increase in imports after 2004, following the
+introduction of QIZs, relative to the synthetic counterpart. Similar to the export
+pattern, the rise in imports exhibits a two-year lag before accelerating, coinciding
+with the surge in Egyptian textile and apparel exports to the U.S. This reinforces
+theinterpretationthattheexportgrowthwasdrivenbytheQIZagreement. Attheir
+peak in 2012, imports from Israel reached approximately $ 100,000—an increase of
+about $ 85,000 from 2004. Notably, once imports surpass the synthetic control, they
+remain consistently higher. Given that Egyptian firms were required to source at
+least 10.5 %of inputs from Israel, the ratio of the increase in U.S. textile exports to
+the increase in imports from Israel is close to this mandated share, providing further
+evidence that these trade patterns were indeed a direct result of the QIZ agreement.
+17
+
+===== PAGE 18 =====
+0 50000 100000Import Value (Thousand $) 
+2000 2005 2010 2015 2020
+Year
+Egypt Synthetic ControlEgyptian Total Imports from IsraelFigure 4: Egyptian Textile and Apparel Imports from Israel
+Demand-Side vs. Supply-Side Forces Behind Egypt’s Export Boom
+To assess whether the observed surge in Egyptian apparel exports to the U.S. can be
+explained purely by tariff-induced demand shifts, I conduct a back-of-the-envelope
+calculation. The average tariff rate on textile and apparel products according to
+WITS (AHS weighted average, 2003) was 9.77%, hence the QIZ agreement elimi-
+nated tariffs of roughly 9.77%, reducing the relative price of Egyptian goods from
+1.0977to1.00. This corresponds to:
+∆ lnP= ln1.00
+1.0977
+≈ −0.0932.
+Using an estimate of the price elasticity of substitution for textile and apparel
+consumers of the U.S., σ= 6.7, from Broda and Weinstein (2006), the predicted
+import response of U.S. consumers is:
+∆ lnM=−σ·∆ lnP=−6.7×(−0.0932)≈0.625,
+which implies a multiplicative increase of:
+e0.625≈1.87.
+Thus, if tariff reductions were fully passed through to prices and no other forces
+were at play, U.S. consumerswoulddemand moreEgyptian textilegoods, andEgyp-
+tian apparel exports would be expected to increase by a factor of 1.87. Starting from
+18
+
+===== PAGE 19 =====
+a low point of $129 million in 2007, this predicts a post-treatment level of:
+ˆM≈1.87×129≈$242million .
+Inreality, exportsreachedabout$1,105millionattheirpeak, an 8.6-foldincrease
+relative to the 2007 low. This suggests that tariff-induced demand explains less than
+half of the actual growth. If I repeat the same exercise using the 2004 export level
+of $216 million as the baseline, the predicted level would be about $403 million,
+which still falls short of the observed value.
+The remaining gap likely reflects supply-side forces such as capacity expansion,
+learning effects, fixed cost effects, and agglomeration effects within QIZ regions.
+Diversion of exports from other countries to the U.S. is also a possible explanation.
+However, as we will see in the event studies, exports to other countries increase
+rather than decrease for treated firms, which points to a supply-side productivity
+effect rather than trade diversion.
+5.2 SCM Jordan
+Figures 5 (a) and 5 (b) present the same export and import dynamics as Figures
+3 and 4, but for Jordan. The pattern is similar. Exports to the U.S. increased
+by about $ 1.1 billion by 2006, eight years after the first QIZ was designated in
+1998 (Figure 5 (a)). The textile and apparel sector was very small before the QIZ
+agreement, which explains why the synthetic control remains flat and close to zero
+during the pre-treatment period. Figure 5(b) shows a corresponding rise in imports
+from Israel after 1998, peaking at approximately $ 200 million. However, these
+imports decline sharply once the U.S.–Jordan Free Trade Agreement (FTA) is fully
+implemented, eventually falling below the synthetic control by 2016. This pattern
+suggests that the FTA offered a more favorable economic arrangement for firms, as
+it eliminated the costly Israeli input requirement imposed by the QIZ framework.
+Once the FTA applied fully to the textile and apparel sector in 2010, firms switched
+to the more profitable option. This implies that the regional integration fostered
+by the QIZ agreement was not structural but rather a second-best solution that
+unraveled when a more profitable alternative became available.
+19
+
+===== PAGE 20 =====
+First QIZ
+US-Jordan FTA0 1000000 2000000Export Value (Thousand $)
+1995 2000 2005 2010 2015 2020
+Year
+Jordan Synthetic ControlJordan's Textile Exports to the USA(a) Jordan’s Textile Exports to the U.S.
+First QIZ
+US-Jordan FTA0 100000 200000Import Value (Thousand $)
+1995 2000 2005 2010 2015 2020
+Year
+Jordan Synthetic ControlJordan's Total Imports from Israel
+(b) Jordan’s Imports from Israel
+Figure 5: Jordan’s Trade Dynamics After QIZ Implementation
+20
+
+===== PAGE 21 =====
+6 Event Study Results
+Using Egyptian firm-level customs data, I estimate event study models as described
+in Section 4.2 to examine the dynamic effects of QIZ treatment on textile firm ex-
+ports. To assess the robustness of my findings, I conduct two placebo tests. I further
+investigate whether the observed effects are driven by an overall expansion of trade
+or by a reallocation of exports across destinations. Finally, I explore heterogeneity
+in the treatment effects by distinguishing between incumbent and new entrants, as
+well as between early- and later-treated firms.
+6.1 Textile Only Sample
+IbeginbyestimatingEquation(1), wherethedependentvariableisthevalueoffirm-
+level exports to the U.S. As described in Section 4.2, an event is defined as the year
+in which a firm starts importing from Israel after not importing in the previous year.
+To visualize the events, Figure 6 shows the number of textile firms that experienced
+an event in each year of our dataset. I observe a clear spike in the years following
+each QIZ expansion. Although the dataset only covers 2005 to 2016 and does not
+include the first expansion year of 2004, there is a noticeable increase in 2006, which
+reflects the impact of the 2004 and 2005 expansions. A similar pattern appears in
+2010 following the 2009 expansion, and again in 2015 after the 2013 expansion.
+Over time, the number of firms experiencing an event decreases, as earlier treated
+regions had more established textile and apparel firms, while later treated regions
+were generally less developed in terms of textile industry presence (Capmas, 2004)
+Figure 7 reports the results when restricting the sample to textile and apparel
+firms. I find no differential pre-trends between the treatment and control group, as
+pre-event coefficients are not statistically different from zero. On average, exports to
+the U.S increase by approximately $0.5 million per firm immediately after the event,
+although this short-term effect is not statistically significant at the 95 %confidence
+level. In the long run, however, the effect becomes both substantial and persistent:
+five years after the event, treated firms export about $2 million more to the U.S.
+than before, and this increase remains even after eight or more years. Although
+the results are positive even 8 years after the event, we can notice a decrease in the
+coefficient of later year relative to the first 5 years after the event. This relative
+decrease in the coefficients is probably driven by firm exits which are captured an
+export value of 0 in the data. Since trade data often contains a large number of
+zeros in firm-level exports, using OLS on export values as the dependent variable
+21
+
+===== PAGE 22 =====
+60
+2025
+2242
+22
+15
+11
+818
+12
+Year0 20 40 60Number of Firms
+2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016Distribution of Textile Firms Experiencing EventFigure 6: Distribution of Events for Textile Firms per Year
+-2-10123Effect on Exports to the US ($ Million)
+-5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 8
+Event Time (0 = Reference)Event Study: Textile Firms – Exports to the US
+Figure 7: Event Study showing the dynamic effects of QIZs on exports to the US
+for Textile and Apparel Firms (OLS)
+22
+
+===== PAGE 23 =====
+-1-.50.51Exports to the US
+-4 -3 -2 -1 0 1 2 3 4 5 6 7
+Event Time (0 = Reference)Event Study: Textile Firms – PPML Exports USFigure 8: Event Study: Effects of QIZ on exports to the US for Textile and Apparel
+Firms (PPML)
+can lead to biased estimates due to heteroskedasticity and the censoring problem
+(Santos Silva and Tenreyro, 2006). To address this issue, I estimate a Poisson
+pseudo-maximum likelihood (PPML) model, which accommodates zero trade flows
+and provides consistent estimates under heteroskedasticity. Figure 8 presents the
+results from estimating Equation (1) using the PPML estimator. A similar pattern
+emerges as in the OLS results: there are no pre-trends when observing 4 years prior
+to the event. Two years after the event, exports to the U.S. begin to rise, and the
+increase becomes economically and statistically significant in the medium and long
+run. By five years after the event , treated firms export substantially more to the
+U.S., corresponding to 100 %increase in exports, and this effect persists even seven
+years post-treatment. This implies that once a firm starts importing from Israel to
+satisfy the requirements of the QIZ agreement, it indeed increases its exports to the
+U.S on average. Figures A1 in Appendix A, shows similar results when taking the
+log of the value of Us exports + 1 as the dependent variable.
+Robustness
+To assess the robustness of our findings, I conduct two placebo tests. The first
+modifies the definition of the event by considering firms that begin importing from
+a neighboring country such as Sudan or Saudi Arabia after previously not importing
+from that country, instead of Israel. The second placebo test focuses on different
+23
+
+===== PAGE 24 =====
+-8.00e+07 -6.00e+07 -4.00e+07 -2.00e+07 0 2.00e+07Effect on Exports to the US
+<= -5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >= 8
+Event Time (0 = Reference)Placebo Sudan Event Study: Textile Firms – Exports to the USFigure 9: Event study estimates using Sudan as a placebo country.
+non treated sectors, e.g. the wood and furniture sector, and examines the export
+behavior of firms in this sector after they start importing from Israel. If these
+placebo exercises do not yield effects comparable to those observed in our baseline
+analysis, this would provide reassurance that the estimated impacts are driven by
+the QIZ agreement rather than by unrelated factors.
+Figure 9 presents the results for the first placebo test. In this exercise, I redefine
+the event as the year in which a firm begins importing from Sudan rather than
+from Israel and reestimate the model using OLS. The results show no evidence of
+differential pre-trends and, importantly, no significant effect of the placebo event on
+textile exports to the U.S. after treatment. This strengthens the interpretation that
+the event definition captures the causal impact of the QIZ agreement on the textile
+and apparel sector, rather than picking up unrelated changes in trade patterns.
+Figure A2 in Appendix A reports the results of a placebo exercise using Saudi
+Arabia as the alternative source country. The overall pattern is similar to that ob-
+served for Sudan. However, in this case, I detect some pre-trends and a short-run
+increase in exports following the placebo event. This likely reflects a correlation
+between growing U.S. exports and higher imports of energy-related products from
+Saudi Arabia during that period. Taken together, these results support the credi-
+bility of our baseline event-study design, indicating that the main estimates capture
+the causal effect of QIZ participation on the textile and apparel sector rather than
+spurious correlations.
+Moving to the next placebo test, I re-estimate the event-study model by restrict-
+ing the sample to firms in a placebo sector—specifically, the wood and furniture
+24
+
+===== PAGE 25 =====
+-150000 -100000 -50000 0 50000 100000Effect on Exports to the US
+<= -5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >= 8
+Event Time (0 = Reference)Event Study: Wood and Furniture Placebo FirmsFigure 10: Placebo Sector Event Study: Wood and Furniture (OLS)
+industry. Figure 10 reports the OLS estimates. Consistent with expectations, there
+are no significant pre-trends and no discernible post-event effects. I then repeat
+this exercise for every sector and plot the resulting average treatment effects in
+Figure A3 in Appendix A. Across all placebo sectors, I find no significant positive
+effects of first importing from Israel on subsequent exports to the United States.
+The only exceptions are textile and apparel firms and food manufacturing firms,
+which together account for more than 99% of all QIZ-registered firms.
+These results imply that the surge in exports to the United States is not driven
+by the quality of Israeli inputs, otherwise, similar export responses would appear
+in non-QIZ sectors as well. Instead, the effects are concentrated in precisely the
+sectors eligible for and registered under the QIZ scheme, indicating that access to
+the U.S. market through the QIZ agreement is the key mechanism. Overall, these
+placebo tests reinforce the credibility of the main findings: only QIZ-eligible sectors
+exhibit treatment effects, while unrelated sectors display no comparable patterns.
+6.2 All Firms Sample
+To assess whether QIZ-treated textile firms experience different export responses
+than other firms, I estimate Equation 2, which interacts the event variable with an
+indicator for textile firms. Figure 11 plots the corresponding interaction effects. The
+results indicate that importing from Israel generates substantially different impacts
+for textile firms in both the short and long run.
+Textile firms which are eligible for and actively use the QIZ agreement—exhibit
+25
+
+===== PAGE 26 =====
+-2000000-10000000100000020000003000000Difference in Effect (Textile vs. Non-Textile)
+-5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 8
+Event Time (0 = evt_11)Event Study: Textile × Event Time InteractionFigure 11: Event-study interaction between textile firms and QIZ treatment. OLS
+estimates using export values to the United States as the dependent variable.
+markedly larger increases in exports to the United States compared to all other ex-
+porting firms. In other words, access to the U.S. market through the QIZ framework
+appears to have enabled textile firms to significantly outperform non-textile firms
+along the export margin.
+6.3 Second Stage Effects: Other Outcome Variables
+In this section, I examine how the QIZ agreement affected additional outcomes for
+treated firms. The increase in exports to the United States can be viewed as a first-
+stage outcome, since expanding access to the U.S. market was the primary objective
+of the QIZ agreement. To explore potential second-stage effects, I focus on three
+additional variables that can be constructed from the trade dataset. First, I assess
+whether treated firms increased their exports to non-U.S. destinations following
+treatment. Second, I examine whether treatment led firms to expand the range
+of products they exported. Finally, I analyze whether treated firms increased the
+number of foreign destinations to which they exported.
+Non-U.S. Exports: Expansion or Reallocation?
+I examine whether the increase in exports for QIZ-treated firms is driven by a reallo-
+cation of exports from other countries to the U.S. To do this, I re-estimate equation
+26
+
+===== PAGE 27 =====
+-4000000-2000000020000004000000Exports to Non-US ($ Million)
+-5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 8
+Event Time (0 = Reference)Event Study: Textile Firms – Non US ExportsFigure 12: Event-study estimates of the dynamic effects of QIZs on exports to all
+non-U.S. destinations for textile and apparel firms. Coefficients are OLS estimates
+using export values as the dependent variable.
+(1) using total non-U.S. exports as the outcome. Figure 12 plots the dynamic ef-
+fects of a firm starting to import from Israel on total non-U.S. exports, relative to
+firms that do not import from Israel. As apparent in the figure, there is a strong
+and persistent positive effect of QIZ treatment on the value of non-U.S. exports
+exhibited by treated Egyptian firms, similar in magnitude to the effects estimated
+for U.S. exports. This pattern suggests that firms did not simply reallocate exports
+from non-U.S. destinations to the U.S. after treatment, since exports to both desti-
+nationsincrease. Byexporting undertheQIZ agreement, firms expandtheirexports
+to both the U.S. and non-U.S. markets, pointing to some underlying productivity
+gain such as a decrease in fixed costs, a learning by doing effect in export activities,
+better matching between suppliers and buyers, and/or economies of scale. Figure
+A4 in Appendix A, estimates the PPML version of this regression, and shows very
+similar results.
+Number of Destinations
+I next examine whether the QIZ agreement encouraged firms to increase the number
+of countries to which they export. Expanding the number of export destinations
+is often interpreted in the trade literature as a form of diversification and market
+upgrading. According to models of multi-destination exporting (Eaton, Kortum,
+27
+
+===== PAGE 28 =====
+-4-2024Number of Export Destinations
+-5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 8
+Event Time (0 = Reference)Event Study: Textile Firms – Number Export DestinationsFigure13: EventStudyshowingthedynamiceffectsofQIZsonthenumberofexport
+destinations for Textile and Apparel Firms. Coefficients report OLS estimates using
+the number of destination countries as the dependent variable.
+and Kramarz, 2011; Bernard et al., 2011), firms that face lower trade costs or
+improved access to buyer networks tend to enter new markets sequentially once
+initial fixed export costs are covered. Therefore, if the QIZ agreement reduced
+the costs of exporting or improved firms’ credibility and relationships with foreign
+buyers, I would expect treated firms to expand not only their sales to the U.S. but
+also the set of other countries they serve. Figure 13 shows that the QIZ agreement
+drives treated firms to increase their number of export destinations by 3 and this
+persists 5 years after the treatment. Panels (a) in Figure A5 of Appendix A reports
+the results taking the log(x+1) of the number of destinations as the dependent
+variable while panel b reports the coefficients from a ppml regression. Both panels
+show similar results.
+Number of Products
+I next examine whether the QIZ agreement affected the range of products exported
+by treated firms. An increase in the number of exported products reflects product
+diversification and expansion along the extensive margin. The trade literature links
+such diversification to reductions in both variable and fixed export costs (Bernard,
+Redding, and Schott, 2010; Mayer, Melitz, and Ottaviano, 2014). By eliminating
+U.S. tariffs on qualifying exports, the QIZ agreement directly lowered variable trade
+28
+
+===== PAGE 29 =====
+-202468Number of H6 Products Exported
+-5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 8
+Event Time (0 = Reference)Event Study: Textile Firms – Number H6 ProductsFigure 14: Event-study estimates of the dynamic effects of QIZs on the number
+of exported products for textile and apparel firms. Coefficients are OLS estimates
+using the number of exported HS product codes as the dependent variable.
+costs, making it more profitable for firms to export additional products. At the
+same time, participation in the QIZ network may have reduced fixed export costs
+by improving access to imported inputs, easing compliance with export standards,
+andfacilitatingrelationshipswithinternationalbuyers. Together, theseeffectscould
+have encouraged treated firms to broaden their product range following treatment.
+Figure 14 shows that treated firms increased the number of products they exported
+by roughly six products relative to the control group, but this effect gradually
+declined and disappeared eight years after treatment. This pattern implies that the
+QIZ agreement led to a temporary diversification in firms’ export portfolios, likely
+as firms took advantage of lower trade costs and new opportunities to experiment
+with additional product lines. Over time, however, firms appear to have refocused
+on their most profitable products, suggesting a process of rationalization consistent
+with models in which initial reductions in trade costs encourage product expansion,
+followed by specialization as competition intensifies and firms concentrate on their
+most profitable varieties.
+Panels (a) in Figure A6 of Appendix A reports the results taking the log(x+1)
+of the number of destinations as the dependent variable while panel b reports the
+coefficients from a ppml regression. Both panels exhibit similar results.
+29
+
+===== PAGE 30 =====
+6.4 Heterogeneous Effects
+In this section, I investigate the heterogeneous effects of QIZ treatment on firms.
+First, I examine whether the increase in trade is driven primarily by incumbent
+firms or new entrants. Second, I analyze how these effects differ across successive
+QIZ expansion waves. Finally, I investigate how these effects differ across firm size
+as measured by their exports prior to their treatment.
+Incumbents or New Entrants?
+Determining whether QIZs expand trade with the U.S. by boosting the exports
+of incumbent firms (intensive margin) or by inducing new firms to start exporting
+(extensive margin) is important because these channels have different implications.
+The first suggests that the observed increase in exports under the QIZ agreement
+results from a reduction in variable trade costs (Bernard et al., 2003; Melitz, 2003),
+whereas the second points to a reduction in fixed export costs, which the trade
+literature identifies as a key driver of export entry and productivity growth (Das et
+al., 2007; Eaton et al., 2008).
+I define new entrants as firms that do not export anything in 2005, the first year
+observed in our data. Conversely, incumbent firms are those that are observed in
+the dataset in 2005.
+Figure 15 reports the results comparing coefficients for the full sample of textile
+firms, incumbentsonly, andnewentrantsonly. Asshown, thepositiveeffectsofQIZs
+on textile firms are almost entirely explained by incumbent firms, whose exports
+increasesharplyaftertreatment. Whenrestrictingthesampleoffirmstoincumbents
+or new entrants, pre-trends are absent, indicating the our inference still holds. In
+general, these results suggest that the effects are primarily driven by incumbent
+firms. This indicates that QIZ treatment operates mainly through a reduction in
+variable trade costs, which enhances the performance of existing exporters but may
+have negative distributional consequences, rather than through a reduction in fixed
+exportingcoststhatwouldallownewfirmstoenterandcompete, potentiallydriving
+less productive firms out and increasing aggregate productivity in spirit of Melitz
+(2003).
+Effects Across Early vs Late QIZ Expansions
+In this subsection, I examine whether the increase in exports by treated firms varies
+bythewaveofexpansion. AsshowninFigure 3, QIZexpansionsoccurredalongtwo
+30
+
+===== PAGE 31 =====
+-4000000 -2000000 0 2000000 4000000 6000000Effect on Exports to the US ($)
+<= -5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >= 8
+Event Time (0 = Reference)
+All Firms Incumbent
+New EntrantEvent Study: The Effect of Incumbents vs New EntrantsFigure 15: Event-study estimates of the dynamic effects of QIZs on exports to
+the United States for all, incumbent, and new-entrant textile and apparel firms.
+Coefficients are OLS estimates using export values as the dependent variable.
+dimensions: geographically and over time. Since our customs data do not include
+firm location, I leverage the fact that expansions unfolded in a staggered manner
+across time. I classify firms in two groups: early-treated firms, which were treated
+in 2009 or earlier, and late-treated firms, which were treated after 2009. Firms
+treated earlier are likely to have been located in the regions designated as QIZs in
+2004 and 2005, which were the areas where the textile and apparel industry was
+concentrated prior to the QIZ agreement. In contrast, later-treated firms could also
+be located in regions designated as QIZs in 2009 and 2013, which are generally less
+developed (CAPMAS, 2017) and have lower levels of manufacturing activity and a
+smaller textile industry.
+Figure 16 reports the results comparing coefficients for three samples: the full
+setoftextilefirms, thesampleexcludinglate-treatedfirms, andthesampleexcluding
+early-treated firms. As shown, the positive effects of QIZs on textile firms are driven
+entirely by early-treated firms, with little impact observed for later-treated firms.
+This pattern likely reflects the fact that early-treated firms were concentrated in
+regions with pre-existing textile and apparel clusters, better infrastructure, and
+established supply chains, allowing them to take advantage of the QIZ agreement
+more effectively. Combined with our earlier finding that incumbent firms drove the
+31
+
+===== PAGE 32 =====
+-4000000 -2000000 0 2000000 4000000Effect on Exports to the US ($)
+<= -5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >= 8
+Event Time (0 = Reference)
+All Firms Early Treated(<=2009)
+New Entrant(>2009)Event Study: Early vs Late QIZSFigure 16: Event-study estimates of the dynamic effects of QIZs on exports to
+the United States for all, early-treated, and late-treated textile and apparel firms.
+Coefficients are OLS estimates using export values as the dependent variable.
+overall results, this suggests that the benefits of QIZ treatment accrued primarily to
+firms that were already established and located in historically strong manufacturing
+regions, rather than to new entrants or firms in less developed areas.
+Effects Across Firms by Size
+Finally, in this suubsection, I examine whether the increase in exports by treated
+firms varies by firm size, as measured by their average value of exports before their
+treatment. I classify firms in two groups based on the average value of exports
+that treated firms had before their treatment and that untreated firms had over
+the entire sample. Hence big firms are defined as firms whose value of exports pre-
+treatment was greater than this average, while small firms are those whose average
+pre-treatment exports were less than this average.
+Figure 17 reports the results comparing coefficients for three samples: the full
+set of textile firms, the sample excluding big-treated firms, and the sample excluding
+small-treated firms. As shown, the positive effects of QIZs on textile firms are driven
+by both big and smaller firms. However the relative increase in exports to the U.S
+after the event is much greater for smaller firms and persists for a longer time. This
+pattern likely reflects the fact that smaller treated firms exported very little prior to
+32
+
+===== PAGE 33 =====
+-4000000 -2000000 0 2000000 4000000Effect on Exports to the US ($)
+<= -5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >= 8
+Event Time (0 = Reference)
+All Firms Small Firms
+Big FirmsEvent Study: Big vs Small FirmsFigure 17: Event-study estimates of the dynamic effects of QIZs on exports to the
+United States for all, large, and small treated textile and apparel firms. Coefficients
+are OLS estimates using export values as the dependent variable.
+the QIZ agreement, whereas bigger firms were already exporting to the world and
+possibly to the U.S as well through the Multi-fiber quota agreement.
+Taken together, these results yield a coherent story. First, the QIZ effects are
+driven primarily by incumbent firms rather than by new entrants. Second, they
+are concentrated among early-treated firms—likely those embedded in pre-existing
+textile clusters with better infrastructure and buyer linkages. Third, when splitting
+by size, both small and large firms benefit: the treatment raises exports for each
+group. The magnitudes, however, differ in intuitive ways-relative gains are larger
+andmorepersistentforsmallerfirmswhichstartedfromlowerpre-QIZexportlevels,
+while absolute gains are naturally larger for big firms given their greater scale.
+Combined with our earlier event-study evidence, this pattern suggests that QIZs
+primarily operated through reductions in variable trade costs and coordination
+frictions for already-active exporters, with complementary advantages in regions
+that were designated early and already had textile capacity. Rather than inducing
+widespread de new entry, the agreement disproportionately amplified the perfor-
+mance of incumbent firms across the size distribution, while delivering especially
+large percentage increases for smaller incumbents.
+33
+
+===== PAGE 34 =====
+7 Firm-Level Analysis from Censuses
+In this section, I use two waves of the Egyptian Firm-Level Industrial Census (2012
+and 2017) to estimate equation (3) and examine the impact of a region’s desig-
+nation as a QIZ on textile firm outcomes, including employment and wages. The
+identification strategy leverages the 2013 QIZ expansion as the treatment, exclud-
+ing from the analysis all regions that had previously been designated as QIZs. This
+design allows me to compare textile firms located in newly designated QIZ regions
+with those in regions that were never designated. As discussed in the heterogeneity
+analysis, later-treated firms exhibited smaller export increases than earlier-treated
+firms; however, I still examine whether QIZ designation influenced textile firms at
+the regional level.
+7.1 Pre-Treatment Balance Test
+Since there is only one pre-treatment and one post-treatment observation, it is
+essential to verify that treatment and control observations were not statistically
+different in the pre-period. Otherwise, the DDD estimates could be biased and
+fail to capture the true effect of the treatment (Ortiz-Villavicencio and Sant’Anna,
+2025). To assess this, I compare average outcomes in the pre-treatment year (2012)
+for textile firms in treated regions with two groups: textile firms in non-treated
+regions and all other firms in both treated and non-treated regions.
+Figure 18 reports balance checks for differences in the following dimensions: firm
+characteristics (age, size, ownership), inputs (labor, materials, capital), finance (rev-
+enue, costs, assets), and tax and subsidy exposure. I find no statistically significant
+differences between treated and control firms in any of these dimensions, except
+for firm size, which is controlled for in the regressions. This supports the validity
+of the identification strategy by reducing concerns about systematic pre-treatment
+differences that could bias the estimated effects.
+7.2 Results
+I first examine the effect of QIZs on firm-level production outcomes. I find evidence
+that QIZ designation improved the performance of treated firms in regions added
+to the program in 2013. Specifically, the total revenue, production, and gross value
+added of these firms increased relative to controls. Figure 19 shows these results,
+with estimated log coefficients close to 1, implying an increase of more than 150 %in
+34
+
+===== PAGE 35 =====
+Firm Age
+Capital Invested
+Fixed Capital Formation
+Commodity Taxes & Duties
+Cash Wages
+Number of Workers
+Local Materials
+Electricity
+Interest Paid
+VAT Paid
+-.2 0 .2 .4
+Mean DifferenceBalance: Firm Characteristics & Costs
+Total Expenses
+Total Production
+Total Revenue
+Subsidies
+Fixed Assets
+Investment Expenditure
+-.2 0 .2 .4
+Mean DifferenceBalance: Output & Financial IndicatorsBalance Across Key Variables (Pre-Treatment Vars Demeaned and Standardized)Figure 18: Pre-Treatment Period (2012) Balance Test Results
+35
+
+===== PAGE 36 =====
+Total Revenue
+Total Production
+Gross Value Added
+Imported Production MaterialsDependent Variables
+0 2 4 6 8 10
+DDD Coefficient in LogsEffect on Firm Production 2012-2018Figure 19: Firm Production Outcomes: DDD Estimates. Confidence intervals are
+shown at the 90% level.
+these outcomes. Importantly, I also observe a substantial increase in the coefficient
+on imported production materials, which reinforces the validity of the empirical
+strategy: to qualify for QIZ benefits, firms must source a minimum share of inputs
+from Israel, making this an expected first stage channel of adjustment.
+I then examine the effect of QIZs on firm-level employment. I find that QIZ
+designation increased the number of textile workers by roughly 100 %, with most
+of this growth driven by male rather than female workers. When distinguishing
+between permanent and temporary employment, both categories show substantial
+increases. The gendered pattern of this effect is surprising, as globally the textile
+industry often absorbs female workers and serves as a key driver of structural change
+forwomen(HeathandMobarak, 2015). However, thisdoesnotappeartobethecase
+in Egypt, where male workers continue to dominate the textile industry, largely due
+to cultural and social norms (Bursztyn, González, and Yanagizawa-Drott, 2020;
+World Bank, 2023). Interestingly, both male and female unpaid workers decline
+followingQIZdesignation. Thismayreflectcompliancewithlaborrequirementstied
+36
+
+===== PAGE 37 =====
+Total Workers
+Male Workers
+Female Workers
+Male Unpaid
+Female Unpaid
+Permanent Workers
+Temporary WorkersDependent Variables
+-1 0 1 2
+DDD Coefficient in LogsEffect of QIZs on Textile Firms Employment 2012-2018Figure 20: Firm Employment Outcomes: DDD Estimates. Confidence intervals are
+shown at the 90% level.
+to QIZ participation, which likely incentivized firms to convert unpaid positions into
+temporary contracts. Overall, these findings suggest that while trade agreements
+such as the QIZ can boost employment, they may not produce the same gender-
+equalizing effects observed in other contexts.
+Finally, weexaminetheeffectofQIZtreatmentonwages. AsshowninFigure21,
+we find no statistically significant impact on wages—whether measured in cash or
+in-kind compensation. This absence of wage growth, despite substantial increases
+in employment, may reflect labor market conditions in which an abundant supply
+of low-skilled workers prevents upward wage pressure, or the nature of job creation
+under QIZs, which often relies on short-term or lower-quality contracts rather than
+higher-paid employment. It may also reflect the fact that this analysis uses only
+the most recent QIZ expansion, which earlier results suggest had relatively limited
+effects on exports to the United States. In the next section, when examining both
+the 2009 and 2013 expansions jointly, we observe stronger wage responses.
+Furthermore, these aggregate firm-level results may mask important gender-
+37
+
+===== PAGE 38 =====
+Total Wages
+Total Insurances and Benefits
+Total In Kind WagesWage Outcomes
+-2 -1 0 1 2
+DDD CoefficientWages per Worker
+Benefits per Worker
+Inkind per Worker
+-2 -1 0 1
+DDD Coefficient in LogsEffect of QIZs on Wages (2012–2018)Figure 21: Firm Wages Outcomes: DDD Estimates. Confidence Intervals are at the
+90%level
+specific patterns that this dataset cannot capture, motivating the use of labor force
+survey data in the following section.
+In Appendix A, we restrict the sample to manufacturing firms and repeat the
+analysis. The results are qualitatively similar, though estimated with less precision.
+8 Labor Force Surveys
+Inthissection, IusetheEgyptianLaborForceSurveysfrom2006to2017toexamine
+the effect of regions designated as QIZs on wages and social insurance coverage for
+workers in textile firms. I estimate equation (4) for this analysis. To validate the
+parallel trends assumption, I first present event study plots, and then I explore the
+aggregate results separately by gender.
+Results
+IbeginbyexaminingtheeffectofQIZdesignationonthelogwagesoftextileworkers.
+The analysis exploits the 2009 and 2013 QIZ expansions and excludes workers in
+previously treated regions, for which pre-treatment data are unavailable. Figure 22
+presents the corresponding event-study estimates. The pre-treatment coefficients
+are flat, supporting the parallel trends assumption. Although the post-treatment
+estimates are somewhat noisy, they indicate a positive and statistically significant
+increase in log wages following QIZ designation.
+Next, I examine heterogeneity by gender. As shown in Table 1, QIZ designation
+leads to a positive and statistically significant increase in male wages. The esti-
+38
+
+===== PAGE 39 =====
+-.4 -.2 0 .2 .4 .6Effect on Log Wages
+-7 -6 -5 -4 -3 -2 -1 0 1 2 3 4 5 6
+Event TimeEvent Study: Textile Firms – Log WagesFigure 22: Worker Log Labor Wages: Dynamic Effects from DDD Esti-
+mates.Confidence Intervals are at the 95 %level
+Table 1: Impact of QIZ Designation on Log Wages by Gender
+(1) (2) (3)
+Log Wages Log Wages: Males Log Wages: Females
+Textile ×Gov×Post 0.134** 0.120** 0.491
+(0.050) (0.057) (0.322)
+Observations 155,689 127,335 28,071
+Adjusted R20.528 0.532 0.564
+Standard errors in parentheses. Sample excludes food and chemical activities
+Weighted by pweight. Clustered standard errors at governorate level.
+*p <0.10, **p <0.05, *** p <0.01
+mated effect for female workers is large but imprecisely estimated and statistically
+insignificant, likely due to the small number of female textile workers in the data.
+This pattern is consistent with the firm-level evidence presented earlier, suggesting
+that male workers benefited more from QIZ participation than female workers.
+I then examine the effect of QIZ designation on workers’ social insurance status.
+Following the same approach as for wages, I first assess pre-trends and then estimate
+gender-specific effects. Figure 2 presents the event-study results. The pre-treatment
+coefficients show no detectable deviations from parallel trends, supporting the valid-
+ity of the DDD design. The dynamic estimates reveal little evidence of a statistically
+significant or persistent increase in overall social insurance coverage following QIZ
+39
+
+===== PAGE 40 =====
+-.4 -.2 0 .2Effect on Hours Worked
+-7 -6 -5 -4 -3 -2 -1 0 1 2 3 4 5 6
+Event Time (0 = evt_8)Event Study: Textile Firms – Social InsuranceFigure 23: Worker Social Insurance Status: Dynamic Effects from DDD Estimates
+designation. However, the gender-disaggregated estimates reveal a more nuanced
+pattern. As shown in Table 2, QIZ designation increases social insurance take-up
+among male workers in a statistically significant manner, whereas the correspond-
+ing effect for female workers is statistically insignificant. This result is consistent
+with earlier findings from both firm-level and worker-level analyses, and reinforces
+the interpretation that male workers benefited more from QIZ participation in the
+Egyptian context—particularly with respect to the formality of their employment.
+Table 2: Impact of QIZ Designation on Social Insurance Take-Up by Gender
+(1) (2) (3)
+Social Insurance SI: Males SI: Females
+Textile ×Gov×Post 0.069* 0.097** 0.131
+(0.039) (0.039) (0.078)
+Observations 394204 307710 86222
+Adjusted R20.997 0.995 0.999
+Standard errors in parentheses. Sample excludes food and chemical activities.
+Weighted by pweight. Standard errors clustered at governorate level.
+*p <0.10, **p <0.05, *** p <0.01
+9 Quantitative Model
+This section develops a quantitative heterogeneous-firm trade model tailored to
+the Qualifying Industrial Zones (QIZ) setting. The model serves two purposes.
+First, it provides a disciplined mapping from the estimated firm-level responses—
+40
+
+===== PAGE 41 =====
+export expansion, destination and product diversification, and evidence consistent
+with productivity gains—to structural mechanisms: endogenous export participa-
+tion, endogenous compliance with rules-of-origin (ROO) through costly Israeli input
+sourcing, and endogenous productivity upgrading induced by U.S. market access.
+Second, it allows aggregation of these micro responses into economy-wide outcomes,
+including equilibrium wages and employment reallocation across locations, domes-
+tic price indices, and welfare. The model is calibrated to match moments from the
+customs microdata and is used to quantify the welfare effects of QIZ and to evaluate
+counterfactual ROO stringency by varying the Israeli content requirement.
+9.1 Environment
+Egypt consists of two regions r∈ {Q, N}, where Qdenotes QIZ-eligible locations
+andNdenotes non-QIZ locations. Firms are region-fixed, while workers can move
+across regions. The economy produces differentiated varieties in multiple sectors
+indexed by s∈S(e.g., textiles/apparel, food). Firms sell domestically ( j=EG)
+and export to foreign destinations j∈ {US,RW}(rest of world).
+Egypt ismodeledas a smallopeneconomy relative tothe U.S.and the rest of the
+world. In foreign destinations, sectoral expenditures Ejsand sectoral price indices
+Pjsare taken as exogenous. Israel enters through the ROO constraint: compliant
+QIZ exporters must source a minimum share of intermediates from Israel, which
+raises their variable input costs. Israeli intermediate input prices are treated as
+exogenous, consistent with the assumption that Egypt is small relative to Israeli
+intermediate markets at the relevant scale.
+9.2 Preferences and demand
+Consumers in each destination jhave nested CES preferences over sectors and
+varieties within sectors. Upper-tier utility in jis
+Uj= X
+s∈Sβ1/η
+sUη−1
+η
+js!η
+η−1
+, (4)
+41
+
+===== PAGE 42 =====
+where βs>0are sector weights and η >0is the elasticity of substitution across
+sectors. Within each sector s,
+Ujs= Z
+ω∈Ωjsqjs(ω)σs−1
+σsdω!σs
+σs−1
+, (5)
+where σs>1is the within-sector elasticity of substitution and Ωjsis the set of
+varieties available in destination j.
+Standard CES demand implies that, in destination jand sector s, demand for
+a variety priced at pjs(ω)is
+qjs(ω) =pjs(ω)
+Pjs−σsEjs
+Pjs, (6)
+where Ejsis total expenditure on sector sin destination j, and Pjsis the sectoral
+CES price index:
+Pjs= Z
+ω∈Ωjspjs(ω)1−σsdω! 1
+1−σs
+. (7)
+Revenue from sales to jcan be written as
+Rjs(ω) =pjs(ω)qjs(ω) =Ejspjs(ω)
+Pjs1−σs
+. (8)
+For Egypt ( j=EG), expenditures and price indices are endogenous. Aggregate
+income in Egypt is
+YEG=wQLQ+wNLN+T, (9)
+where wrandLrare the wage and employment in region randTis a net transfer
+that closes the small-open economy (calibrated to match baseline external imbal-
+ance). Sector expenditures satisfy the standard CES allocation
+EEG,s=βsPEG,s
+PEG1−η
+YEG, (10)
+with aggregate price index
+PEG= X
+s∈SβsP1−η
+EG,s! 1
+1−η
+. (11)
+42
+
+===== PAGE 43 =====
+9.3 Firms: entry, technology, and marginal costs
+In each region rand sector s, a mass of potential entrants pays a sunk entry cost
+wrfE
+rsto draw productivity ϕfrom a Pareto distribution:
+Gs(ϕ) = 1−ϕmin,s
+ϕθs
+, ϕ ≥ϕmin,s, (12)
+with shape parameter θs> σ s−1.
+A firm with productivity ϕproduces output using labor land a composite in-
+termediate input m:
+y=ϕ lαsm1−αs, (13)
+where αs∈(0,1)is the labor share. Cost minimization yields the marginal cost of
+production:
+mcrs(ϕ;cm,s) =1
+ϕ·wαsrc1−αsm,s
+ααss(1−αs)1−αs, (14)
+where cm,sis the unit cost of the intermediate composite faced by the firm. The
+model distinguishes two sourcing regimes:
+Noncompliance(freesourcing). Noncompliantfirmssourceintermediatesfrom
+the rest of the world at unit cost
+cN
+m,s=pRW,s. (15)
+Compliance(ROOsourcing). CompliantfirmsmustsatisfyaminimumIsraeli-
+content requirement γs∈(0,1), implemented as a Cobb–Douglas input bundle:
+m= (mIL)γs(mRW)1−γs. (16)
+The corresponding unit cost index is
+cC
+m,s(γs) =pγs
+IL,sp1−γs
+RW,s
+γγss(1−γs)1−γs, (17)
+and complying also requires paying a fixed compliance cost wQfC
+s.
+43
+
+===== PAGE 44 =====
+9.4 Trade costs, tariffs, pricing, and export revenues
+Shippingfromregion rtodestination jinsector sincursicebergtradecosts drjs≥1.
+In addition, exporting to the U.S. is subject to an MFN tariff tMFN
+sunless the firm
+complies with QIZ. Let the total delivered wedge be
+τrjs=drjs×
+
+1 +tMFN
+s, j=US and noncomplier ,
+1, j =US and complier ,
+1, j ∈ {EG,RW}.(18)
+Delivered marginal cost is fmcrjs(ϕ) =τrjsmcrs(ϕ;cm,s).
+Firms compete under monopolistic competition and take EjsandPjsas given.
+Profit maximization under CES demand implies constant markup pricing:
+prjs(ϕ) =µsfmcrjs(ϕ), µ s=σs
+σs−1. (19)
+Substituting (19) into (8), export revenue to destination jis
+Rrjs(ϕ) =Ejsµsfmcrjs(ϕ)
+Pjs1−σs
+, (20)
+which is strictly increasing in productivity ϕ.
+9.5 Export participation, selection, and cutoffs
+Serving destination jrequires paying a fixed cost wrfrjs. Given pricing above, vari-
+able profits from selling to jsatisfy πvar
+rjs(ϕ) =Rrjs(ϕ)/σs. Exporting is profitable
+iff1
+σsRrjs(ϕ)≥wrfrjs. (21)
+Thisdefinesauniqueproductivitycutoff ϕ∗
+rjssuchthatfirmsexportto jiffϕ≥ϕ∗
+rjs.
+The model therefore generates intensive-margin responses (higher exports among
+incumbents) and extensive-margin responses (changes in the set of exporters) as
+trade costs and tariffs change.
+9.6 Endogenous ROO compliance (QIZ eligibility)
+Only firms in region Qare eligible to comply and receive tariff-free U.S. access. A
+QIZ firm chooses compliance if the gain in operating profits from avoiding the MFN
+44
+
+===== PAGE 45 =====
+tariff exceeds the increase in intermediate costs and the compliance fixed cost. Let
+ΠN
+Qs(ϕ)denote maximized operating profits under noncompliance and ΠC
+Qs(ϕ;γs)
+denote profits under compliance when the content requirement is γs. The firm
+complies iff
+ΠC
+Qs(ϕ;γs)−wQfC
+s≥ΠN
+Qs(ϕ). (22)
+Because compliance raises variable costs through cC
+m,s(γs)but lowers the U.S. de-
+livered wedge by removing tMFN
+s, compliance is more attractive when MFN tariffs
+are high and when the firm is sufficiently productive. This generates sector-specific
+and firm-specific take-up consistent with the empirical concentration of QIZ use in
+textiles/apparel.
+9.7 Productivity upgrading and export spillovers
+The model allows exporting (in particular, U.S. market access) to induce productiv-
+ity upgrading. Upgrading scales productivity by δs>1at fixed cost wrfU
+s, so that
+ϕ′=δsϕ. Let Πrs(ϕ)denote maximized operating profits (net of export fixed costs
+and, if applicable, compliance fixed costs) at productivity ϕ. The firm upgrades iff
+Πrs(δsϕ)−Πrs(ϕ)≥wrfU
+s. (23)
+Upgrading lowers marginal costs for alldestinations, and therefore increases exports
+not only to the U.S. but also to non-U.S. destinations. Under CES and constant
+markups, holding destination-level shifters fixed, revenues scale with productivity
+asR∝ϕσs−1. Thus, for an incumbent exporter,
+R′
+rjs
+Rrjs=δσs−1
+s. (24)
+This mapping motivates the empirical use of export growth to non-U.S. destinations
+as a disciplined moment to identify upgrading, since it is not mechanically driven
+by the U.S. tariff preference.
+45
+
+===== PAGE 46 =====
+9.8 Labor mobility and within-Egypt general equilibrium
+Total labor supply is L. Workers choose region based on real wages. A parsimonious
+logit mobility structure implies regional labor shares
+λr=(wr/PEG)κ
+P
+r′∈{Q,N}(wr′/PEG)κ, L r=λrL, (25)
+where κ >0governs the responsiveness of migration to real wage differences. Re-
+gional labor-market clearing requires that labor supply equals labor demand from
+variable production and fixed costs (entry, exporting, compliance, upgrading), ag-
+gregated over firms:
+Lr=X
+s∈SMrsZ
+lrs(ϕ)dGs(ϕ) +Lfix
+r. (26)
+Domesticpriceindices PEG,saredeterminedbythesetof varietiesavailable inEgypt
+and their prices.
+9.9 Equilibrium
+An equilibrium is a set of wages {wr}, labor allocations {Lr}, masses of entrants
+{Mrs}, export cutoffs {ϕ∗
+rjs}, compliance and upgrading decisions, and domestic
+price indices such that: (i) households optimize given prices and income, (ii) firms
+optimize input use, pricing, exporting, compliance, and upgrading, (iii) free entry
+holds in each (r, s), (iv) labor mobility (25) holds, (v) regional labor markets clear
+(26), and (vi) domestic price indices are consistent with CES aggregation. Foreign
+sectoral shifters (Ejs, Pjs)forj∈ {US,RW}and intermediate prices (pIL,s, pRW,s)
+are taken as given.
+9.10 Whatthemodelwillbeusedfor: aggregatewelfareand
+counterfactuals
+The reduced-form evidence establishes large and persistent firm- and worker-level
+responses to QIZ exposure. The model is used to translate these micro responses
+into aggregate implications and to evaluate alternative policy designs that are not
+directly identified from the rollout.
+46
+
+===== PAGE 47 =====
+(i) Welfare effects of QIZ. I compute the welfare effect of QIZ by comparing
+the equilibrium under the observed policy environment to a counterfactual without
+preferential access. In the baseline equilibrium, QIZ-eligible firms may comply with
+ROO and thereby obtain tariff-free U.S. access. In the counterfactual, QIZ prefer-
+ences are removed (equivalently, all firms exporting to the U.S. face MFN tariffs),
+while all other parameters and foreign shifters are held fixed. Welfare in Egypt is
+measured as real income,
+W≡YEG
+PEG, (27)
+andIalsoreportdistributionaloutcomesacrossregions,includingrealwages wr/PEG
+and employment shares Lr/L. This exercise quantifies how much of the policy’s ag-
+gregate impact reflects (a) selection into exporting, (b) endogenous compliance costs
+through higher intermediate input prices, (c) induced upgrading, and (d) equilib-
+rium wage and reallocation effects within Egypt.
+(ii) Counterfactual ROO stringency: varying the Israeli content require-
+ment. A central design parameter of QIZ is the Israeli content requirement γs. To
+evaluate the trade-off between conditionality and gains from market access, I solve
+the model repeatedly for a sequence of counterfactual requirements γs∈[0,¯γs],
+where ¯γsis the baseline requirement in the agreement. Setting γs= 0corresponds
+to removing the sourcing constraint while preserving preferential access, and in-
+creasing γsraises the variable cost of compliance through (17). For each value of γs,
+the model delivers predictions for compliance rates, the composition of exporters,
+exports to the U.S. and to non-U.S. destinations, Israeli intermediate imports, re-
+gional wages and employment, and welfare. Plotting W(γs)traces a policy frontier:
+how the aggregate gains from preferential access depend on the degree of mandated
+integration with Israeli supply chains.
+(iii) Additional counterfactuals and decomposition. The framework also
+supports decompositions that isolate mechanisms. For example, holding upgrad-
+ing fixed (setting δs= 1or setting upgrading costs prohibitively high) isolates pure
+market-accessandselectioneffects; holdingcompliancecostsfixedisolatestheroleof
+ROO-induced variable costs; and turning off labor mobility isolates the importance
+of within-Egypt reallocation. These exercises clarify which margins are quantita-
+tively most important for aggregate welfare and which margins drive the observed
+heterogeneity across firms and regions.
+47
+
+===== PAGE 48 =====
+Calibration overview. The model parameters are calibrated to match moments
+from the data. Sector elasticities and tariffs are taken from external sources, while
+the Pareto shape, fixed costs, compliance costs, and upgrading parameters are dis-
+ciplined by micro moments including exporter shares, export premia, changes in
+destination scope, changes in Israeli intermediate sourcing, and the magnitude of
+export spillovers to non-U.S. destinations.
+10 Discussion
+The experience of Egypt’s QIZ program offers important lessons for designing trade
+agreements in geopolitically sensitive contexts. First, agreements that include polit-
+ically motivated sourcing requirements, such as mandatory imports from a specific
+partner country, may help achieve short-term diplomatic goals but if not designed
+carefully, fail to generate lasting regional economic integration. The case of Jordan
+illustrates this. Once the broader United States–Jordan free trade agreement came
+into force, firms quickly stopped importing from Israel. This pattern highlights that
+such requirements do not shift underlying political or cultural attitudes but are
+directly tied to their economic benefits.
+In the case of Egypt and Jordan, the failure to produce deeper regional coop-
+eration cannot be separated from the unresolved nature of the Palestinian cause.
+Trade incentives alone cannot overcome this unresolved conflict and the deep cul-
+tural scars it leaves within the people of Jordan and Egypt. Policymakers in Europe
+considering similar approaches in regions with longstanding conflicts should recog-
+nize that integration cannot be achieved through trade provisions alone. Instead,
+success requires directly confronting structural political barriers.
+Second, the sequencing and geographic targeting of trade programs influence
+how their benefits are distributed. My results show that the positive effects of QIZs
+on exports were concentrated among firms located in early-designated regions and
+among incumbent firms, while later expansions generated weaker impacts. Both
+large and small firms increased their exports, but smaller incumbents exhibited
+larger relative gains, suggesting that the program primarily benefited firms already
+integrated into global value chains. In addition to higher exports to the United
+States, treated firms expanded sales to non-U.S. destinations and showed short-
+term productivity improvements. Firms also temporarily increased the number of
+products and destinations they served before refocusing on their core lines, indicat-
+ing an initial diversification followed by specialization as competition intensified.
+48
+
+===== PAGE 49 =====
+At the firm level, QIZ designation increased revenues, production, and value
+added, but its effects on workers were uneven. Employment rose substantially,
+especially for male workers, and this expansion was accompanied by wage gains.
+By contrast, average firm-level wages showed no strong response, which reflects the
+concentration of new job creation in lower-paid or newly hired workers.
+These patterns highlight an important trade-off in the design of geographically
+targeted trade policies. Prioritizing already strong industrial clusters can maximize
+initial export growth, but it may also deepen existing regional and social inequalities
+if benefits concentrate in more advanced areas and among specific worker groups.
+Incorporating less developed regions earlier in the process can encourage firms to
+invest in new locations, generating broader economic spillovers and promoting more
+inclusive development. Complementary place-based policies, such as infrastructure
+improvements, the creation of industrial zones, and targeted workforce training,
+are essential to ensure that trade liberalization supports balanced regional growth
+rather than reinforcing existing disparities (Kline and Moretti, 2014).
+Finally, trade agreements must be designed with gender sensitivity in mind. The
+empirical analyses indicate that while QIZ participation increased male employment
+and social insurance coverage, female workers did not experience comparable gains.
+In contexts where social norms limit women’s participation in the labor market,
+expanding trade alone might not lead to inclusive employment growth.
+11 Conclusion
+This paper examined the effects of Egypt’s QIZ agreement on production, exports,
+and employment. The results demonstrate that the program generated substantial
+productivity-related gains, particularly among incumbent and early-treated textile
+and apparel firms located in established industrial clusters. These firms expanded
+their export volumes, diversified across products and destinations, and increased
+output, value added, and overall firm size. The pattern of effects is consistent
+with learning-by-exporting, incumbency advantages, and scale-related productivity
+improvements. Later-treated firms also benefited, although to a lesser degree. On
+the labor side, the program led to sizable employment growth, especially among
+men, reflecting pre-existing gender patterns in Egypt’s manufacturing sector.
+Despite these positive impacts, the broader distribution of gains was uneven
+across firms, regions, and workers. The evidence shows that QIZ-driven integration
+was concentrated within strong industrial clusters and did not generate deeper or
+49
+
+===== PAGE 50 =====
+more persistent forms of regional integration. This is consistent with international
+experience, where sourcing requirements tend to affect firms’ short-run input choices
+without altering long-term economic linkages. Taken together, the findings suggest
+that trade agreements with conditional input-sourcing rules can successfully stim-
+ulate export growth and productivity improvements in targeted sectors, but their
+broader developmental impact depends critically on timing, geographic targeting,
+and complementary policies that support more inclusive and sustained industrial
+expansion.
+Animportantnextstepistotranslatethesefirm-andworker-leveleffectsintoag-
+gregate and welfare implications. I therefore develop a quantitative heterogeneous-
+firm trade model with endogenous QIZ compliance, rules-of-origin costs, and pro-
+ductivity upgrading, disciplined by the micro evidence in this paper. The model
+will be used to quantify the economy-wide welfare effects of the program and to
+evaluate counterfactual designs that vary the Israeli content requirement, thereby
+characterizing the trade-off between conditionality and gains from market access.
+50
+
+===== PAGE 51 =====
+References
+[Abagna et al.(2025)] Abagna, M. A., Hornok, C., & Mulyukova, A. (2025).
+Place-based policies and household wealth in Africa. Journal of Development
+Economics, 176 , Article 103482. https://doi.org/10.1016/j.jdeveco.2025.103482
+[Amiti & Konings(2007)] Amiti, M., & Konings, J. (2007). Trade liberalization, in-
+termediate inputs, and productivity: Evidence from Indonesia. American Eco-
+nomic Review, 97 (5), 1611–1638. https://doi.org/10.1257/aer.97.5.1611
+[Barteska and Lee(2024)] Barteska, P., & Lee, J. E. (2024). Personnel is policy (im-
+plementation): Bureaucrats and the Korean export miracle. Working Paper, Not-
+tingham Interdisciplinary Centre for Economic and Political Research (NICEP
+WP 2024-11).
+[Bernard et al.(2003)] Bernard, A. B., Eaton, J., Jensen, J. B., & Kortum, S.
+(2003). Plants and productivity in international trade. American Economic Re-
+view, 93(4), 1268–1290.
+[Bernard, Redding, and Schott(2010)] Bernard, A. B., Redding, S. J., and Schott,
+P. K. (2010). Multiple-product firms and product switching. American Economic
+Review, 100(1), 70–97.
+[CAPMAS(2017)] CAPMAS. (n.d.). Final results of eco-
+nomic census by governorates (2017–2018). Retrieved from
+https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/405
+[Bernard, Jensen, Redding, and Schott(2011)] Bernard, A. B., Jensen, J. B., Red-
+ding, S. J., and Schott, P. K. (2011). The empirics of firm heterogeneity and
+international trade. Annual Review of Economics , 3(1), 283–313.
+[Bianchi & Giorcelli(2023)] Bianchi, N., & Giorcelli, M. (2023). Reconstruction
+aid, public infrastructure, and economic development: The case of the
+Marshall Plan in Italy. The Journal of Economic History, 83 (2), 469–509.
+https://doi.org/10.1017/S0022050723000205
+[Bursztyn et al.(2020)] Bursztyn, L., González, A. L., & Yanagizawa-Drott,
+D. (2020). Misperceived Social Norms: Women Working Outside the
+Home in Saudi Arabia. American Economic Review, 110 (10), 2997–3029.
+https://doi.org/10.1257/aer.20180975
+51
+
+===== PAGE 52 =====
+[Bustos(2011)] Bustos, P. (2011). Trade liberalization, exports, and technology up-
+grading: Evidence on the impact of MERCOSUR on Argentinian firms. American
+Economic Review, 101 (1), 304–340. https://doi.org/10.1257/aer.101.1.304
+[Das et al.(2007)] Das, S., Roberts, M. J., & Tybout, J. R. (2007). Market En-
+try Costs, Producer Heterogeneity, and Export Dynamics. Econometrica, 75 (3),
+837–873.
+[Eaton et al.(2008)] Eaton, J., Eslava, M., Kugler, M., & Tybout, J. (2008). The
+Margins of Entry into Export Markets: Evidence from Colombia. In Helpman,
+Melitz, and Rubinstein (Eds.), NBER Chapters .
+[Eaton, Kortum, and Kramarz(2011)] Eaton, J., Kortum, S., and Kramarz, F.
+(2011). An anatomy of international trade: Evidence from French firms. Econo-
+metrica, 79(5), 1453–1498.
+[Egger et al.(2024)] Egger, P., Nigai, S., & Shingal, A. (2024). Gravity with
+history: Incumbency effects in international trade and lasting implications.
+Journal of the European Economic Association . Advance online publication.
+https://doi.org/10.1093/jeea/jvae052
+[Erten et al.(2019)] Erten, B., Leight, J., & Tregenna, F. (2019). Trade liberaliza-
+tion and local labor market adjustment in South Africa. Journal of International
+Economics, 118 , 448–467. https://doi.org/10.1016/j.jinteco.2019.01.001
+[Feenstra et al.(2018)] Feenstra, R. C., Luck, P., Obstfeld, M., & Weinstein, D. E.
+(2018). In search of the Armington elasticity. Review of Economics and Statistics,
+100(1), 135–150. https://doi.org/10.1162/REST a00696
+[Fiorini et al.(2021)] Fiorini, M., Sanfilippo, M., & Sundaram, A. (2021). Trade lib-
+eralization, roads and firm productivity. Journal of Development Economics, 153 ,
+102712. https://doi.org/10.1016/j.jdeveco.2021.102712
+[Gallé et al.(2024)] Gallé, J., Overbeck, D., Riedel, N., & Seidel, T. (2024).
+Place-based policies, structural change and female labor: Evidence from In-
+dia’s Special Economic Zones. Journal of Public Economics, 240 , 105259.
+https://doi.org/10.1016/j.jpubeco.2024.105259 Khalidi, R. (2020). The hundred
+years’ war on Palestine: A history of settler colonialism and resistance, 1917–2017.
+Metropolitan Books.
+52
+
+===== PAGE 53 =====
+[Heath & Mobarak(2015)] Heath, R., & Mobarak, A. M. (2015). Manufacturing
+growth and the lives of Bangladeshi women. Journal of Development Economics,
+115, 1–15. https://doi.org/10.1016/j.jdeveco.2015.01.006
+[Khalidi(2020)] Khalidi, R. (2020). The hundred years’ war on Palestine: A history
+of settler colonialism and resistance, 1917–2017 . Metropolitan Books.
+[Kline & Moretti(2014a)] Kline, P., & Moretti, E. (2014a). Local economic devel-
+opment, agglomeration economies, and the big push: 100 years of evidence from
+the Tennessee Valley Authority. Quarterly Journal of Economics, 129 (1), 275–331.
+https://doi.org/10.1093/qje/qjt034
+[Krafft(2025)] Krafft, C. (2025). Testing for employment discrimination by sex and
+maritalstatus: EvidencefromEgyptusingacorrespondencestudy. Journal of Labor
+Economics .
+[Lane, (2025).] Lane, N. (2025). Manufacturing revolutions: Industrial policy and
+industrialization in South Korea. The Quarterly Journal of Economics, 140(3),
+1683–1741. https://doi.org/10.1093/qje/qjaf025
+[Lashkaripour(2022)] Lashkaripour, A. (2022). Trade elasticities and the
+gains from trade. Journal of International Economics, 137 , 103602.
+https://doi.org/10.1016/j.jinteco.2022.103602
+[Lu et al.(2019)] Lu, Y., Wang, J., & Zhu, L. (2019). Place-based policies, cre-
+ation, and agglomeration economies: Evidence from China’s economic zone
+program. American Economic Journal: Economic Policy, 11 (3), 325–360.
+https://doi.org/10.1257/pol.20170474
+[Manelici and Pantea(2021)] Manelici, I., & Pantea, S. (2021). Industrial policy at
+work: Evidence from Romania’s income tax break for workers in IT. European
+Economic Review , 133, 103674.
+[Mayer, Melitz, and Ottaviano(2014)] Mayer, T., Melitz, M. J., and Ottaviano, G. I.
+P. (2014). Market size, competition, and the product mix of exporters. American
+Economic Review , 104(2), 495–536.
+[Melitz(2003)] Melitz, M. J. (2003). The impact of trade on intra-industry realloca-
+tions and aggregate industry productivity. Econometrica, 71 (6), 1695–1725.
+53
+
+===== PAGE 54 =====
+[Neumark & Simpson(2015)] Neumark, D., & Simpson, H. (2015). Place-based poli-
+cies. In G. Duranton, J. V. Henderson, & W. C. Strange (Eds.), Hand-
+book of Regional and Urban Economics (Vol. 5, pp. 1197–1287). Elsevier.
+https://doi.org/10.1016/B978-0-444-59531-7.00018-1
+[Ortiz-Villavicencio & Sant’Anna(2025)] Ortiz-Villavicencio, M., & Sant’Anna, P. H.
+C. (2025). *Better understanding triple differences estimators* [Preprint]. arXiv.
+https://doi.org/10.48550/arXiv.2505.09942
+[Pelzman(2011)] Pelzman, J. (2011). Israel — Middle East North Africa (MENA)
+trade: Is there truth to the NEG theory as applied to the Israel-Jordan QIZs?
+(IIEP Working Paper No. 2011-25). George Washington University, Institute for
+International Economic Policy.
+[QIZEgypt(n.d.)] QIZ Egypt. (n.d.). Protocol. Retrieved from
+http://www.qizegypt.gov.eg/Page/Protocol
+[Raya(2006)] Raya. (2006, August 6). [Al-Azhar calls for confiscation of a book
+banning the QIZ agreement]. Retrieved from https://www.raya.com/2006/08/06/
+[Roche Rodriguez et al.(2023)] Roche Rodriguez, J. A., Robertson, R.,
+Lopez-Acevedo, G., & Zárate, D. R. (2023). Trade liberalization and local
+labor markets in Morocco (IZA Discussion Paper No. 16213). Institute of Labor
+Economics (IZA).
+[Saif(2006)] Saif, I. (2006). The socio-economic implications of the qualified industrial
+zonesinJordan.CenterforStrategicStudies, UniversityofJordan/JordanStrategy
+Forum.
+[Siegloch et al.(2025)] Siegloch, S., Wehrhöfer, N., & Etzel, T. (2025). Spillover, effi-
+ciency, and equity effects of regional firm subsidies. American Economic Journal:
+Economic Policy, 17 (1), 144–180. https://doi.org/10.1257/pol.20220296
+[Sytsma(2022)] Sytsma, T. (2022). Improving preferential market access through rules
+of origin: Firm-level evidence from Bangladesh. American Economic Journal: Eco-
+nomic Policy , 14(1), 440–472.
+[Tafese et al.(2025)] Tafese, T., Lay, J., & Tran, V. (2025). From fields to fac-
+tories: Special economic zones, foreign direct investment, and labour mar-
+kets in Vietnam. Journal of Development Economics, 174 , Article 103467.
+https://doi.org/10.1016/j.jdeveco.2025.103467
+54
+
+===== PAGE 55 =====
+[Wang(2013)] Wang, J. (2013). The economic impact of Special Economic Zones:
+Evidence from Chinese municipalities. Journal of Development Economics, 101 ,
+133–147. https://doi.org/10.1016/j.jdeveco.2012.12.001
+[World Bank(2023)] World Bank. (2023). Social norms and female labor force partic-
+ipation in Egypt and beyond (P179686 Insights Report).
+[WTO(n.d.)] World Trade Organization. (n.d.). Agreement on Textiles and Clothing.
+Retrieved from https://www.wto.org/english/docs e/legal e/16−texe.htm
+[Yadav(2007)] Yadav, V. (2007). The political economy of the Egyptian-Israeli QIZ
+agreement. The Middle East Review of International Affairs (MERIA), 11 (1).
+55
+
+===== PAGE 56 =====
+Appendix
+A Figures
+-5 0 5 10Effect on Log Exports to the US
+-5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >=8
+Event Time (0 = Reference)Event Study: Textile Firms Only
+Figure A1: Event Study showing the dynamic effects of QIZs on the log(USExports
++1) for Textile and Apparel Firms
+56
+
+===== PAGE 57 =====
+-6000000 -4000000 -2000000 0 2000000 4000000Effect on Exports to the US
+<= -5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >= 8
+Event Time (0 = Reference)Placebo Saudi Event Study: Textile Firms – Exports to the US(a) OLS
+-6 -4 -2 0 2Effect on Exports to the US
+<= -5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >= 8
+Event Time (0 = Reference)Placebo Saudi Event Study: Textile Firms – Exports to the US
+(b) PPML
+Figure A2: Event study estimates using Saudi Arabia as a placebo country. Panel
+(a) reports OLS estimates using export values as the dependent variable, while
+Panel (b) reports PPML estimates of the same specification. The placebo test
+checks whether similar patterns would appear in a country not affected by QIZ
+treatment."
+57
+
+===== PAGE 58 =====
+-6-4-202Coefficient on treat ($ millions)
+0 10 20 30 40
+2-digit ISIC SectorFood & Beverages (ISIC 15)
+Textile & Apparel (ISIC 17–18)Sector-Level Placebo EstimatesFigure A3: Figure showing the average treatment effects of QIZs on exports for each
+sectors. Coefficients reports OLS estimates using export values as the dependent
+variable.
+58
+
+===== PAGE 59 =====
+-.5 0 .5 1 1.5Effect on Non-US Exports
+-5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >=8
+Event Time (0 = Reference)PPML Event Study: Textile Firms OnlyFigure A4: Event Study showing the dynamic effects of QIZs on exports to all
+Non-US destinations for Textile and Apparel Firms. Coefficients reports PPML
+estimates using export values as the dependent variable.
+59
+
+===== PAGE 60 =====
+-.5 0 .5 1Effect on Log Number of Export Destinations
+-5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >=8
+Event Time (0 = Reference)Event Study: Textile Firms Only(a) OLS with log(numdestinations +1)
+-1 -.5 0 .5 1Effect on Number of Export Destinations
+-5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >=8
+Event Time (0 = Reference)PPML Event Study: Textile Firms Only
+(b) PPML
+Figure A5: Event study estimates with number of export destination countries as
+the dependent variable. Panel (a) reports OLS estimates using the log(x+1) of the
+number of export destinations as the dependent variable, while Panel (b) reports
+PPML estimates of the same specification.
+60
+
+===== PAGE 61 =====
+-.5 0 .5 1Effect on Log Number of Export Destinations
+-5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >=8
+Event Time (0 = Reference)Event Study: Textile Firms Only(a) OLS with log(numproducts +1)
+-1 -.5 0 .5 1Effect on Number of Export Destinations
+-5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 >=8
+Event Time (0 = Reference)PPML Event Study: Textile Firms Only
+(b) PPML
+Figure A6: Event study estimates with number of products exported as the depen-
+dent variable. Panel (a) reports OLS estimates using the log(x+1) of the number
+of products exported as the dependent variable, while Panel (b) reports PPML es-
+timates of the same specification.
+61
+
+===== PAGE 62 =====
+Total Revenue
+Total Production
+Gross Value Added
+Imported Production MaterialsDependent Variables
+0 2 4 6 8 10
+DDD Coefficient in LogsEffect on Firm Production 2012-2018Figure A7: Firm Production Outcomes: DDD Estimates. Sample is restricted to
+manufacturing firms only. Confidence Intervals are at the 90 %level
+Total Workers
+Male Workers
+Female Workers
+Male Unpaid
+Female Unpaid
+Permanent Workers
+Temporary WorkersDependent Variables
+-1 0 1 2 3 4
+DDD Coefficient in LogsEffect of QIZs on Textile Firms Employment 2012-2018
+Figure A8: Firm Employment Outcomes: DDD Estimates. Sample is restricted to
+manufacturing firms only.Confidence Intervals are at the 90 %level
+62
+
+===== PAGE 63 =====
+Total Wages
+Total Insurances and Benefits
+Total In Kind WagesWage Outcomes
+-2 -1 0 1 2
+DDD CoefficientWages per Worker
+Benefits per Worker
+Inkind per Worker
+-2 -1 0 1
+DDD Coefficient in LogsEffect of QIZs on Wages (2012–2018)Figure A9: Firm Wages Outcomes: DDD Estimates. Sample is restricted to manu-
+facturing firms only.Confidence Intervals are at the 90 %level
+63

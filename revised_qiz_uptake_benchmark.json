@@ -1,0 +1,72 @@
+{
+  "params": {
+    "roo_cost_formula": "normalized",
+    "n_phi": 15,
+    "n_eps": 5,
+    "sigma_C_T": 0.6,
+    "f_dom": {
+      "T": 1.01219,
+      "O": 1.0038606896551725
+    },
+    "f_export_US_Q": {
+      "T": 0.8796398605346678,
+      "O": 3.518880310058594
+    },
+    "f_export_US_N": {
+      "T": 43.98199302673339,
+      "O": 3.518880310058594
+    },
+    "f_export_RW": {
+      "T": 91.96666950225827,
+      "O": 3.587517395019532
+    },
+    "f_entry_Q": {
+      "T": 0.5,
+      "O": 0.3
+    },
+    "f_entry_N": {
+      "T": 1.0,
+      "O": 1.0
+    },
+    "fC_mean_T": 2.5,
+    "f_upgrade_T": 1.8
+  },
+  "targets": {
+    "uptake_among_QT_US_exporters": 0.321,
+    "qiz_firm_share_T_soft_reference": 0.5233713305077827
+  },
+  "moments": {
+    "off_QT": {
+      "active_share": 0.13333333333333336,
+      "any_export_share_among_active": 1.0,
+      "domestic_only_share_among_active": 0.0,
+      "US_export_share_among_active": 1.0,
+      "RW_export_share_among_active": 0.0,
+      "compliance_share_among_active": 0.0,
+      "compliance_share_among_US_exporters": 0.0,
+      "upgrade_share_among_active": 1.0,
+      "upgrade_intensity_among_active": 1.0
+    },
+    "on_QT": {
+      "active_share": 0.13333333333333336,
+      "any_export_share_among_active": 1.0,
+      "domestic_only_share_among_active": 0.0,
+      "US_export_share_among_active": 1.0,
+      "RW_export_share_among_active": 0.0,
+      "compliance_share_among_active": 0.38331615812928477,
+      "compliance_share_among_US_exporters": 0.38331615812928477,
+      "upgrade_share_among_active": 1.0,
+      "upgrade_intensity_among_active": 1.0
+    },
+    "off_qiz_share_T": 0.5233713305077827,
+    "on_qiz_share_T": 0.5510518818356727,
+    "uptake_among_QT_US_exporters": 0.38331615812928477,
+    "welfare_off": 325381023.30268025,
+    "welfare_on": 326041496.3932651,
+    "welfare_pct_on_vs_off": 0.2029845145488096,
+    "wQ_off": 1.1639362208789523,
+    "wQ_on": 1.1660821030515334,
+    "wN_off": 0.7228851496328066,
+    "wN_on": 0.7181850599872323
+  }
+}

@@ -1,0 +1,3 @@
+spec,description,kappa,se,notes
+A_PPML,PPML: n_flows ~ exp(kappa*log(w_dest) + od_FE + interval_FE),2.57750575882187,2.139444221223584,Retains zero-flow od-pairs; cluster: od_pair; QIZ time-varying
+A_PPML_richFE,PPML: n_flows ~ exp(kappa*log(w_dest) + od_FE + gov_o#interval_FE),.9883167125632409,1.00348181414624,Absorbs origin-specific time-varying push shocks; cluster: od_pair

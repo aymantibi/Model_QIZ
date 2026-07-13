@@ -1,0 +1,204 @@
+{
+  "description": "Bilateral trade flows, expenditures, and import shares for QIZ model. Regions: EGY, US, RoW.",
+  "source": "UN Comtrade, TradeData_4_16_2026_11_24_27.csv. Reporters: EGY and USA.",
+  "year": 2004,
+  "units": "flows and expenditures in USD; shares dimensionless",
+  "notes": {
+    "E_EGY": "Total Egypt imports from World (EGY reporter, W00 partner, Import)",
+    "E_US": "Total US imports from World (USA reporter, W00 partner, Import)",
+    "E_RoW": "RoW expenditure on EGY+US goods = X_EGY_RoW + X_US_RoW",
+    "pi_ijs": "X_ijs / E_js. Used to recover d_ijs via model elasticity.",
+    "P_js": "Not estimated. Solved inside model in equilibrium."
+  },
+  "grouping_1": {
+    "sectors": [
+      "T",
+      "O"
+    ],
+    "definitions": {
+      "T": "Textiles + Apparel (HS 50-63)",
+      "O": "Other manufacturing (excl. T, energy, agriculture)"
+    },
+    "data": {
+      "O": {
+        "flows_usd": {
+          "X_EGY_US": 459984013.0,
+          "X_EGY_RoW": 2365521500.0,
+          "X_US_EGY": 572686057.0,
+          "X_US_RoW": 709894212719.0,
+          "X_RoW_EGY": 7801556363.0,
+          "X_RoW_US": 1145965939200.0
+        },
+        "expenditure_usd": {
+          "E_EGY": 8374242420.0,
+          "E_US": 1146425923213.0,
+          "E_RoW": 712259734219.0
+        },
+        "import_shares": {
+          "pi_EGY_US": 0.000401,
+          "pi_RoW_US": 0.999599,
+          "pi_US_EGY": 0.068387,
+          "pi_RoW_EGY": 0.931613,
+          "pi_EGY_RoW": 0.003321,
+          "pi_US_RoW": 0.996679
+        }
+      },
+      "T": {
+        "flows_usd": {
+          "X_EGY_US": 617374765.0,
+          "X_EGY_RoW": 791517588.0,
+          "X_US_EGY": 5234710.0,
+          "X_US_RoW": 21995660614.0,
+          "X_RoW_EGY": 439663581.0,
+          "X_RoW_US": 90478206526.0
+        },
+        "expenditure_usd": {
+          "E_EGY": 444898290.0,
+          "E_US": 91095581291.0,
+          "E_RoW": 22787178202.0
+        },
+        "import_shares": {
+          "pi_EGY_US": 0.006777,
+          "pi_RoW_US": 0.993223,
+          "pi_US_EGY": 0.011766,
+          "pi_RoW_EGY": 0.988234,
+          "pi_EGY_RoW": 0.034735,
+          "pi_US_RoW": 0.965265
+        }
+      }
+    }
+  },
+  "grouping_2": {
+    "sectors": [
+      "T",
+      "S1",
+      "S2",
+      "S3",
+      "O"
+    ],
+    "definitions": {
+      "T": "Textiles + Apparel (HS 50-63)",
+      "S1": "Food products (HS 02,04,07-24)",
+      "S2": "Chemicals (HS 28-38)",
+      "S3": "Non-metallic minerals (HS 25,26,68-70)",
+      "O": "Other manufacturing (residual)"
+    },
+    "data": {
+      "O": {
+        "flows_usd": {
+          "X_EGY_US": 397982956.0,
+          "X_EGY_RoW": 1515601533.0,
+          "X_US_EGY": 424725622.0,
+          "X_US_RoW": 612286123962.0,
+          "X_RoW_EGY": 6456316771.0,
+          "X_RoW_US": 1020203625310.0
+        },
+        "expenditure_usd": {
+          "E_EGY": 6881042393.0,
+          "E_US": 1020601608266.0,
+          "E_RoW": 613801725495.0
+        },
+        "import_shares": {
+          "pi_EGY_US": 0.00039,
+          "pi_RoW_US": 0.99961,
+          "pi_US_EGY": 0.061724,
+          "pi_RoW_EGY": 0.938276,
+          "pi_EGY_RoW": 0.002469,
+          "pi_US_RoW": 0.997531
+        }
+      },
+      "S1": {
+        "flows_usd": {
+          "X_EGY_US": 27481797.0,
+          "X_EGY_RoW": 764370658.0,
+          "X_US_EGY": 719578756.0,
+          "X_US_RoW": 56199132304.0,
+          "X_RoW_EGY": 2102934284.0,
+          "X_RoW_US": 57465403202.0
+        },
+        "expenditure_usd": {
+          "E_EGY": 2822513040.0,
+          "E_US": 57492884999.0,
+          "E_RoW": 56963502962.0
+        },
+        "import_shares": {
+          "pi_EGY_US": 0.000478,
+          "pi_RoW_US": 0.999522,
+          "pi_US_EGY": 0.254943,
+          "pi_RoW_EGY": 0.745057,
+          "pi_EGY_RoW": 0.013419,
+          "pi_US_RoW": 0.986581
+        }
+      },
+      "S2": {
+        "flows_usd": {
+          "X_EGY_US": 21850678.0,
+          "X_EGY_RoW": 226771283.0,
+          "X_US_EGY": 140432638.0,
+          "X_US_RoW": 87885141715.0,
+          "X_RoW_EGY": 1027738382.0,
+          "X_RoW_US": 104235223423.0
+        },
+        "expenditure_usd": {
+          "E_EGY": 1168171020.0,
+          "E_US": 104257074101.0,
+          "E_RoW": 88111912998.0
+        },
+        "import_shares": {
+          "pi_EGY_US": 0.00021,
+          "pi_RoW_US": 0.99979,
+          "pi_US_EGY": 0.120216,
+          "pi_RoW_EGY": 0.879784,
+          "pi_EGY_RoW": 0.002574,
+          "pi_US_RoW": 0.997426
+        }
+      },
+      "S3": {
+        "flows_usd": {
+          "X_EGY_US": 40150379.0,
+          "X_EGY_RoW": 623148684.0,
+          "X_US_EGY": 7527797.0,
+          "X_US_RoW": 9722947042.0,
+          "X_RoW_EGY": 317501210.0,
+          "X_RoW_US": 21527090467.0
+        },
+        "expenditure_usd": {
+          "E_EGY": 325029007.0,
+          "E_US": 21567240846.0,
+          "E_RoW": 10346095726.0
+        },
+        "import_shares": {
+          "pi_EGY_US": 0.001862,
+          "pi_RoW_US": 0.998138,
+          "pi_US_EGY": 0.02316,
+          "pi_RoW_EGY": 0.97684,
+          "pi_EGY_RoW": 0.06023,
+          "pi_US_RoW": 0.93977
+        }
+      },
+      "T": {
+        "flows_usd": {
+          "X_EGY_US": 617374765.0,
+          "X_EGY_RoW": 791517588.0,
+          "X_US_EGY": 5234710.0,
+          "X_US_RoW": 21995660614.0,
+          "X_RoW_EGY": 439663581.0,
+          "X_RoW_US": 90478206526.0
+        },
+        "expenditure_usd": {
+          "E_EGY": 444898290.0,
+          "E_US": 91095581291.0,
+          "E_RoW": 22787178202.0
+        },
+        "import_shares": {
+          "pi_EGY_US": 0.006777,
+          "pi_RoW_US": 0.993223,
+          "pi_US_EGY": 0.011766,
+          "pi_RoW_EGY": 0.988234,
+          "pi_EGY_RoW": 0.034735,
+          "pi_US_RoW": 0.965265
+        }
+      }
+    }
+  }
+}

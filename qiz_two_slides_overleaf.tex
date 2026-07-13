@@ -1,0 +1,140 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{}
+
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\definecolor{Ink}{RGB}{28,37,44}
+\definecolor{Slate}{RGB}{84,99,109}
+\definecolor{Sand}{RGB}{245,240,232}
+\definecolor{Teal}{RGB}{25,110,115}
+\definecolor{Rust}{RGB}{179,91,45}
+\definecolor{Gold}{RGB}{194,148,70}
+
+\setbeamercolor{background canvas}{bg=Sand}
+\setbeamercolor{normal text}{fg=Ink,bg=Sand}
+\setbeamercolor{frametitle}{fg=Ink,bg=Sand}
+\setbeamercolor{title}{fg=Ink}
+\setbeamercolor{block title}{fg=Sand,bg=Teal}
+\setbeamercolor{block body}{fg=Ink,bg=white}
+\setbeamercolor{block title alerted}{fg=Sand,bg=Rust}
+\setbeamercolor{block body alerted}{fg=Ink,bg=white}
+\setbeamercolor{itemize item}{fg=Rust}
+\setbeamercolor{itemize subitem}{fg=Rust}
+
+\setbeamerfont{title}{series=\bfseries,size=\Large}
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+\setbeamerfont{block title}{series=\bfseries}
+
+\newcommand{\topband}{
+    \begin{tikzpicture}[remember picture,overlay]
+        \fill[Teal] (current page.north west) rectangle ([yshift=-0.34cm]current page.north east);
+        \fill[Gold] ([yshift=-0.34cm]current page.north west) rectangle ([xshift=2.3cm,yshift=-0.48cm]current page.north west);
+    \end{tikzpicture}
+}
+
+\title{QIZ Model: Motivation, Design, and Early Results}
+\author{}
+\date{}
+
+\begin{document}
+
+\begin{frame}[t]
+\topband
+\vspace{0.35cm}
+\frametitle{Why a Model, and Why This One?}
+
+\begin{columns}[T,onlytextwidth]
+    \begin{column}{0.41\textwidth}
+        \begin{block}{Why a model is needed}
+        \small
+        \begin{itemize}
+            \item QIZ changes several margins at once: tariff-free US access, compliance costs, sourcing requirements, export participation, and firm upgrading.
+            \item The policy can help some firms and regions while hurting others, so reduced-form intuition alone is not enough.
+            \item I need a framework that links micro choices by firms to aggregate outcomes such as wages, labor reallocation, exports, and welfare.
+        \end{itemize}
+        \end{block}
+
+        \begin{alertblock}{Why this model is suitable}
+        \small
+        \begin{itemize}
+            \item Heterogeneous firms are essential because only some firms export, comply, or upgrade.
+            \item General equilibrium is essential because QIZ affects wages, price indices, entry, and movement of labor across Egyptian regions.
+            \item The model is disciplined enough for counterfactuals: QIZ on/off, same-type complier comparisons, and changes in ROO stringency.
+        \end{itemize}
+        \end{alertblock}
+    \end{column}
+
+    \begin{column}{0.56\textwidth}
+        \begin{block}{Model structure in the current version}
+        \centering
+        \resizebox{\linewidth}{!}{\input{qiz_model_diagram.tex}}
+        \end{block}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[t]
+\topband
+\vspace{0.35cm}
+\frametitle{What the Model Delivers So Far}
+
+\begin{columns}[T,onlytextwidth]
+    \begin{column}{0.54\textwidth}
+        \begin{block}{Benchmark comparison: QIZ on vs no QIZ}
+        \scriptsize
+        \begin{tabular}{>{\raggedright\arraybackslash}p{3.15cm}ccc}
+        \toprule
+        Outcome & No QIZ & QIZ & Change \\
+        \midrule
+        Welfare & 127.45 & 131.94 & +3.52\% \\
+        Real wage in Q & 1.315 & 1.371 & +4.25\% \\
+        Real wage in N & 1.227 & 1.258 & +2.46\% \\
+        Total US exports & 45.93 & 51.67 & +12.49\% \\
+        Q employment share & 53.46\% & 54.32\% & +0.86 pp \\
+        \bottomrule
+        \end{tabular}
+        \end{block}
+
+        \begin{block}{Firm-level mechanism in Q-textiles}
+        \small
+        Same-type firms that comply under QIZ increase:
+        \begin{itemize}
+            \item US exports by \textbf{376.7\%}
+            \item non-US exports by \textbf{129.2\%}
+        \end{itemize}
+        In the current benchmark, \textbf{50\%} of active Q-textile firms comply.
+        \end{block}
+    \end{column}
+
+    \begin{column}{0.42\textwidth}
+        \begin{alertblock}{Interpretation}
+        \small
+        The current calibration suggests that QIZ improves aggregate performance mainly through better US market access, higher real wages, and a modest reallocation of labor toward QIZ regions.
+        \end{alertblock}
+
+        \begin{block}{ROO sensitivity}
+        \small
+        In a separate gamma counterfactual, increasing the Israeli-input requirement from \textbf{0\%} to \textbf{30\%}:
+        \begin{itemize}
+            \item lowers compliance from \textbf{64.9\%} to \textbf{12.5\%}
+            \item lowers Q-to-US exports from \textbf{18.0} to \textbf{14.1}
+            \item lowers welfare from \textbf{126.90} to \textbf{125.04}
+        \end{itemize}
+        This is consistent with stricter ROO making preferential access less valuable.
+        \end{block}
+
+        \begin{block}{Where the project stands}
+        \small
+        These are \textbf{preliminary calibrated results}, not structural estimates yet. The next extension is finer sectoral disaggregation beyond textiles vs other manufacturing.
+        \end{block}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\end{document}

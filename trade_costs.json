@@ -1,0 +1,283 @@
+{
+  "description": "Bilateral trade wedges tau_ijs for QIZ model. Standard EK inversion from absorption-based import shares.",
+  "year": 2004,
+  "method": "tau_ijs = (pi_jjs / pi_ijs)^{1/theta_s}",
+  "interpretation": "tau_ijs is the composite trade wedge = (A_js/A_is)^{1/theta} * d_ijs. Includes both pure iceberg trade costs and relative exporter competitiveness (TFP x wage). Cannot be decomposed without TFP data.",
+  "normalization": "tau_jjs = 1 for all j, s",
+  "counterfactual_use": "QIZ tariff shock: tau_EGY_US_post = tau_EGY_US_pre / (1 + t_MFN_s). A_is terms cancel in the share ratio under counterfactual so composite wedge is the correct object.",
+  "theta_source": "params_estimated.json: Hill+OLS from Egyptian customs panel",
+  "E_js_source": "data_calibration/absorption_2004.json: E_js = Y - X + M, UNIDO + Comtrade world 2004",
+  "wage_reference": "data_calibration/unido_output_wages_employment_2004.csv: w_js = W_USD/L by ISIC. Saved for reference. Not used in inversion \u2014 wage correction requires joint TFP identification.",
+  "units": "dimensionless",
+  "grouping_1": {
+    "sectors": [
+      "T",
+      "O"
+    ],
+    "data": {
+      "O": {
+        "theta": 6.0,
+        "expenditure_absorption_usd": {
+          "E_EGY": 22580074084.0,
+          "E_US": 3708278991955.0,
+          "E_RoW": 12398877884709.0
+        },
+        "domestic_sales_usd": {
+          "DS_EGY": 14205831664.0,
+          "DS_US": 2561853068742.0,
+          "DS_RoW": 6443547102277.0
+        },
+        "import_shares_absorption": {
+          "pi_EGY_US": 0.000124,
+          "pi_RoW_US": 0.309029,
+          "pi_US_US": 0.690847,
+          "pi_US_EGY": 0.025362,
+          "pi_RoW_EGY": 0.345506,
+          "pi_EGY_EGY": 0.629131,
+          "pi_EGY_RoW": 0.000191,
+          "pi_US_RoW": 0.057255,
+          "pi_RoW_RoW": 0.519688
+        },
+        "trade_costs": {
+          "note": "tau_ijs = (pi_jjs/pi_ijs)^{1/theta_s}. Composite wedge: tau = (A_js/A_is)^{1/theta} * d_ijs. tau_jjs=1.",
+          "tau_EGY_US": 4.210192,
+          "tau_RoW_US": 1.143485,
+          "tau_US_EGY": 1.707753,
+          "tau_RoW_EGY": 1.105047,
+          "tau_EGY_RoW": 3.737085,
+          "tau_US_RoW": 1.444293,
+          "tau_EGY_EGY": 1.0,
+          "tau_US_US": 1.0,
+          "tau_RoW_RoW": 1.0
+        }
+      },
+      "T": {
+        "theta": 6.7152,
+        "expenditure_absorption_usd": {
+          "E_EGY": 1629341791.0,
+          "E_US": 176097209250.0,
+          "E_RoW": 652909544946.0
+        },
+        "domestic_sales_usd": {
+          "DS_EGY": 1184443500.0,
+          "DS_US": 85001627959.0,
+          "DS_RoW": 272417071928.0
+        },
+        "import_shares_absorption": {
+          "pi_EGY_US": 0.003506,
+          "pi_RoW_US": 0.513797,
+          "pi_US_US": 0.482697,
+          "pi_US_EGY": 0.003213,
+          "pi_RoW_EGY": 0.269841,
+          "pi_EGY_EGY": 0.726946,
+          "pi_EGY_RoW": 0.001212,
+          "pi_US_RoW": 0.033689,
+          "pi_RoW_RoW": 0.417236
+        },
+        "trade_costs": {
+          "note": "tau_ijs = (pi_jjs/pi_ijs)^{1/theta_s}. Composite wedge: tau = (A_js/A_is)^{1/theta} * d_ijs. tau_jjs=1.",
+          "tau_EGY_US": 2.082155,
+          "tau_RoW_US": 0.990745,
+          "tau_US_EGY": 2.242026,
+          "tau_RoW_EGY": 1.159024,
+          "tau_EGY_RoW": 2.386525,
+          "tau_US_RoW": 1.454621,
+          "tau_EGY_EGY": 1.0,
+          "tau_US_US": 1.0,
+          "tau_RoW_RoW": 1.0
+        }
+      }
+    }
+  },
+  "grouping_2": {
+    "sectors": [
+      "T",
+      "S1",
+      "S2",
+      "S3",
+      "O"
+    ],
+    "data": {
+      "O": {
+        "theta": 6.0,
+        "expenditure_absorption_usd": {
+          "E_EGY": 17043354011.0,
+          "E_US": 2851715762011.0,
+          "E_RoW": 9373092596677.0
+        },
+        "domestic_sales_usd": {
+          "DS_EGY": 10162311618.0,
+          "DS_US": 1831114153745.0,
+          "DS_RoW": 4315316535952.0
+        },
+        "import_shares_absorption": {
+          "pi_EGY_US": 0.00014,
+          "pi_RoW_US": 0.357751,
+          "pi_US_US": 0.64211,
+          "pi_US_EGY": 0.02492,
+          "pi_RoW_EGY": 0.378817,
+          "pi_EGY_EGY": 0.596262,
+          "pi_EGY_RoW": 0.000162,
+          "pi_US_RoW": 0.065324,
+          "pi_RoW_RoW": 0.460394
+        },
+        "trade_costs": {
+          "note": "tau_ijs = (pi_jjs/pi_ijs)^{1/theta_s}. Composite wedge: tau = (A_js/A_is)^{1/theta} * d_ijs. tau_jjs=1.",
+          "tau_EGY_US": 4.078262,
+          "tau_RoW_US": 1.102397,
+          "tau_US_EGY": 1.697517,
+          "tau_RoW_EGY": 1.078536,
+          "tau_EGY_RoW": 3.764766,
+          "tau_US_RoW": 1.38466,
+          "tau_EGY_EGY": 1.0,
+          "tau_US_US": 1.0,
+          "tau_RoW_RoW": 1.0
+        }
+      },
+      "S1": {
+        "theta": 6.666,
+        "expenditure_absorption_usd": {
+          "E_EGY": 7166832015.0,
+          "E_US": 624082469554.0,
+          "E_RoW": 2361936522752.0
+        },
+        "domestic_sales_usd": {
+          "DS_EGY": 4344318975.0,
+          "DS_US": 566589584555.0,
+          "DS_RoW": 1830388122370.0
+        },
+        "import_shares_absorption": {
+          "pi_EGY_US": 4.4e-05,
+          "pi_RoW_US": 0.09208,
+          "pi_US_US": 0.907876,
+          "pi_US_EGY": 0.100404,
+          "pi_RoW_EGY": 0.293426,
+          "pi_EGY_EGY": 0.60617,
+          "pi_EGY_RoW": 0.000324,
+          "pi_US_RoW": 0.023794,
+          "pi_RoW_RoW": 0.774952
+        },
+        "trade_costs": {
+          "note": "tau_ijs = (pi_jjs/pi_ijs)^{1/theta_s}. Composite wedge: tau = (A_js/A_is)^{1/theta} * d_ijs. tau_jjs=1.",
+          "tau_EGY_US": 4.438112,
+          "tau_RoW_US": 1.409595,
+          "tau_US_EGY": 1.309599,
+          "tau_RoW_EGY": 1.114985,
+          "tau_EGY_RoW": 3.213191,
+          "tau_US_RoW": 1.686338,
+          "tau_EGY_EGY": 1.0,
+          "tau_US_US": 1.0,
+          "tau_RoW_RoW": 1.0
+        }
+      },
+      "S2": {
+        "theta": 5.2541,
+        "expenditure_absorption_usd": {
+          "E_EGY": 4436145142.0,
+          "E_US": 727362735411.0,
+          "E_RoW": 2439976886616.0
+        },
+        "domestic_sales_usd": {
+          "DS_EGY": 3267974121.0,
+          "DS_US": 623105661310.0,
+          "DS_RoW": 1711274555407.0
+        },
+        "import_shares_absorption": {
+          "pi_EGY_US": 3e-05,
+          "pi_RoW_US": 0.143306,
+          "pi_US_US": 0.856664,
+          "pi_US_EGY": 0.031656,
+          "pi_RoW_EGY": 0.231674,
+          "pi_EGY_EGY": 0.73667,
+          "pi_EGY_RoW": 9.3e-05,
+          "pi_US_RoW": 0.036019,
+          "pi_RoW_RoW": 0.701349
+        },
+        "trade_costs": {
+          "note": "tau_ijs = (pi_jjs/pi_ijs)^{1/theta_s}. Composite wedge: tau = (A_js/A_is)^{1/theta} * d_ijs. tau_jjs=1.",
+          "tau_EGY_US": 7.045757,
+          "tau_RoW_US": 1.405395,
+          "tau_US_EGY": 1.820295,
+          "tau_RoW_EGY": 1.246292,
+          "tau_EGY_RoW": 5.470653,
+          "tau_US_RoW": 1.759581,
+          "tau_EGY_EGY": 1.0,
+          "tau_US_US": 1.0,
+          "tau_RoW_RoW": 1.0
+        }
+      },
+      "S3": {
+        "theta": 6.8825,
+        "expenditure_absorption_usd": {
+          "E_EGY": 1100574931.0,
+          "E_US": 129200494533.0,
+          "E_RoW": 585808401416.0
+        },
+        "domestic_sales_usd": {
+          "DS_EGY": 775545924.0,
+          "DS_US": 107633253687.0,
+          "DS_RoW": 416956010918.0
+        },
+        "import_shares_absorption": {
+          "pi_EGY_US": 0.000311,
+          "pi_RoW_US": 0.166618,
+          "pi_US_US": 0.833072,
+          "pi_US_EGY": 0.00684,
+          "pi_RoW_EGY": 0.288487,
+          "pi_EGY_EGY": 0.704673,
+          "pi_EGY_RoW": 0.001064,
+          "pi_US_RoW": 0.016597,
+          "pi_RoW_RoW": 0.711762
+        },
+        "trade_costs": {
+          "note": "tau_ijs = (pi_jjs/pi_ijs)^{1/theta_s}. Composite wedge: tau = (A_js/A_is)^{1/theta} * d_ijs. tau_jjs=1.",
+          "tau_EGY_US": 3.148561,
+          "tau_RoW_US": 1.263445,
+          "tau_US_EGY": 1.960975,
+          "tau_RoW_EGY": 1.138557,
+          "tau_EGY_RoW": 2.573557,
+          "tau_US_RoW": 1.726496,
+          "tau_EGY_EGY": 1.0,
+          "tau_US_US": 1.0,
+          "tau_RoW_RoW": 1.0
+        }
+      },
+      "T": {
+        "theta": 6.7152,
+        "expenditure_absorption_usd": {
+          "E_EGY": 1629341791.0,
+          "E_US": 176097209250.0,
+          "E_RoW": 652909544946.0
+        },
+        "domestic_sales_usd": {
+          "DS_EGY": 1184443500.0,
+          "DS_US": 85001627959.0,
+          "DS_RoW": 272417071928.0
+        },
+        "import_shares_absorption": {
+          "pi_EGY_US": 0.003506,
+          "pi_RoW_US": 0.513797,
+          "pi_US_US": 0.482697,
+          "pi_US_EGY": 0.003213,
+          "pi_RoW_EGY": 0.269841,
+          "pi_EGY_EGY": 0.726946,
+          "pi_EGY_RoW": 0.001212,
+          "pi_US_RoW": 0.033689,
+          "pi_RoW_RoW": 0.417236
+        },
+        "trade_costs": {
+          "note": "tau_ijs = (pi_jjs/pi_ijs)^{1/theta_s}. Composite wedge: tau = (A_js/A_is)^{1/theta} * d_ijs. tau_jjs=1.",
+          "tau_EGY_US": 2.082155,
+          "tau_RoW_US": 0.990745,
+          "tau_US_EGY": 2.242026,
+          "tau_RoW_EGY": 1.159024,
+          "tau_EGY_RoW": 2.386525,
+          "tau_US_RoW": 1.454621,
+          "tau_EGY_EGY": 1.0,
+          "tau_US_US": 1.0,
+          "tau_RoW_RoW": 1.0
+        }
+      }
+    }
+  }
+}

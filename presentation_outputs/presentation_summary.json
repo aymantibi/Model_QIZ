@@ -1,0 +1,75 @@
+{
+  "calibration": {
+    "base_preset": "fit_us_aggregate_positive",
+    "local_changes": {
+      "baseline_gamma_pct": 10.5,
+      "upgrade_psi_T": 0.08,
+      "t_mfn_T": 0.1,
+      "gamma_O": 0.105,
+      "fC_mean_O": 0.4,
+      "p_il_O": 1.1,
+      "xi_admin_O": 0.6
+    }
+  },
+  "target_fit_table": [
+    {
+      "moment_key": "micro_comp_us_pct",
+      "label": "Complier exports to US",
+      "target_pct": 150.0,
+      "model_pct": 151.53104195582418,
+      "gap_pct_points": 1.531041955824179,
+      "targeted_in_fit": true
+    },
+    {
+      "moment_key": "micro_comp_rw_pct",
+      "label": "Complier exports to non-US",
+      "target_pct": 150.0,
+      "model_pct": 134.86324239170588,
+      "gap_pct_points": -15.136757608294118,
+      "targeted_in_fit": true
+    },
+    {
+      "moment_key": "target_real_wage_q_pct",
+      "label": "Real wage in treated region Q",
+      "target_pct": 15.0,
+      "model_pct": 0.576867351403258,
+      "gap_pct_points": -14.423132648596741,
+      "targeted_in_fit": false
+    },
+    {
+      "moment_key": "agg_total_us_pct",
+      "label": "Aggregate exports to US",
+      "target_pct": 100.0,
+      "model_pct": -0.4421687178304091,
+      "gap_pct_points": -100.44216871783041,
+      "targeted_in_fit": false
+    },
+    {
+      "moment_key": "agg_q_t_us_pct",
+      "label": "Textile exports to US",
+      "target_pct": 400.0,
+      "model_pct": -0.8307317155212123,
+      "gap_pct_points": -400.8307317155212,
+      "targeted_in_fit": false
+    }
+  ],
+  "gamma_grid_pct": [
+    0.0,
+    5.0,
+    10.0,
+    15.0,
+    20.0,
+    25.0,
+    30.0
+  ],
+  "files": {
+    "target_csv": "presentation_outputs\\presentation_target_fit.csv",
+    "validation_csv": "presentation_outputs\\presentation_validation_exports.csv",
+    "gamma_csv": "presentation_outputs\\presentation_gamma_tradeoff.csv",
+    "mechanism_csv": "presentation_outputs\\presentation_gamma_mechanism.csv",
+    "target_png": "presentation_outputs\\presentation_target_fit.png",
+    "validation_png": "presentation_outputs\\presentation_validation_exports.png",
+    "gamma_png": "presentation_outputs\\presentation_gamma_tradeoff.png",
+    "mechanism_png": "presentation_outputs\\presentation_gamma_mechanism.png"
+  }
+}

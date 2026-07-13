@@ -1,0 +1,309 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+\usetheme{default}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{amsmath, amssymb}
+\usepackage{appendixnumberbeamer}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+\definecolor{titleblue}{RGB}{28, 78, 140}
+\definecolor{Ink}{RGB}{28,37,44}
+\definecolor{Slate}{RGB}{84,99,109}
+\definecolor{Teal}{RGB}{25,110,115}
+\definecolor{Rust}{RGB}{179,91,45}
+\definecolor{Gold}{RGB}{194,148,70}
+
+\setbeamercolor{frametitle}{fg=titleblue, bg=white}
+\setbeamercolor{title}{fg=titleblue}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{structure}{fg=titleblue}
+\setbeamercolor{block title}{fg=white, bg=titleblue}
+\setbeamercolor{block body}{fg=black, bg=titleblue!8}
+\setbeamercolor{alertblock title}{fg=white, bg=Rust}
+\setbeamercolor{alertblock body}{fg=black, bg=Rust!10}
+
+\setbeamerfont{frametitle}{size=\large, series=\bfseries}
+\setbeamerfont{title}{size=\Large, series=\bfseries}
+\setbeamerfont{block title}{size=\normalsize, series=\bfseries}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \hfill\usebeamerfont{footline}\insertframenumber\hspace{1em}\vspace{0.5em}
+}
+\setbeamertemplate{frametitle}{%
+  \vspace{0.6em}
+  \insertframetitle\par
+  \vspace{0.25em}
+  {\color{titleblue!40}\hrule height 0.4pt}
+  \vspace{0.3em}
+}
+\setbeamertemplate{background canvas}{\color{white}\rule{\paperwidth}{\paperheight}}
+\setbeamertemplate{itemize item}{\small\textbullet}
+\setbeamertemplate{itemize subitem}{\small--}
+\setlength{\leftmargini}{1.2em}
+
+\title[QIZ Model Progress]{QIZ Model: Progress Report}
+\author{}
+\date{}
+
+\begin{document}
+
+%--- Title slide ---------------------------------------------------------------
+\begin{frame}[plain]
+  \vfill
+  \centering
+  {\color{titleblue}\Large\bfseries QIZ Model: Progress Report}\\[10pt]
+  {\normalsize Preliminary}
+  \vfill
+\end{frame}
+
+%--- Research question + what is a QIZ ----------------------------------------
+\begin{frame}{Research Question and Setting}
+\begin{block}{Research question}
+Does duty-free US access under the Qualifying Industrial Zone (QIZ) programme raise Egyptian textile-firm performance, and can compliance with its rules of origin generate productivity upgrading that also improves performance in \emph{non-US} markets?
+\end{block}
+
+\vspace{0.7em}
+\textbf{What is a QIZ?}
+\begin{itemize}
+  \item A bilateral trade arrangement between Egypt, Israel, and the United States (operative 2005).
+  \item Egyptian firms in designated zones export to the US \textbf{duty-free} if at least $\gamma_s$\% of input value comes from Israel.
+  \item The mechanism is a package: tariff removal + a mandatory sourcing constraint (rules of origin, ROO).
+  \item QIZs are concentrated in the textile and apparel sector; compliance requires firm-level certification.
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Why does the non-US margin matter?}\\
+A pure tariff story predicts gains only toward the US. Observing gains to non-US destinations as well suggests the ROO compliance process raises firm capability---not just market access.
+\end{frame}
+
+%--- Empirical motivation ------------------------------------------------------
+\begin{frame}{Empirical Motivation}
+\begin{columns}[T]
+\column{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth,height=0.67\textheight,keepaspectratio]{C:/Users/Admin/Desktop/Idea QIZs and Development/Export and Import Data Egypt/Paper Figures v5/matched_event_study_textile_us_log.pdf}
+
+\vspace{0.3em}
+\footnotesize \textbf{US exports rise} sharply after QIZ-linked treatment.
+
+\column{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth,height=0.67\textheight,keepaspectratio]{C:/Users/Admin/Desktop/Idea QIZs and Development/Export and Import Data Egypt/Paper Figures v5/matched_event_study_textile_nonUS_log.pdf}
+
+\vspace{0.3em}
+\footnotesize \textbf{Non-US exports also rise}---motivating an upgrading / spillover channel.
+\end{columns}
+
+\vspace{0.4em}
+\centering\small These two facts must be reconciled in one framework.
+\end{frame}
+
+%--- Model overview ------------------------------------------------------------
+\begin{frame}{Model: Environment}
+\small
+\textbf{Geography and sectors}
+\begin{itemize}
+  \item Two Egyptian regions: QIZ locations $Q$ and non-QIZ locations $N$.
+  \item Two sectors: textiles/apparel $T$ and other manufacturing $O$.
+  \item Three export destinations: Egypt (EG), United States (US), rest of world (RW).
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Agents}
+\begin{itemize}
+  \item A representative household supplies labor and consumes a nested CES basket of varieties.
+  \item A continuum of potential entrants in each region-sector; productivity is Pareto-distributed.
+  \item Free entry drives expected profits to the entry cost $f^E_{rs}$.
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Small open economy.} Egypt takes US and RW demand and prices as given. Egypt cannot affect international prices. Domestic goods and labor markets clear; supply equals demand for the domestic variety and for labor.
+\end{frame}
+
+%--- Household side ------------------------------------------------------------
+\begin{frame}{Model: Household Side}
+\small
+\textbf{Preferences.} Household $r$ maximises utility over a nested CES consumption bundle:
+\[
+U_r = \left[\sum_{s} \beta_s^{\frac{1}{\rho}} C_{rs}^{\frac{\rho-1}{\rho}}\right]^{\frac{\rho}{\rho-1}},
+\qquad
+C_{rs} = \left[\int_0^{M_{rs}} c(\omega)^{\frac{\sigma_s-1}{\sigma_s}} d\omega\right]^{\frac{\sigma_s}{\sigma_s-1}}
+\]
+where $\beta_s$ is the expenditure share on sector $s$, $\sigma_s>1$ is the within-sector elasticity of substitution, and $M_{rs}$ is the endogenous mass of available varieties.
+
+\vspace{0.5em}
+\textbf{Labor market.} Households supply labor inelastically. Wages $w_r$ are determined in equilibrium; labor is mobile across both sectors \emph{and} regions, so a single wage $w$ clears in equilibrium.
+
+\vspace{0.5em}
+\textbf{Price index.}
+\[
+P_{rs} = \left[\int_0^{M_{rs}} p(\omega)^{1-\sigma_s} d\omega\right]^{\frac{1}{1-\sigma_s}}
+\]
+Real income and welfare are $W_r = w_r L_r / P_r^{\,\text{agg}}$.
+\end{frame}
+
+%--- Production side -----------------------------------------------------------
+\begin{frame}{Model: Production Side}
+\small
+\textbf{Technology.} A firm with productivity $\phi$ in region $r$, sector $s$ uses labor $\ell$ and an intermediate bundle $x$ (Cobb-Douglas):
+\[
+q = \phi \,\ell^{\,\alpha_s} x^{1-\alpha_s}, \qquad \alpha_s \in (0,1).
+\]
+Marginal cost is $c_{rs}(\phi) = \frac{1}{\phi}\left(\frac{w_r}{\alpha_s}\right)^{\alpha_s}\!\left(\frac{P^x_{rs}}{1-\alpha_s}\right)^{1-\alpha_s}$.
+
+\vspace{0.5em}
+\textbf{Market access.} To sell to destination $j$, a firm pays a fixed cost $f_{rjs}$ and an iceberg trade cost $d_{rjs}\geq 1$. Profits from market $j$:
+\[
+\pi_{rjs}(\phi) = \frac{1}{\sigma_s}\left(\frac{c_{rs}(\phi)\,d_{rjs}}{P_{js}}\right)^{1-\sigma_s} \!E_{js} - f_{rjs}.
+\]
+
+\vspace{0.5em}
+\textbf{Entry.} Potential entrants pay $f^E_{rs}$ to draw $\phi\sim\text{Pareto}(\theta_s)$. The firm enters if $\Pi_{rs}(\phi)\equiv \max_{m\in\mathcal{M}_r}\bigl[\sum_j \pi^m_{rjs}(\phi) - F^m_{rs}\bigr]\geq 0$; otherwise it exits. Free entry pins down the equilibrium mass $M_{rs}$.
+\end{frame}
+
+%--- QIZ mechanism -------------------------------------------------------------
+\begin{frame}{Model: The QIZ Mechanism}
+\small
+\textbf{Who can comply?} Only firms in QIZ regions ($r=Q$), textile sector ($s=T$), selling to the US.
+
+\vspace{0.4em}
+\textbf{Tariff removal.} Non-compliers pay the US MFN tariff $t^{\text{MFN}}_T$. Compliers remove it, paying instead an Israeli-input sourcing cost. The effective price at the US border is:
+\[
+p^{\text{US}}(\phi) = \begin{cases}
+c_{QT}(\phi)\,d_{QT}^{\text{US}}\,(1+t^{\text{MFN}}_T) & \text{non-complier}\\[4pt]
+c^{\text{ROO}}_{QT}(\phi)\,d_{QT}^{\text{US}} & \text{complier}
+\end{cases}
+\]
+where $c^{\text{ROO}}$ reflects the Israeli-content requirement $\gamma_T$ applied only to US-bound units (shipment-level certification).
+
+\vspace{0.4em}
+\textbf{ROO cost normalisation.} The sourcing composite is normalised so that ROO does not impose a mechanical penalty beyond the required content share---it is only binding relative to cheaper domestic inputs.
+
+\vspace{0.4em}
+\textbf{Compliance margin.} Firms differ in compliance fixed cost $f^C_T$ drawn from a distribution, generating interior take-up. In equilibrium, a textile-QIZ firm complies iff $\pi^{\text{complier}}_{QT,\text{US}}(\phi)-f^C_T \geq \pi^{\text{non-comp}}_{QT,\text{US}}(\phi)$.
+
+\vspace{0.4em}
+\textbf{Upgrading.} Compliers can pay a further cost to raise $\phi$; QIZ access raises the return to upgrading, generating gains that carry over to non-US destinations.
+\end{frame}
+
+%--- Calibration summary -------------------------------------------------------
+\begin{frame}{Calibration}
+\scriptsize
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm}
+                >{\raggedright\arraybackslash}p{4.0cm}
+                >{\raggedright\arraybackslash}p{5.0cm}}
+\toprule
+\textbf{Parameter} & \textbf{Method} & \textbf{Source / target moment} \\
+\midrule
+Sector shares $\beta_s$ & IO absorption shares & Egypt IO table 2008 \\
+Labor shares $\alpha_s$ & Cost-share from IO & Egypt IO table 2008 \\
+Elasticity $\sigma_s$ & Fixed from literature & Imbs--M\'ejean values \\
+Pareto shape $\theta_s$ & Hill / log-rank on exporter sizes & Egyptian customs data \\
+MFN tariffs $t_s^{\text{MFN}}$ & Export-weighted averages & WTO tariff schedule \\
+Trade wedges $d_{rjs}$ & EK-style inversion & 2004 trade shares \\
+Labor endowments $L_r$ & Governorate aggregation & Labor force survey 2004 \\
+Fixed costs $f_{\text{dom}},f_{\text{US}},f_{\text{RW}}$ & Match export participation & 2004 firm participation rates \\
+Entry cost $f^E_{rs}$ & Match Q/N firm-count ratios & Industrial statistics 2004 \\
+Compliance cost $f^C_T$ & Match compliance rate & Customs uptake target: 32.1\% \\
+Upgrade block & Match non-US expansion & Event-study moments (customs) \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\normalsize\textbf{Current fit (upgrade benchmark):} model uptake \textbf{34.2\%} vs.\ target \textbf{32.1\%}; welfare gain \textbf{+0.23\%}; QIZ raises upgrade intensity and generates non-US export gains.
+\end{frame}
+
+%--- Problems (all in one slide) -----------------------------------------------
+\begin{frame}{Current Problems}
+\small
+\begin{columns}[T]
+\column{0.50\textwidth}
+\begin{alertblock}{1. Q-textile sector collapses in GE}
+Free entry drives Q-textile firm mass toward zero when calibrated to conditional exporter moments. The model fits compliance \emph{among} US exporters while losing the Q-textile firm population altogether.
+\end{alertblock}
+
+\vspace{0.45em}
+\begin{alertblock}{2. Aggregate US export margin is too weak}
+Matching complier-level US gains is consistent with aggregate all-sector US exports falling $\approx$\,2.7\%---the reallocation margin is wrong in sign.
+\end{alertblock}
+
+\column{0.47\textwidth}
+\begin{alertblock}{3. Q location and US access are conflated}
+A Q-specific US trade-cost shifter does too much work: it is hard to separately identify the location advantage from the QIZ tariff channel.
+\end{alertblock}
+
+\vspace{0.45em}
+\begin{block}{Root cause}
+The model matches \emph{conditional} moments well (uptake among US exporters) but is not disciplined on \emph{unconditional} moments (firm mass, aggregate trade flows).
+\end{block}
+\end{columns}
+\end{frame}
+
+%--- Next steps ----------------------------------------------------------------
+\begin{frame}{What I Want to Work On}
+\small
+\begin{columns}[T]
+\column{0.48\textwidth}
+\begin{block}{Model fixes}
+\begin{itemize}
+  \item Separate the Q-location advantage from US tariff access so the two margins are identified independently.
+  \item Add a discipline on Q-textile firm mass---either an incumbent-persistence device or an unconditional mass moment in the calibration.
+  \item Re-calibrate $f^E_{rs}$ jointly with unconditional firm-count moments, not only conditional exporter shares.
+\end{itemize}
+\end{block}
+
+\column{0.48\textwidth}
+\begin{block}{Empirical target}
+The next version must jointly match:
+\begin{enumerate}
+  \item Treated textile firms expand to the US.
+  \item The same firms also expand to non-US destinations.
+  \item QIZ-region textile activity remains economically non-trivial in equilibrium.
+\end{enumerate}
+\end{block}
+
+\vspace{0.4em}
+\begin{block}{Robustness}
+All results must be stable across productivity grid resolutions before reporting.
+\end{block}
+\end{columns}
+\end{frame}
+
+%--- Equilibrium in words ------------------------------------------------------
+\begin{frame}{The Model in Equilibrium: A Verbal Summary}
+\small
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Firm decisions (a sequence of fixed costs)}
+\begin{enumerate}
+  \item \textbf{Entry.} Pay $f^E_{rs}$, draw productivity $\phi$. Exit if expected profits are negative.
+  \item \textbf{Selling domestically.} Always the baseline option; no additional fixed cost.
+  \item \textbf{Exporting.} Pay a destination-specific fixed cost $f_{\text{US}}$ or $f_{\text{RW}}$ to access each foreign market. Only high-$\phi$ firms find it worthwhile.
+  \item \textbf{QIZ compliance.} A QIZ-region textile firm exporting to the US faces a choice: pay $f^C_T$ to comply with the Israeli-content requirement and remove the MFN tariff, or stay non-compliant and pay the tariff. This is the central tradeoff of the model.
+  \item \textbf{Upgrading.} Pay a further fixed cost to raise productivity. QIZ access raises the return to upgrading---gains spill over to non-US destinations.
+\end{enumerate}
+
+\column{0.48\textwidth}
+\begin{block}{The core QIZ tradeoff}
+Compliance removes the US tariff---a variable cost saving that grows with export volume---but requires sourcing a share $\gamma_T$ of inputs from Israel, raising marginal cost relative to cheaper domestic inputs. High-volume exporters to the US find compliance worthwhile; smaller exporters do not.
+\end{block}
+
+\vspace{0.5em}
+\textbf{Equilibrium conditions}
+\begin{itemize}
+  \item \textbf{Free entry} in each region-sector pins down the endogenous firm mass.
+  \item \textbf{Labor market clearing} across regions and sectors determines the equilibrium wage (labor is fully mobile).
+  \item \textbf{Domestic goods market clears.} US and RW demand and prices are exogenous---Egypt is a small open economy and cannot affect international prices.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\end{document}

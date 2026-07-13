@@ -1,0 +1,520 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\title{QIZ Model: Full Equation-by-Equation Derivation (Undergraduate Notes)}
+\author{Based on the implemented model in \texttt{qiz\_model\_ge.py}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Purpose and Big Picture}
+These notes write the full model that is currently implemented in code.
+The model has:
+\begin{itemize}
+    \item two Egyptian regions: QIZ region $Q$ and non-QIZ region $N$;
+    \item two sectors: textiles/apparel $T$ and other manufacturing $O$;
+    \item three destinations: domestic Egypt $EG$, United States $US$, and Rest of World $RW$;
+    \item heterogeneous firms (productivity $\phi$, compliance-cost shock $\varepsilon$);
+    \item endogenous destination entry, endogenous QIZ compliance, and endogenous upgrading;
+    \item general equilibrium through wages, labor mobility, and free entry.
+\end{itemize}
+
+The code supports \textbf{two upgrade modes}:
+\begin{enumerate}
+    \item \textbf{Binary upgrade}: upgrade/no-upgrade.
+    \item \textbf{Continuous upgrade intensity}: firms choose an intensity $u \in [0,\bar u]$.
+\end{enumerate}
+
+\section{Sets, Indices, and Objects}
+\textbf{Regions:} $r \in \{Q,N\}$.
+
+\textbf{Sectors:} $s \in \{T,O\}$.
+
+\textbf{Destinations:} $j \in \{EG,US,RW\}$.
+
+\textbf{Firm heterogeneity:}
+\begin{itemize}
+    \item productivity $\phi$ drawn from Pareto in sector $s$;
+    \item compliance-cost shock $\varepsilon$ drawn from a normal distribution (possibly degenerate).
+\end{itemize}
+
+Key exogenous parameters (all in code):
+\[
+\sigma_s,\ \eta,\ \beta_s,\ \alpha_s,\ t^{MFN}_s,\ \gamma_s,\ d_{rjs},\ f^{dom}_{rs},\ f^x_{rjs},\ f^E_{rs}.
+\]
+
+\section{Final Demand and CES Structure}
+\subsection{Upper-tier CES across sectors}
+Let aggregate real consumption be
+\begin{equation}
+C = \left(\sum_{s} \beta_s^{1/\eta} C_s^{\frac{\eta-1}{\eta}}\right)^{\frac{\eta}{\eta-1}},
+\quad \sum_s \beta_s = 1,
+\label{eq:upper_ces}
+\end{equation}
+with dual price index
+\begin{equation}
+P = \left(\sum_s \beta_s P_s^{1-\eta}\right)^{\frac{1}{1-\eta}}.
+\label{eq:upper_price}
+\end{equation}
+In this model, for domestic welfare and labor mobility,
+\begin{equation}
+P_s \equiv P_{EG,s}.
+\label{eq:Ps_equals_PEGs}
+\end{equation}
+
+Given total expenditure $Y$, sector expenditure is
+\begin{equation}
+E_s = \beta_s \left(\frac{P_s}{P}\right)^{1-\eta} Y.
+\label{eq:sector_exp}
+\end{equation}
+
+\textbf{Derivation (FOC):} expenditure minimization for~\eqref{eq:upper_ces} gives the usual CES demand ratio and then~\eqref{eq:sector_exp}.
+
+\subsection{Within-sector CES across varieties}
+For destination $j$ and sector $s$:
+\begin{equation}
+C_{js} = \left(\int_{\omega \in \Omega_{js}} q_{js}(\omega)^{\frac{\sigma_s-1}{\sigma_s}} d\omega\right)^{\frac{\sigma_s}{\sigma_s-1}},
+\quad \sigma_s > 1,
+\end{equation}
+with price index
+\begin{equation}
+P_{js} = \left(\int_{\omega \in \Omega_{js}} p_{js}(\omega)^{1-\sigma_s} d\omega\right)^{\frac{1}{1-\sigma_s}}.
+\end{equation}
+
+Demand for one variety:
+\begin{equation}
+q_{js}(\omega) = \left(\frac{p_{js}(\omega)}{P_{js}}\right)^{-\sigma_s}\frac{E_{js}}{P_{js}}.
+\label{eq:var_demand}
+\end{equation}
+Revenue:
+\begin{equation}
+R_{js}(\omega) = p_{js}(\omega) q_{js}(\omega)
+= E_{js}\left(\frac{p_{js}(\omega)}{P_{js}}\right)^{1-\sigma_s}.
+\label{eq:revenue}
+\end{equation}
+
+\subsection{Small-open-economy closure for foreign demand}
+The model solves only Egypt-side GE objects endogenously. For foreign destinations:
+\begin{itemize}
+    \item $E_{US,s}$ and $E_{RW,s}$ are exogenous demand shifters.
+    \item $P_{US,s}$ and $P_{RW,s}$ are exogenous (often normalized constants).
+\end{itemize}
+Hence export revenues are computed as
+\[
+R_{rjs}=E_{js}\left(\frac{p_{rjs}}{P_{js}}\right)^{1-\sigma_s},\quad j\in\{US,RW\},
+\]
+with $(E_{js},P_{js})$ taken as given.
+
+\section{Firm Technology and Cost Minimization}
+A firm in $(r,s)$ with productivity $\phi$ and upgrade factor $\delta$ produces
+\begin{equation}
+y = \phi \delta\ \ell^{\alpha_s} m^{1-\alpha_s},
+\quad 0<\alpha_s<1,
+\label{eq:production}
+\end{equation}
+where $\ell$ is labor and $m$ is composite intermediate input.
+
+Let wage be $w_r$ and intermediate unit price be $c$ (this $c$ depends on compliance status, defined below).
+
+Cost minimization:
+\[
+\min_{\ell,m} w_r \ell + c m
+\quad \text{s.t.}\quad
+y = \phi\delta\ \ell^{\alpha_s} m^{1-\alpha_s}.
+\]
+
+Lagrangian:
+\[
+\mathcal L = w_r \ell + c m + \lambda\left[y-\phi\delta\ \ell^{\alpha_s}m^{1-\alpha_s}\right].
+\]
+
+FOCs:
+\begin{align}
+w_r &= \lambda\phi\delta\alpha_s \ell^{\alpha_s-1}m^{1-\alpha_s},\\
+c &= \lambda\phi\delta(1-\alpha_s)\ell^{\alpha_s}m^{-\alpha_s}.
+\end{align}
+Taking ratio gives
+\begin{equation}
+\frac{w_r}{c} = \frac{\alpha_s}{1-\alpha_s}\frac{m}{\ell}
+\quad\Rightarrow\quad
+\frac{m}{\ell} = \frac{1-\alpha_s}{\alpha_s}\frac{w_r}{c}.
+\end{equation}
+
+Substituting back yields unit cost. Because ROO scope can make intermediate prices destination-specific, we write:
+\begin{equation}
+mc_{rjs}(\phi,\delta,c_{rjs})
+= \frac{1}{\phi\delta}\cdot
+\frac{w_r^{\alpha_s} c_{rjs}^{1-\alpha_s}}
+{\alpha_s^{\alpha_s}(1-\alpha_s)^{1-\alpha_s}}.
+\label{eq:mc}
+\end{equation}
+
+\section{QIZ Compliance, ROO Costs, and Trade Costs}
+\subsection{Trade costs and tariffs}
+Delivered marginal cost to destination $j$ is multiplied by iceberg $d_{rjs}$.
+For US shipments:
+\begin{equation}
+\tau_{r,US,s} =
+d_{r,US,s}\times
+\begin{cases}
+1, & \text{if firm is QIZ-compliant and eligible},\\
+1+t^{MFN}_s, & \text{otherwise}.
+\end{cases}
+\end{equation}
+For $EG$ and $RW$, code uses $\tau_{rjs}=d_{rjs}$.
+
+\textbf{Tariff treatment used here:} MFN tariffs are modeled as iceberg wedges (resource costs), not fiscal revenues.
+So there is no tariff-revenue rebate term in household income.
+
+\subsection{ROO intermediate cost}
+Non-complier intermediate cost:
+\[
+c_N = p^{rw}_s.
+\]
+
+Complier intermediate cost:
+\begin{equation}
+c_C = \chi_s(\gamma_s)\ c^{mix}_s(\gamma_s),
+\quad
+\chi_s(\gamma_s)=1+\xi_s\gamma_s \ \text{(if admin wedge is on)}.
+\end{equation}
+
+Two possible $c^{mix}$ formulas in code:
+\begin{align}
+\text{Paper formula: }\
+c^{mix}_s &=
+\frac{(p^{il}_s)^{\gamma_s}(p^{rw}_s)^{1-\gamma_s}}
+{\gamma_s^{\gamma_s}(1-\gamma_s)^{1-\gamma_s}},\\
+\text{Normalized formula: }\
+c^{mix}_s &=
+(p^{il}_s)^{\gamma_s}(p^{rw}_s)^{1-\gamma_s}.
+\end{align}
+
+Scope switch:
+\begin{itemize}
+    \item \texttt{all\_destinations}: compliance changes cost for all $j$.
+    \item \texttt{US\_only}: compliance changes cost only for US-destined production.
+\end{itemize}
+
+Compliance has fixed labor cost
+\begin{equation}
+f^C_{is} = \bar f^C_s \exp(\sigma^C_s \varepsilon_i).
+\label{eq:comp_cost}
+\end{equation}
+
+\section{Pricing and Destination Operating Profits}
+Each firm is monopolistically competitive with CES demand.
+Given destination-specific marginal cost $mc_{rjs}$ and iceberg/tariff multiplier $\tau_{rjs}$:
+\begin{equation}
+p_{rjs} = \mu_s \tau_{rjs} mc_{rjs},
+\quad
+\mu_s = \frac{\sigma_s}{\sigma_s-1}.
+\label{eq:markup_price}
+\end{equation}
+
+\textbf{FOC derivation:} maximize
+\[
+\pi_j(p)= (p-\tau mc)\,q(p),\quad q(p)=A p^{-\sigma_s},
+\]
+then
+\[
+\frac{d\pi_j}{dp}=q + (p-\tau mc)\frac{dq}{dp}=0
+\Rightarrow
+p=\frac{\sigma_s}{\sigma_s-1}\tau mc.
+\]
+
+From~\eqref{eq:revenue}, variable profit in destination $j$ is
+\begin{equation}
+\pi^{var}_{rjs} = \frac{R_{rjs}}{\sigma_s}.
+\label{eq:var_profit}
+\end{equation}
+
+Destination participation rule:
+\begin{equation}
+I_{rjs}=1\left\{\frac{R_{rjs}}{\sigma_s}\ge w_r f^x_{rjs}\right\}.
+\label{eq:dest_entry}
+\end{equation}
+For $j=EG$, use $f^x_{r,EG,s}\equiv f^{dom}_{rs}$.
+
+\section{Upgrade Choice}
+\subsection{Binary mode (legacy mode in code)}
+\[
+u\in\{0,1\},\quad
+\delta(u)=
+\begin{cases}
+1,& u=0,\\
+\delta_s,& u=1,
+\end{cases}
+\quad
+F_U(u)=u\,f^U_s.
+\]
+
+\subsection{Continuous mode (current structural extension)}
+Firm chooses $u\in[0,\bar u_s]$:
+\begin{align}
+\delta(u,I_C) &= \exp\!\left[(\psi_s+\psi^C_s I_C)u\right],\\
+F_U(u) &= f^{U0}_s\mathbf 1\{u>0\}+f^{U1}_s u+\frac{1}{2}\kappa^U_s u^2.
+\label{eq:upgrade_cost}
+\end{align}
+$I_C=1$ if the firm complies in QIZ region.
+So compliance can increase marginal return to upgrade via $\psi^C_s>0$.
+
+\subsection{Operating profit with endogenous participation}
+For a given $(\phi,\varepsilon)$:
+\begin{equation}
+\Pi =
+\sum_{j\in\{EG,US,RW\}}
+I_{rjs}\left(\frac{R_{rjs}}{\sigma_s}-w_r f^x_{rjs}\right)
+-w_r I_C f^C_{is}
+-w_r F_U(u).
+\label{eq:total_profit}
+\end{equation}
+
+Assumptions used in code:
+\begin{itemize}
+    \item Compliance is only available in region $Q$ when policy is on.
+    \item \textbf{Assumption (compliance tied to US service):} a firm is labeled ``complier'' only if it serves US. If a candidate compliant strategy does not serve US, that strategy is removed from the feasible set.
+    \item Optional switch \texttt{upgrade\_requires\_US}: if true, force $u=0$ when US is not served.
+\end{itemize}
+
+\subsection{FOC for continuous upgrade (interior point, fixed served-market set)}
+Ignoring non-differentiability from destination-entry thresholds, revenue scales as
+\[
+R_{rjs}(u)\propto \delta(u,I_C)^{\sigma_s-1}
+\]
+because $p\propto 1/\delta$ and demand elasticity is $\sigma_s$.
+
+If served destinations are fixed at set $\mathcal S$, write
+\[
+\Pi(u)=A\,\delta(u,I_C)^{\sigma_s-1}-w_r\!\left(f^{U1}_s u+\frac12\kappa^U_s u^2\right)-\text{constants},
+\]
+where
+\[
+A=\sum_{j\in\mathcal S}\frac{R_{rjs}(0)}{\sigma_s}.
+\]
+
+Interior FOC:
+\begin{equation}
+\frac{d\Pi}{du}
+=
+A(\sigma_s-1)(\psi_s+\psi^C_s I_C)\delta(u,I_C)^{\sigma_s-1}
+-w_r(f^{U1}_s+\kappa^U_s u)
+=0.
+\label{eq:upgrade_foc}
+\end{equation}
+
+In practice, the code solves this globally by grid search over $u$ (robust to kinks from market-entry thresholds).
+
+\section{Distribution of Firms and Expected Values}
+Within each $(r,s)$:
+\begin{itemize}
+    \item $\phi\sim$ Pareto$(\phi_{min,s},\theta_s)$;
+    \item $\varepsilon\sim N(0,1)$ (truncated in quadrature), or degenerate if $\sigma^C_s=0$.
+\end{itemize}
+
+Expected value of any object $g(\phi,\varepsilon)$:
+\[
+\mathbb E[g]=\int g(\phi,\varepsilon)\,dF_\phi(\phi)\,dF_\varepsilon(\varepsilon).
+\]
+Code evaluates this by product quadrature grids.
+
+\section{Mass of Entrants and Free Entry}
+Let $M_{rs}$ be mass of entrants in region $r$, sector $s$.
+Entry cost is labor $f^E_{rs}$, so entry cost value is $w_r f^E_{rs}$.
+
+Expected operating profit per entrant:
+\[
+\mathbb E\Pi_{rs}.
+\]
+
+Free-entry complementarity:
+\begin{equation}
+M_{rs}\ge 0,\quad
+\mathbb E\Pi_{rs}-w_r f^E_{rs}\le 0,\quad
+M_{rs}\left(\mathbb E\Pi_{rs}-w_r f^E_{rs}\right)=0.
+\label{eq:free_entry_comp}
+\end{equation}
+
+Interior case ($M_{rs}>0$): $\mathbb E\Pi_{rs}=w_r f^E_{rs}$.
+
+Corner case ($M_{rs}=0$): $\mathbb E\Pi_{rs}\le w_r f^E_{rs}$.
+
+\section{Labor Mobility and Labor Market Clearing}
+\subsection{Regional labor supply (logit mobility)}
+Let total labor be $L^{tot}$.
+Supply in region $r$:
+\begin{equation}
+L^S_r = L^{tot}
+\frac{\left(\frac{w_r}{P}\right)^\kappa}
+{\sum_{r'\in\{Q,N\}}\left(\frac{w_{r'}}{P}\right)^\kappa}.
+\label{eq:labor_supply}
+\end{equation}
+
+\subsection{Income and domestic expenditure}
+\begin{equation}
+Y = \sum_r w_r L^S_r + T^{transfer}.
+\label{eq:income}
+\end{equation}
+Here $T^{transfer}$ is an exogenous lump-sum closure term (defaulted to zero in baseline runs).
+Then domestic expenditure by sector follows~\eqref{eq:sector_exp} with $E_{EG,s}$.
+
+\subsection{Labor demand}
+For each $(r,s)$, expected labor per entrant:
+\[
+f^E_{rs} + \mathbb E[\ell^{var}_{rs}] + \mathbb E[\ell^{fix}_{rs}].
+\]
+Definitions (matching implementation):
+\begin{align}
+\ell^{var}_{rs}(\phi,\varepsilon)
+&=
+\alpha_s\frac{VC_{rs}(\phi,\varepsilon)}{w_r},
+\\
+VC_{rs}(\phi,\varepsilon)
+&=
+\frac{\sigma_s-1}{\sigma_s}
+\sum_{j\in\{EG,US,RW\}} I_{rjs} R_{rjs},
+\end{align}
+and
+\begin{align}
+\ell^{fix}_{rs}(\phi,\varepsilon)
+&=
+I_{r,EG,s} f^{dom}_{rs}
++I_{r,US,s} f^x_{r,US,s}
++I_{r,RW,s} f^x_{r,RW,s}
++I_C f^C_{is}
++F_U(u).
+\end{align}
+So regional demand:
+\begin{equation}
+L^D_r
+=
+\sum_s M_{rs}
+\left(
+f^E_{rs}
++\mathbb E[\ell^{var}_{rs}]
++\mathbb E[\ell^{fix}_{rs}]
+\right).
+\label{eq:labor_demand}
+\end{equation}
+
+Labor market clearing:
+\begin{equation}
+L^D_r=L^S_r,\quad r\in\{Q,N\}.
+\label{eq:labor_clear}
+\end{equation}
+
+\section{Domestic Sector Price Indices}
+For each sector $s$:
+\begin{equation}
+P_{EG,s}^{1-\sigma_s}
+=
+\sum_r M_{rs}\,
+\mathbb E\!\left[
+I_{r,EG,s}\, p_{r,EG,s}^{1-\sigma_s}
+\right].
+\label{eq:sector_price_index}
+\end{equation}
+Then aggregate $P$ uses~\eqref{eq:upper_price}.
+
+In code,~\eqref{eq:sector_price_index} is evaluated using the identity
+\[
+R_{r,EG,s}=E_{EG,s}\left(\frac{p_{r,EG,s}}{P_{EG,s}}\right)^{1-\sigma_s}
+\Rightarrow
+p_{r,EG,s}^{1-\sigma_s}
+=
+\frac{R_{r,EG,s}}{E_{EG,s}}\,P_{EG,s}^{1-\sigma_s}.
+\]
+
+\section{Definition of Equilibrium}
+Given policy state (\texttt{qiz\_on} true/false), an equilibrium is:
+\[
+\{w_r,\ M_{rs},\ P_{EG,s},\ P,\ L^S_r,\ L^D_r,\ \text{firm policies}\}
+\]
+such that:
+\begin{enumerate}
+    \item firm policies maximize profits~\eqref{eq:total_profit} pointwise in $(\phi,\varepsilon)$;
+    \item destination participation satisfies~\eqref{eq:dest_entry};
+    \item domestic demands and price indices satisfy CES equations with $P_s\equiv P_{EG,s}$;
+    \item foreign demand objects $(E_{US,s},E_{RW,s},P_{US,s},P_{RW,s})$ are fixed exogenous shifters;
+    \item labor supply follows~\eqref{eq:labor_supply};
+    \item labor clears~\eqref{eq:labor_clear};
+    \item free entry complementarity~\eqref{eq:free_entry_comp} holds.
+\end{enumerate}
+
+\section{Counterfactuals Implemented}
+\begin{enumerate}
+    \item \textbf{QIZ on vs off}: set policy switch and compare equilibria.
+    \item \textbf{Shut down productivity channel}:
+    \begin{itemize}
+        \item binary mode: set $\delta_s=1$;
+        \item continuous mode: set $\psi_s=\psi^C_s=0$.
+    \end{itemize}
+    \item \textbf{Gamma path}: vary $\gamma_T$ and resolve equilibrium each time.
+\end{enumerate}
+
+\section{Trade and Decomposition Formulas Used in Output}
+Region-destination exports:
+\[
+X_{rj}=\sum_s M_{rs}\mathbb E[R_{rjs}],\quad j\in\{US,RW\}.
+\]
+Exporter mass:
+\[
+N_{rj}=\sum_s M_{rs}\mathbb E[I_{rjs}],
+\quad
+\bar x_{rj}=X_{rj}/N_{rj}.
+\]
+Then
+\[
+X_{rj}=N_{rj}\bar x_{rj},
+\]
+and change decomposition from off (0) to on (1):
+\begin{equation}
+\Delta X
+=
+(N_1-N_0)\bar x_0
++N_0(\bar x_1-\bar x_0)
++(N_1-N_0)(\bar x_1-\bar x_0).
+\end{equation}
+These are, respectively: extensive, intensive, and interaction terms.
+
+\section{What the ``compliers increase US and non-US exports'' statement means here}
+In this model that statement is tested with \textbf{same-type micro comparisons}:
+\begin{itemize}
+    \item classify firms in QIZ-on equilibrium into \emph{compliers} vs \emph{non-compliers};
+    \item evaluate those same $(\phi,\varepsilon)$ types in QIZ-off equilibrium;
+    \item compare group average US/RW/total revenues and upgrade intensity.
+\end{itemize}
+This separates firm-level treatment effects from aggregate GE reallocation effects.
+
+\section{Numerical Solution (brief)}
+The code uses a nested fixed-point:
+\begin{enumerate}
+    \item inner goods block: solve $\{P_{EG,s}\}$ given $(w,M)$;
+    \item outer GE block: update $w$ from labor-market excess demand and $M$ from free-entry gaps.
+\end{enumerate}
+Cycle guards are included for discrete policy kinks and near-corner masses.
+
+\section{Summary for Students}
+The model combines:
+\begin{itemize}
+    \item standard CES-monopolistic competition trade structure;
+    \item Melitz-style extensive margins;
+    \item a policy-specific compliance margin (QIZ/ROO);
+    \item endogenous upgrading that can be binary or continuous;
+    \item full GE feedback through wages, labor mobility, and entry.
+\end{itemize}
+
+So you should expect two types of effects:
+\begin{enumerate}
+    \item \textbf{Micro treatment effects}: compliers can gain strongly (especially in US access).
+    \item \textbf{GE reallocation effects}: aggregate outcomes can differ in sign and magnitude if other sectors/regions shrink or expand enough.
+\end{enumerate}
+
+\end{document}

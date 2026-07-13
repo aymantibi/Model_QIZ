@@ -1,0 +1,36 @@
+{
+  "preset": "expected_direction_base",
+  "state": {
+    "f_dom_T": 1.0,
+    "f_entry_Q_T": 0.3,
+    "f_entry_N_T": 1.0,
+    "fC_mean_T": 6.0,
+    "sigma_C_T": 0.35,
+    "upgrade_psi_comp_T": 0.08,
+    "upgrade_cost_quad_T": 8.0
+  },
+  "mechanism_switches": {
+    "roo_cost_formula": "normalized",
+    "roo_cost_scope": "US_only",
+    "use_admin_wedge": true,
+    "upgrade_mode": "continuous",
+    "upgrade_requires_US": true
+  },
+  "calibrated_values": {
+    "f_dom_T": 1.0,
+    "f_dom_O": 0.8,
+    "f_export_US_T": 1.2,
+    "f_export_RW_T": 1.0,
+    "f_export_US_O": 1.7,
+    "f_export_RW_O": 1.2,
+    "f_entry_Q_T": 0.3,
+    "f_entry_N_T": 1.0,
+    "f_entry_Q_O": 0.3,
+    "f_entry_N_O": 1.0,
+    "fC_mean_T": 6.0,
+    "sigma_C_T": 0.35,
+    "upgrade_psi_T": 0.1,
+    "upgrade_psi_comp_T": 0.08,
+    "upgrade_cost_quad_T": 8.0
+  }
+}

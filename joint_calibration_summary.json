@@ -1,0 +1,178 @@
+{
+  "model_spec": {
+    "roo_cost_formula": "normalized",
+    "n_phi_calibration": 15,
+    "n_phi_final": 60,
+    "n_eps": 5,
+    "uptake_denominator": "Q,T compliers divided by Q,T US exporters",
+    "textile_q_us_access_shifter": "f_export[(Q,US,T)] / f_export[(N,US,T)]"
+  },
+  "targets": {
+    "dom_only": {
+      "T": 0.8927,
+      "O": 0.8492
+    },
+    "exp_US": {
+      "T": 0.0575,
+      "O": 0.0112
+    },
+    "exp_RW": {
+      "T": 0.069,
+      "O": 0.1425
+    },
+    "qiz_firm_share": {
+      "T": 0.8885964912280702,
+      "O": 0.8066943435391801
+    },
+    "compliance_rate": 0.321,
+    "upgrading_rate": 0.491
+  },
+  "joint_loss": 13.885378842511827,
+  "loss_breakdown": {
+    "dom_only_T": 0.07746440106770663,
+    "dom_only_O": 0.14681649824602613,
+    "exp_US_T": 3.104083444222194,
+    "exp_US_O": 0.34344220937827113,
+    "exp_RW_T": 0.7093382675724237,
+    "exp_RW_O": 0.0014659370673589446,
+    "qiz_firm_share_T": 8.529669839750031,
+    "qiz_firm_share_O": 0.8059064012203333,
+    "uptake_T": 0.04592641188871602,
+    "upgrade_T": 0.0225000000000006,
+    "qt_us_share_on_floor": 0.0,
+    "qt_active_on_floor": 0.09876543209876547
+  },
+  "params": {
+    "f_dom_T": 1.01219,
+    "f_dom_O": 1.0038606896551725,
+    "f_export_US_N_T": 28.0,
+    "q_us_access_ratio_T": 0.02,
+    "f_export_RW_T": 64.37666865158079,
+    "f_export_US_O": 2.0,
+    "f_export_RW_O": 3.587517395019532,
+    "f_entry_Q_T": 1.2,
+    "f_entry_Q_O": 0.3,
+    "fC_mean_T": 2.0,
+    "sigma_C_T": 0.2,
+    "f_upgrade_T": 3.45
+  },
+  "moments_fit": {
+    "dom_only_T": 0.8888888879312995,
+    "dom_only_O": 0.8549474961596643,
+    "exp_US_T": 0.11111111206870058,
+    "exp_US_O": 0.007683763441174959,
+    "exp_RW_T": 0.11111111099141247,
+    "exp_RW_O": 0.14505250384033572,
+    "qiz_firm_share_T": 1.0772881127993777e-09,
+    "qiz_firm_share_O": 0.8540084946176757,
+    "uptake_T": 0.31507021002882074,
+    "upgrade_T": 0.5000000000000001,
+    "qt_us_share_on": 1.0,
+    "qt_active_on": 0.06666666666666667,
+    "qt_active_off": 0.06666666666666667,
+    "welfare_on": 353177783.0080232,
+    "welfare_off": 353177813.9815661,
+    "welfare_pct": -8.769957127174877e-06,
+    "wQ_on": 1.1800398317617702,
+    "wQ_off": 1.1800398317617702,
+    "wN_on": 0.6572978873518415,
+    "wN_off": 0.6572978873518415
+  },
+  "qiz_vs_noqiz": {
+    "welfare_on": 353177783.0080232,
+    "welfare_off": 353177813.9815661,
+    "welfare_pct": -8.769957127174877e-06,
+    "wQ_on": 1.1800398317617702,
+    "wQ_off": 1.1800398317617702,
+    "wN_on": 0.6572978873518415,
+    "wN_off": 0.6572978873518415,
+    "QT_on": {
+      "active_share": 0.06666666666666667,
+      "any_export_share_among_active": 1.0,
+      "domestic_only_share_among_active": 0.0,
+      "US_export_share_among_active": 1.0,
+      "RW_export_share_among_active": 0.0,
+      "compliance_share_among_active": 0.31507021002882074,
+      "compliance_share_among_US_exporters": 0.31507021002882074,
+      "upgrade_share_among_active": 0.5000000000000001,
+      "upgrade_intensity_among_active": 0.5000000000000001
+    },
+    "QT_off": {
+      "active_share": 0.06666666666666667,
+      "any_export_share_among_active": 1.0,
+      "domestic_only_share_among_active": 0.0,
+      "US_export_share_among_active": 1.0,
+      "RW_export_share_among_active": 0.0,
+      "compliance_share_among_active": 0.0,
+      "compliance_share_among_US_exporters": 0.0,
+      "upgrade_share_among_active": 0.5000000000000001,
+      "upgrade_intensity_among_active": 0.5000000000000001
+    },
+    "QO_on": {
+      "active_share": 0.11666666666666665,
+      "any_export_share_among_active": 0.14285714285714288,
+      "domestic_only_share_among_active": 0.8571428571428572,
+      "US_export_share_among_active": 0.0,
+      "RW_export_share_among_active": 0.14285714285714288,
+      "compliance_share_among_active": 0.0,
+      "compliance_share_among_US_exporters": 0.0,
+      "upgrade_share_among_active": 0.0,
+      "upgrade_intensity_among_active": 0.0
+    },
+    "QO_off": {
+      "active_share": 0.11666666666666665,
+      "any_export_share_among_active": 0.14285714285714288,
+      "domestic_only_share_among_active": 0.8571428571428572,
+      "US_export_share_among_active": 0.0,
+      "RW_export_share_among_active": 0.14285714285714288,
+      "compliance_share_among_active": 0.0,
+      "compliance_share_among_US_exporters": 0.0,
+      "upgrade_share_among_active": 0.0,
+      "upgrade_intensity_among_active": 0.0
+    },
+    "NT_on": {
+      "active_share": 0.14999999999999997,
+      "any_export_share_among_active": 0.11111111111111113,
+      "domestic_only_share_among_active": 0.8888888888888888,
+      "US_export_share_among_active": 0.11111111111111113,
+      "RW_export_share_among_active": 0.11111111111111113,
+      "compliance_share_among_active": 0.0,
+      "compliance_share_among_US_exporters": 0.0,
+      "upgrade_share_among_active": 0.44444444444444453,
+      "upgrade_intensity_among_active": 0.44444444444444453
+    },
+    "NT_off": {
+      "active_share": 0.14999999999999997,
+      "any_export_share_among_active": 0.11111111111111113,
+      "domestic_only_share_among_active": 0.8888888888888888,
+      "US_export_share_among_active": 0.11111111111111113,
+      "RW_export_share_among_active": 0.11111111111111113,
+      "compliance_share_among_active": 0.0,
+      "compliance_share_among_US_exporters": 0.0,
+      "upgrade_share_among_active": 0.44444444444444453,
+      "upgrade_intensity_among_active": 0.44444444444444453
+    },
+    "NO_on": {
+      "active_share": 0.3166666666666668,
+      "any_export_share_among_active": 0.15789473684210523,
+      "domestic_only_share_among_active": 0.8421052631578944,
+      "US_export_share_among_active": 0.0526315789473684,
+      "RW_export_share_among_active": 0.15789473684210523,
+      "compliance_share_among_active": 0.0,
+      "compliance_share_among_US_exporters": 0.0,
+      "upgrade_share_among_active": 0.0,
+      "upgrade_intensity_among_active": 0.0
+    },
+    "NO_off": {
+      "active_share": 0.3166666666666668,
+      "any_export_share_among_active": 0.15789473684210523,
+      "domestic_only_share_among_active": 0.8421052631578944,
+      "US_export_share_among_active": 0.0526315789473684,
+      "RW_export_share_among_active": 0.15789473684210523,
+      "compliance_share_among_active": 0.0,
+      "compliance_share_among_US_exporters": 0.0,
+      "upgrade_share_among_active": 0.0,
+      "upgrade_intensity_among_active": 0.0
+    }
+  }
+}

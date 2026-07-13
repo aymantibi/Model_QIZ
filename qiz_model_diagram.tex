@@ -1,0 +1,57 @@
+\begin{tikzpicture}[
+    font=\scriptsize,
+    >=Latex,
+    node distance=0.35cm and 0.45cm,
+    box/.style={draw=Teal, very thick, rounded corners=2mm, fill=white, align=left},
+    soft/.style={draw=Slate, semithick, rounded corners=2mm, fill=white, align=left},
+    accent/.style={draw=Rust, very thick, rounded corners=2mm, fill=white, align=left},
+    flow/.style={-Latex, thick, draw=Ink},
+    policy/.style={-Latex, very thick, draw=Rust},
+    feedback/.style={-Latex, semithick, draw=Gold!70!Ink}
+]
+
+\node[soft, minimum width=3.15cm, minimum height=0.95cm] (types) at (0,3.2)
+{\textbf{Firm heterogeneity}\\productivity $\phi$ \\ compliance cost $\varepsilon$};
+
+\node[box, minimum width=5.0cm, minimum height=2.9cm] (egypt) at (0,0.85) {};
+\node[anchor=north west, font=\bfseries\small, text=Teal] at ([xshift=0.12cm,yshift=-0.1cm]egypt.north west)
+{Egyptian production side};
+
+\node[soft, minimum width=2.05cm, minimum height=1.15cm] (q) at (-1.2,0.95)
+{\textbf{Q region}\\QIZ-eligible\\can comply};
+\node[soft, minimum width=2.05cm, minimum height=1.15cm] (n) at (1.2,0.95)
+{\textbf{N region}\\non-QIZ\\no preference};
+
+\node[soft, minimum width=4.25cm, minimum height=0.82cm] (sectors) at (0,-0.32)
+{\textbf{Sectors now:} Textiles ($T$) and Other ($O$) \hfill expand later};
+
+\node[accent, minimum width=2.95cm, minimum height=1.35cm] (choices) at (4.4,1.0)
+{\textbf{Firm choices}\\serve EG / US / RW\\comply with ROO?\\upgrade productivity?};
+
+\node[soft, minimum width=1.5cm, minimum height=0.72cm] (eg) at (8.05,2.0) {\textbf{Egypt}\\final sales};
+\node[soft, minimum width=1.5cm, minimum height=0.72cm] (us) at (8.05,1.0) {\textbf{US}\\final sales};
+\node[soft, minimum width=1.5cm, minimum height=0.72cm] (rw) at (8.05,0.0) {\textbf{RW}\\final sales};
+
+\node[soft, minimum width=1.95cm, minimum height=0.92cm] (israel) at (5.9,2.55)
+{\textbf{Israel}\\input source for\\ROO content};
+
+\node[soft, minimum width=5.2cm, minimum height=0.95cm] (ge) at (2.55,-1.48)
+{\textbf{GE feedback:} wages, price indices, entry, labor mobility, welfare};
+
+\draw[flow] (types.south) -- ([yshift=0.05cm]egypt.north);
+\draw[flow] (q.east) -- (choices.west);
+\draw[flow] (n.east) -- (choices.west);
+\draw[flow] (choices.east) -- (eg.west);
+\draw[policy] (choices.east) -- node[above, sloped, text=Rust] {\tiny tariff-free if compliant} (us.west);
+\draw[flow] (choices.east) -- (rw.west);
+\draw[policy] (israel.south west) -- node[right, text=Rust] {\tiny ROO input share $\gamma$} ([xshift=0.1cm,yshift=0.12cm]choices.north west);
+\draw[feedback] (ge.north west) to[out=105,in=-90] (q.south west);
+\draw[feedback] (ge.north) to[out=85,in=-90] (n.south);
+\draw[feedback] (ge.north east) to[out=75,in=-90] (choices.south east);
+
+\node[anchor=west, text=Slate, font=\tiny] at (-2.45,-2.15)
+{Four relevant locations economically: Egypt, US, Israel, RW.};
+\node[anchor=west, text=Slate, font=\tiny] at (-2.45,-2.45)
+{Three final-demand markets in the current code: EG, US, RW.};
+
+\end{tikzpicture}

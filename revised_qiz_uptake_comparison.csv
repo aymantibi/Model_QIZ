@@ -1,0 +1,12 @@
+metric,qiz_on,qiz_off
+welfare,326041496.3932651,325381023.30268025
+welfare_pct_on_vs_off,0.2029845145488096,
+w_Q,1.1660821030515334,1.1639362208789523
+w_N,0.7181850599872323,0.7228851496328066
+QT_active_share,0.13333333333333336,0.13333333333333336
+QT_domestic_only_share_among_active,0.0,0.0
+QT_US_export_share_among_active,1.0,1.0
+QT_RW_export_share_among_active,0.0,0.0
+QT_compliance_share_among_active,0.38331615812928477,0.0
+QT_compliance_share_among_US_exporters,0.38331615812928477,0.0
+QT_upgrade_share_among_active,1.0,1.0

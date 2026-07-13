@@ -1,0 +1,6 @@
+moment_key,label,target_pct,model_pct,gap_pct_points,targeted_in_fit
+micro_comp_us_pct,Complier exports to US,150.0,151.53104195582418,1.531041955824179,True
+micro_comp_rw_pct,Complier exports to non-US,150.0,134.86324239170588,-15.136757608294118,True
+target_real_wage_q_pct,Real wage in treated region Q,15.0,0.576867351403258,-14.423132648596741,False
+agg_total_us_pct,Aggregate exports to US,100.0,-0.4421687178304091,-100.44216871783041,False
+agg_q_t_us_pct,Textile exports to US,400.0,-0.8307317155212123,-400.8307317155212,False
