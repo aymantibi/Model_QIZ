@@ -137,6 +137,7 @@ def params_defensible() -> Dict[str, Any]:
     p["upgrade_cost_fixed"] = {"T": 0.0, "O": 0.0}
     p["upgrade_cost_lin"] = {"T": 0.0, "O": 0.0}
     p["upgrade_cost_quad"] = {"T": 4.0, "O": 5.0}
+    p["upgrade_cost_comp_mult"] = {"T": 1.0, "O": 1.0}
 
     # Policy: MFN tariffs (only apply to US, noncompliers)
     # From WTO IDB 2004, value-weighted by Egypt's 2004 exports to US (grouping_1)
@@ -188,8 +189,19 @@ def params_defensible() -> Dict[str, Any]:
 
     # Compliance fixed costs. Paper baseline is deterministic at fC_mean (sigma_C = 0).
     # Keeping sigma_C as a switch preserves backward-compatible heterogeneity if needed.
+    # qiz_us_fixed_cost_mode controls how the QIZ fixed cost enters:
+    # - "stacked": compliant US exporters pay f_export_US + fC_i
+    # - "route_specific": compliant US exporters pay fC_i instead of f_export_US
     p["fC_mean"] = {"T": 0.35, "O": 0.40}
     p["sigma_C"] = {"T": 0.0, "O": 0.0}
+    p["qiz_us_fixed_cost_mode"] = "stacked"
+    # Optional latent US-incumbency margin. A positive value uses the same eps
+    # type that raises QIZ compliance costs to lower the normal US export fixed
+    # cost. This captures firms with existing MFN US relationships that are
+    # costly to switch into QIZ sourcing/certification.
+    p["mfn_us_fixed_cost_discount_sigma"] = {"T": 0.0, "O": 0.0}
+    p["mfn_us_fixed_cost_min_mult"] = {"T": 0.25, "O": 0.25}
+    p["mfn_us_fixed_cost_max_mult"] = {"T": 4.0, "O": 4.0}
 
     # Labor / mobility
     # L_total, L_Q, L_N from Egypt LFS 2004 (CAPMAS). Units: persons.
@@ -197,14 +209,25 @@ def params_defensible() -> Dict[str, Any]:
     p["L_total"] = 20_761_200
     p["L_Q_share"] = 0.7387   # L_Q / L_total = 15,336,500 / 20,761,200
     p["kappa"] = 1.1
+    # Region-specific amenity/preference shifter in the logit mobility block.
+    # It is calibrated in the no-QIZ benchmark to match the observed Q-region share.
+    p["mobility_pref"] = {r: 1.0 for r in p["regions"]}
+    p["mobility_match_baseline_share"] = True
+    p["mobility_target_share_tol"] = 5e-4
+    p["mobility_target_max_iter"] = 18
+    p["_mobility_pref_calibrated"] = False
+    p["_mobility_pref_disable_upgrade"] = None
 
     # Foreign market size (small open economy).
     # e_ratio_foreign[(j,s)] = E_USD_js / E_USD_EGY_s = ratio of foreign to Egypt absorption.
     # At each iteration, E_foreign[(j,s)] = e_ratio_foreign[(j,s)] * E_EG_s (model units),
     # and P_foreign[(j,s)] = P_EG_s[s] (same price units as domestic).
+    # lambda_RW is a temporary fragmentation discount on the pooled non-US market:
+    # effective E_RW = lambda_RW * raw pooled E_RW.
     # This ensures R_j/R_EG = (E_j/E_EG) * (tau_j * P_EG / P_EG)^{1-sigma}
     #                       = e_ratio * tau_j^{1-sigma}   (small-open-economy ratio formula).
     # Source: absorption_2004.json grouping_1.
+    p["lambda_RW"] = 0.05
     _ab = _load_absorption_2004()
     p["e_ratio_foreign"] = {
         ("US",  "T"): _ab["T"]["E_US"]  / _ab["T"]["E_EGY"],
@@ -239,6 +262,8 @@ def params_defensible() -> Dict[str, Any]:
     p["outer_max_iter"] = 300
     p["outer_step"] = 0.40
     p["outer_cycle_tol"] = 0.02
+    p["pair_refine_tol"] = 5e-4
+    p["pair_refine_max_iter"] = 3
     p["entry_mass_floor"] = 1e-10
     p["entry_mass_corner_tol"] = 1e-3
     p["entry_mass_cap"] = 1e10
@@ -388,6 +413,7 @@ def params_fit_exports_dual_market() -> Dict[str, Any]:
     p["roo_cost_scope"] = "US_only"
     p["roo_cost_formula"] = "normalized"
     p["upgrade_mode"] = "continuous"
+    p["upgrade_requires_US"] = True
 
     # Textile-specific upgrade incentive stronger than non-textile.
     p["upgrade_psi"]["T"] = 0.12
@@ -409,20 +435,12 @@ def params_fit_us_aggregate_positive() -> Dict[str, Any]:
     """
     p = params_fit_exports_dual_market()
 
-    # Stronger US textile demand: increase US textile e_ratio slightly.
+    # Mild textile-demand shift only; no O-sector QIZ shortcut.
     p["e_ratio_foreign"][("US", "T")] *= 1.25
 
     # Keep tariffs within user-requested bounds.
     p["t_mfn"]["T"] = 0.15
     p["t_mfn"]["O"] = 0.05
-
-    # Make O-sector QIZ participation less costly (still within existing structure).
-    p["gamma"]["O"] = 0.0
-    p["fC_mean"]["O"] = 0.0
-    p["p_il"]["O"] = 1.0
-    p["xi_admin"]["O"] = 0.0
-    p["f_export"][("Q", "US", "O")] = 0.6
-    p["f_export"][("N", "US", "O")] = 0.69
 
     return p
 
@@ -550,6 +568,256 @@ def cmix_normalized(p_il: float, p_rw: float, gamma: float) -> float:
     return (p_il ** gamma) * (p_rw ** (1.0 - gamma))
 
 
+def invalidate_benchmark_calibrations(p: Dict[str, Any]) -> Dict[str, Any]:
+    """Mark cached benchmark calibrations as stale after structural parameter changes."""
+    p["_mobility_pref_calibrated"] = False
+    p["_mobility_pref_disable_upgrade"] = None
+    p.pop("_mobility_pref_target_share", None)
+    p.pop("_mobility_pref_matched_share", None)
+    return p
+
+
+def restrict_to_regions(p: Dict[str, Any], keep_regions: List[str]) -> Dict[str, Any]:
+    """
+    Restrict the model to a subset of regions already present in the parameter
+    dictionary. When only one region remains, the mobility block is degenerate,
+    so mobility-share targeting is switched off and the region's labor share is
+    fixed at one.
+    """
+    keep = list(keep_regions)
+    if not keep:
+        raise ValueError("keep_regions must contain at least one region.")
+
+    current = list(p.get("regions", []))
+    missing = [r for r in keep if r not in current]
+    if missing:
+        raise ValueError(f"Unknown regions requested: {missing}")
+
+    keep_set = set(keep)
+    p["regions"] = keep
+
+    if "d_iceberg" in p:
+        p["d_iceberg"] = {
+            (r, j, s): v
+            for (r, j, s), v in p["d_iceberg"].items()
+            if r in keep_set
+        }
+    if "f_dom" in p:
+        p["f_dom"] = {
+            (r, s): v
+            for (r, s), v in p["f_dom"].items()
+            if r in keep_set
+        }
+    if "f_export" in p:
+        p["f_export"] = {
+            (r, j, s): v
+            for (r, j, s), v in p["f_export"].items()
+            if r in keep_set
+        }
+    if "f_entry" in p:
+        p["f_entry"] = {
+            (r, s): v
+            for (r, s), v in p["f_entry"].items()
+            if r in keep_set
+        }
+
+    old_pref = p.get("mobility_pref", {})
+    p["mobility_pref"] = {r: float(old_pref.get(r, 1.0)) for r in keep}
+
+    if len(keep) == 1:
+        only = keep[0]
+        p["mobility_pref"] = {only: 1.0}
+        p["mobility_match_baseline_share"] = False
+        if only == "Q":
+            p["L_Q_share"] = 1.0
+
+    return invalidate_benchmark_calibrations(p)
+
+
+def _set_two_region_mobility_pref(p: Dict[str, Any], q_over_n: float) -> None:
+    if set(p["regions"]) != {"Q", "N"}:
+        raise NotImplementedError("Mobility-preference calibration currently assumes regions {Q, N}.")
+    p["mobility_pref"] = {r: 1.0 for r in p["regions"]}
+    p["mobility_pref"]["Q"] = float(q_over_n)
+    p["mobility_pref"]["N"] = 1.0
+
+
+def calibrate_mobility_pref_to_baseline_share(
+    p: Dict[str, Any],
+    disable_upgrade: bool = False,
+    verbose: bool = False,
+) -> Dict[str, Any]:
+    """
+    Choose the Q-vs-N mobility shifter so the no-QIZ equilibrium matches the
+    observed benchmark labor share in Q.
+    """
+    target = float(p["L_Q_share"])
+    tol = float(p.get("mobility_target_share_tol", 5e-4))
+    max_iter = int(p.get("mobility_target_max_iter", 18))
+
+    def eval_trial(log_ratio: float, warm_start: Dict[str, Any] | None = None) -> Tuple[float, Dict[str, Any], float]:
+        _set_two_region_mobility_pref(p, float(np.exp(log_ratio)))
+        sol = solve_equilibrium(
+            p,
+            qiz_on=False,
+            disable_upgrade=disable_upgrade,
+            initial_state=warm_start,
+            verbose=False,
+        )
+        share_q = sol["Ls"]["Q"] / max(p["L_total"], 1e-12)
+        return share_q - target, sol, share_q
+
+    gap_0, sol_0, share_0 = eval_trial(0.0)
+    best_gap = gap_0
+    best_log = 0.0
+    best_sol = sol_0
+    best_share = share_0
+
+    if gap_0 <= 0.0:
+        lo, gap_lo, sol_lo, share_lo = 0.0, gap_0, sol_0, share_0
+        hi = gap_hi = sol_hi = share_hi = None
+        cur_log = 0.0
+        cur_sol = sol_0
+        step = 0.5
+        for _ in range(12):
+            trial_log = cur_log + step
+            try:
+                gap_t, sol_t, share_t = eval_trial(trial_log, warm_start=cur_sol)
+            except RuntimeError:
+                step *= 0.5
+                if step < 0.05:
+                    raise RuntimeError("Could not bracket the target Q labor share when calibrating mobility_pref.")
+                continue
+            if abs(gap_t) < abs(best_gap):
+                best_gap = gap_t
+                best_log = trial_log
+                best_sol = sol_t
+                best_share = share_t
+            if gap_t >= 0.0:
+                hi, gap_hi, sol_hi, share_hi = trial_log, gap_t, sol_t, share_t
+                break
+            lo, gap_lo, sol_lo, share_lo = trial_log, gap_t, sol_t, share_t
+            cur_log = trial_log
+            cur_sol = sol_t
+            step *= 1.5
+        if hi is None or gap_hi is None or sol_hi is None or share_hi is None:
+            raise RuntimeError("Could not bracket the target Q labor share when calibrating mobility_pref.")
+    else:
+        hi, gap_hi, sol_hi, share_hi = 0.0, gap_0, sol_0, share_0
+        lo = gap_lo = sol_lo = share_lo = None
+        cur_log = 0.0
+        cur_sol = sol_0
+        step = 0.5
+        for _ in range(12):
+            trial_log = cur_log - step
+            try:
+                gap_t, sol_t, share_t = eval_trial(trial_log, warm_start=cur_sol)
+            except RuntimeError:
+                step *= 0.5
+                if step < 0.05:
+                    raise RuntimeError("Could not bracket the target Q labor share when calibrating mobility_pref.")
+                continue
+            if abs(gap_t) < abs(best_gap):
+                best_gap = gap_t
+                best_log = trial_log
+                best_sol = sol_t
+                best_share = share_t
+            if gap_t <= 0.0:
+                lo, gap_lo, sol_lo, share_lo = trial_log, gap_t, sol_t, share_t
+                break
+            hi, gap_hi, sol_hi, share_hi = trial_log, gap_t, sol_t, share_t
+            cur_log = trial_log
+            cur_sol = sol_t
+            step *= 1.5
+        if lo is None or gap_lo is None or sol_lo is None or share_lo is None:
+            raise RuntimeError("Could not bracket the target Q labor share when calibrating mobility_pref.")
+
+    for _ in range(max_iter):
+        mid = 0.5 * (lo + hi)
+        gap_mid, sol_mid, share_mid = eval_trial(mid, warm_start=best_sol)
+
+        if abs(gap_mid) < abs(best_gap):
+            best_gap = gap_mid
+            best_log = mid
+            best_sol = sol_mid
+            best_share = share_mid
+
+        if abs(gap_mid) < tol:
+            break
+
+        if gap_mid > 0.0:
+            hi, gap_hi, sol_hi, share_hi = mid, gap_mid, sol_mid, share_mid
+        else:
+            lo, gap_lo, sol_lo, share_lo = mid, gap_mid, sol_mid, share_mid
+
+    _set_two_region_mobility_pref(p, float(np.exp(best_log)))
+    p["_mobility_pref_calibrated"] = True
+    p["_mobility_pref_disable_upgrade"] = bool(disable_upgrade)
+    p["_mobility_pref_target_share"] = target
+    p["_mobility_pref_matched_share"] = best_share
+
+    if verbose:
+        print(
+            "mobility calibration:",
+            f"target={target:.4f}",
+            f"matched={best_share:.4f}",
+            f"pref_Q={p['mobility_pref']['Q']:.4f}",
+        )
+
+    return {
+        "off": best_sol,
+        "target_share": target,
+        "matched_share": best_share,
+        "mobility_pref": dict(p["mobility_pref"]),
+    }
+
+
+def ensure_benchmark_calibrations(
+    p: Dict[str, Any],
+    disable_upgrade: bool = False,
+    verbose: bool = False,
+) -> Dict[str, Any]:
+    """Run benchmark-side calibrations that should not be embedded in every GE solve."""
+    regions = list(p.get("regions", []))
+    if len(regions) <= 1:
+        if len(regions) == 1:
+            p["mobility_pref"] = {regions[0]: 1.0}
+        p["_mobility_pref_calibrated"] = True
+        p["_mobility_pref_disable_upgrade"] = bool(disable_upgrade)
+        p["_mobility_pref_target_share"] = 1.0 if regions == ["Q"] else None
+        p["_mobility_pref_matched_share"] = 1.0 if regions == ["Q"] else None
+        return {
+            "off": None,
+            "target_share": p.get("_mobility_pref_target_share"),
+            "matched_share": p.get("_mobility_pref_matched_share"),
+            "mobility_pref": dict(p.get("mobility_pref", {})),
+        }
+
+    if not p.get("mobility_match_baseline_share", True):
+        p["_mobility_pref_calibrated"] = True
+        p["_mobility_pref_disable_upgrade"] = bool(disable_upgrade)
+        return {
+            "off": None,
+            "target_share": p.get("L_Q_share"),
+            "matched_share": None,
+            "mobility_pref": dict(p.get("mobility_pref", {})),
+        }
+
+    if p.get("_mobility_pref_calibrated", False) and p.get("_mobility_pref_disable_upgrade") == bool(disable_upgrade):
+        return {
+            "off": None,
+            "target_share": p.get("_mobility_pref_target_share", p.get("L_Q_share")),
+            "matched_share": p.get("_mobility_pref_matched_share"),
+            "mobility_pref": dict(p.get("mobility_pref", {})),
+        }
+
+    return calibrate_mobility_pref_to_baseline_share(
+        p,
+        disable_upgrade=disable_upgrade,
+        verbose=verbose,
+    )
+
+
 # -----------------------------
 # Firm problem
 # -----------------------------
@@ -597,6 +865,23 @@ def firm_best(phi: float, eps: float, r: str, s: str,
     f_dom = p["f_dom"][(r, s)]
     f_US = p["f_export"][(r, "US", s)]
     f_RW = p["f_export"][(r, "RW", s)]
+    fC_i = p["fC_mean"][s] * np.exp(p["sigma_C"][s] * eps)
+    mfn_sigma_cfg = p.get("mfn_us_fixed_cost_discount_sigma", {})
+    mfn_min_cfg = p.get("mfn_us_fixed_cost_min_mult", {})
+    mfn_max_cfg = p.get("mfn_us_fixed_cost_max_mult", {})
+    mfn_sigma = float(mfn_sigma_cfg.get(s, 0.0) if isinstance(mfn_sigma_cfg, dict) else mfn_sigma_cfg)
+    mfn_min = float(mfn_min_cfg.get(s, 0.25) if isinstance(mfn_min_cfg, dict) else mfn_min_cfg)
+    mfn_max = float(mfn_max_cfg.get(s, 4.0) if isinstance(mfn_max_cfg, dict) else mfn_max_cfg)
+    f_US_i = f_US * float(np.clip(np.exp(-mfn_sigma * eps), mfn_min, mfn_max))
+    comp_upgrade_cost_cfg = p.get("upgrade_cost_comp_mult", {})
+    comp_upgrade_cost_mult = float(
+        comp_upgrade_cost_cfg.get(s, 1.0)
+        if isinstance(comp_upgrade_cost_cfg, dict)
+        else comp_upgrade_cost_cfg
+    )
+    qiz_us_fixed_cost_mode = p.get("qiz_us_fixed_cost_mode", "stacked")
+    if qiz_us_fixed_cost_mode not in {"stacked", "route_specific"}:
+        raise ValueError(f"Unknown qiz_us_fixed_cost_mode={qiz_us_fixed_cost_mode!r}")
 
     # strategy space
     upgrade_mode = p.get("upgrade_mode", "binary")
@@ -620,8 +905,9 @@ def firm_best(phi: float, eps: float, r: str, s: str,
     best_profit = -1e18
 
     for comply in compliance_choices:
+        qiz_compliance_choice = comply and (r == "Q") and qiz_on
 
-        if comply and (r == "Q") and qiz_on:
+        if qiz_compliance_choice:
             if roo_scope == "all_destinations":
                 c_base = cC
                 c_us = cC
@@ -638,7 +924,13 @@ def firm_best(phi: float, eps: float, r: str, s: str,
         tau_EG = p["d_iceberg"][(r, "EG", s)]
         tau_RW = p["d_iceberg"][(r, "RW", s)]
 
-        def evaluate_market(delta_eff: float) -> Dict[str, Any]:
+        f_US_route = (
+            fC_i
+            if (comply and (r == "Q") and qiz_on and qiz_us_fixed_cost_mode == "route_specific")
+            else f_US_i
+        )
+
+        def evaluate_market(delta_eff: float, us_fixed_cost: float) -> Dict[str, Any]:
             mc_base_ = (1.0 / (phi * delta_eff)) * ((w_r ** alpha) * (c_base ** (1.0 - alpha))) / denom
             mc_US_ = (1.0 / (phi * delta_eff)) * ((w_r ** alpha) * (c_us ** (1.0 - alpha))) / denom
 
@@ -655,7 +947,7 @@ def firm_best(phi: float, eps: float, r: str, s: str,
             pi_RW_ = R_RW_ / sigma
 
             serve_EG_ = (pi_EG_ >= w_r * f_dom)
-            serve_US_ = (pi_US_ >= w_r * f_US)
+            serve_US_ = (pi_US_ >= w_r * us_fixed_cost)
             serve_RW_ = (pi_RW_ >= w_r * f_RW)
             return {
                 "R_EG": R_EG_, "R_US": R_US_, "R_RW": R_RW_,
@@ -668,10 +960,12 @@ def firm_best(phi: float, eps: float, r: str, s: str,
                 upgrade_intensity = 1.0 if eff_upgrade else 0.0
                 eff_delta = p["delta"][s] if eff_upgrade else 1.0
                 upgrade_labor = p["f_upgrade"][s] if eff_upgrade else 0.0
+                if eff_upgrade and qiz_compliance_choice:
+                    upgrade_labor *= comp_upgrade_cost_mult
             else:
                 upgrade_intensity = float(u)
                 eff_upgrade = bool(upgrade_intensity > 1e-12)
-                comp_bonus = 1.0 if (comply and r == "Q" and qiz_on) else 0.0
+                comp_bonus = 1.0 if qiz_compliance_choice else 0.0
                 slope = p["upgrade_psi"][s] + p["upgrade_psi_comp"][s] * comp_bonus
                 eff_delta = float(np.exp(slope * upgrade_intensity))
                 if eff_upgrade:
@@ -680,17 +974,19 @@ def firm_best(phi: float, eps: float, r: str, s: str,
                         + p["upgrade_cost_lin"][s] * upgrade_intensity
                         + 0.5 * p["upgrade_cost_quad"][s] * (upgrade_intensity ** 2)
                     )
+                    if qiz_compliance_choice:
+                        upgrade_labor *= comp_upgrade_cost_mult
                 else:
                     upgrade_labor = 0.0
 
-            out = evaluate_market(eff_delta)
+            out = evaluate_market(eff_delta, f_US_route)
 
             if eff_upgrade and p["upgrade_requires_US"] and (not out["serve_US"]):
                 eff_upgrade = False
                 upgrade_intensity = 0.0
                 eff_delta = 1.0
                 upgrade_labor = 0.0
-                out = evaluate_market(eff_delta)
+                out = evaluate_market(eff_delta, f_US_route)
 
             req_us_for_comp = p.get("compliance_requires_US_service", True)
             if req_us_for_comp:
@@ -704,12 +1000,11 @@ def firm_best(phi: float, eps: float, r: str, s: str,
             if out["serve_EG"]:
                 profit += (out["R_EG"] / sigma - w_r * f_dom)
             if out["serve_US"]:
-                profit += (out["R_US"] / sigma - w_r * f_US)
+                profit += (out["R_US"] / sigma - w_r * f_US_route)
             if out["serve_RW"]:
                 profit += (out["R_RW"] / sigma - w_r * f_RW)
 
-            if eff_comply:
-                fC_i = p["fC_mean"][s] * np.exp(p["sigma_C"][s] * eps)
+            if eff_comply and qiz_us_fixed_cost_mode == "stacked":
                 profit -= w_r * fC_i
             profit -= w_r * upgrade_labor
 
@@ -741,11 +1036,11 @@ def firm_best(phi: float, eps: float, r: str, s: str,
                 if out["serve_EG"]:
                     labor_fixed += f_dom
                 if out["serve_US"]:
-                    labor_fixed += f_US
+                    labor_fixed += f_US_route
                 if out["serve_RW"]:
                     labor_fixed += f_RW
-                if eff_comply:
-                    labor_fixed += p["fC_mean"][s] * np.exp(p["sigma_C"][s] * eps)
+                if eff_comply and qiz_us_fixed_cost_mode == "stacked":
+                    labor_fixed += fC_i
                 labor_fixed += upgrade_labor
 
                 best_out = {
@@ -756,6 +1051,12 @@ def firm_best(phi: float, eps: float, r: str, s: str,
                         "RW": out["serve_RW"],
                     },
                     "compliance": bool(eff_comply),
+                    "us_route": (
+                        "QIZ"
+                        if (out["serve_US"] and eff_comply)
+                        else ("MFN" if out["serve_US"] else None)
+                    ),
+                    "us_fixed_cost_paid": float(f_US_route if out["serve_US"] else 0.0),
                     "upgrade": bool(eff_upgrade),
                     "upgrade_intensity": float(upgrade_intensity),
                     "upgrade_delta": float(eff_delta),
@@ -808,7 +1109,8 @@ def solve_goods_block(w: Dict[str, float], M: Dict[Tuple[str,str], float],
         P_EG = ces_aggregate_price(P_curr, beta, eta)
 
         # labor supply from mobility
-        numer = {r: (w[r] / P_EG) ** kappa for r in regions}
+        mobility_pref = p.get("mobility_pref", {r: 1.0 for r in regions})
+        numer = {r: mobility_pref.get(r, 1.0) * (w[r] / P_EG) ** kappa for r in regions}
         denom_mob = sum(numer.values())
         Ls = {r: (numer[r] / denom_mob) * p["L_total"] for r in regions}
 
@@ -820,8 +1122,10 @@ def solve_goods_block(w: Dict[str, float], M: Dict[Tuple[str,str], float],
         #   P_foreign[(j,s)] = P_EG_s[s]   (same price units as domestic)
         # This gives R_j/R_EG = e_ratio * tau_j^{1-sigma} (small-open-economy formula).
         e_ratio = p.get("e_ratio_foreign", {})
+        lambda_rw = float(p.get("lambda_RW", 1.0))
         for (j, s), ratio in e_ratio.items():
-            p["E_foreign"][(j, s)] = ratio * E_EG_s[s]
+            scale = lambda_rw if j == "RW" else 1.0
+            p["E_foreign"][(j, s)] = scale * ratio * E_EG_s[s]
             p["P_foreign"][(j, s)] = P_curr[s]
 
         # update sector price indices from varieties serving EG
@@ -1519,6 +1823,7 @@ def _apply_calibration_knob(p: Dict[str, Any], knob: str, value: float):
         p["fC_mean"]["T"] = float(value)
     else:
         raise ValueError(f"Unknown calibration knob: {knob}")
+    invalidate_benchmark_calibrations(p)
 
 
 def fit_to_stylized_moments(base_p: Dict[str, Any],
@@ -1579,13 +1884,95 @@ def fit_to_stylized_moments(base_p: Dict[str, Any],
     return best
 
 
+def _solution_log_gap(a: Dict[str, Any], b: Dict[str, Any], floor: float = 1.0e-12) -> float:
+    gaps: List[float] = []
+    for r in a["w"]:
+        gaps.append(abs(np.log(max(a["w"][r], floor)) - np.log(max(b["w"][r], floor))))
+    for key in a["M"]:
+        gaps.append(abs(np.log(max(a["M"][key], floor)) - np.log(max(b["M"][key], floor))))
+    for s in a["goods"]["P_EG_s"]:
+        gaps.append(abs(np.log(max(a["goods"]["P_EG_s"][s], floor)) - np.log(max(b["goods"]["P_EG_s"][s], floor))))
+    for r in a["Ls"]:
+        gaps.append(abs(np.log(max(a["Ls"][r], floor)) - np.log(max(b["Ls"][r], floor))))
+    gaps.append(abs(np.log(max(a["welfare"], floor)) - np.log(max(b["welfare"], floor))))
+    return max(gaps) if gaps else 0.0
+
+
+def solve_policy_pair(
+    p: Dict[str, Any],
+    disable_upgrade: bool = False,
+    verbose: bool = False,
+) -> Dict[str, Any]:
+    """
+    Solve the no-QIZ and QIZ equilibria with a common benchmark protocol:
+    1. calibrate regional mobility to the no-QIZ geography,
+    2. solve off then on,
+    3. refine with off/on warm-start passes to reduce path dependence.
+    """
+    calibration = ensure_benchmark_calibrations(
+        p,
+        disable_upgrade=disable_upgrade,
+        verbose=verbose,
+    )
+    calibration_public = {k: v for k, v in calibration.items() if k != "off"}
+    off = calibration.get("off")
+    if off is None:
+        off = solve_equilibrium(p, qiz_on=False, disable_upgrade=disable_upgrade, verbose=False)
+    on = solve_equilibrium(
+        p,
+        qiz_on=True,
+        disable_upgrade=disable_upgrade,
+        initial_state=off,
+        verbose=False,
+    )
+
+    pair_gap = float("nan")
+    pair_iterations = 0
+    tol = float(p.get("pair_refine_tol", p.get("outer_tol", 5e-4)))
+    max_iter = int(p.get("pair_refine_max_iter", 3))
+
+    for it in range(max_iter):
+        off_next = solve_equilibrium(
+            p,
+            qiz_on=False,
+            disable_upgrade=disable_upgrade,
+            initial_state=on,
+            verbose=False,
+        )
+        on_next = solve_equilibrium(
+            p,
+            qiz_on=True,
+            disable_upgrade=disable_upgrade,
+            initial_state=off_next,
+            verbose=False,
+        )
+        pair_gap = max(_solution_log_gap(off_next, off), _solution_log_gap(on_next, on))
+        off, on = off_next, on_next
+        pair_iterations = it + 1
+
+        if verbose:
+            print(f"pair refine it={pair_iterations} gap={pair_gap:.2e}")
+
+        if pair_gap < tol:
+            break
+
+    return {
+        "off": off,
+        "on": on,
+        "pair_gap": pair_gap,
+        "pair_iterations": pair_iterations,
+        "benchmark_calibration": calibration_public,
+    }
+
+
 def compare_qiz_on_off(p: Dict[str, Any], disable_upgrade: bool = False) -> Dict[str, Any]:
     """
     Solve QIZ-on and QIZ-off equilibria and report trade decomposition:
     X = N * xbar where N is exporter mass and xbar is average exports per exporter.
     """
-    on = solve_equilibrium(p, qiz_on=True, disable_upgrade=disable_upgrade, verbose=False)
-    off = solve_equilibrium(p, qiz_on=False, disable_upgrade=disable_upgrade, initial_state=on, verbose=False)
+    pair = solve_policy_pair(p, disable_upgrade=disable_upgrade, verbose=False)
+    on = pair["on"]
+    off = pair["off"]
 
     tr_on = summarize_trade(on, p)
     tr_off = summarize_trade(off, p)
@@ -1621,6 +2008,9 @@ def compare_qiz_on_off(p: Dict[str, Any], disable_upgrade: bool = False) -> Dict
         "trade_on": tr_on,
         "trade_off": tr_off,
         "decomposition": dec,
+        "pair_gap": pair["pair_gap"],
+        "pair_iterations": pair["pair_iterations"],
+        "benchmark_calibration": pair["benchmark_calibration"],
     }
 
 
@@ -1630,7 +2020,10 @@ def compare_qiz_on_off(p: Dict[str, Any], disable_upgrade: bool = False) -> Dict
 
 def counterfactual_shutdown_productivity(p: Dict[str, Any], baseline: Dict[str, Any] | None = None) -> Dict[str, Dict[str, Any]]:
     """Compare baseline vs delta=1 (productivity channel off)."""
-    base = baseline if baseline is not None else solve_equilibrium(p, qiz_on=True, disable_upgrade=False, verbose=False)
+    if baseline is None:
+        base = solve_policy_pair(p, disable_upgrade=False, verbose=False)["on"]
+    else:
+        base = baseline
 
     p_off = copy.deepcopy(p)  # deep copy to avoid mutating nested dicts in original p
     if p_off.get("upgrade_mode", "binary") == "continuous":
@@ -1647,7 +2040,7 @@ def counterfactual_gamma_path(p: Dict[str, Any], sector: str, gamma_list: List[f
                               start_state: Dict[str, Any] | None = None) -> List[Dict[str, Any]]:
     """Solve GE for each gamma value for a given sector, keeping everything else fixed."""
     out = []
-    prev = start_state
+    prev = start_state if start_state is not None else solve_policy_pair(p, disable_upgrade=False, verbose=False)["on"]
     for g in gamma_list:
         gamma_override = dict(p["gamma"])
         gamma_override[sector] = float(g)
@@ -1704,6 +2097,9 @@ def print_assumption_report(p: Dict[str, Any], preset_name: str):
     print(f"  tariff_treatment={p.get('tariff_treatment', 'iceberg')}")
     print(f"  transfer_rule={p.get('transfer_rule', 'exogenous_lumpsum')}")
     print(f"  upgrade_mode={p.get('upgrade_mode', 'binary')}")
+    print(f"  lambda_RW={p.get('lambda_RW', 1.0)}")
+    print(f"  qiz_us_fixed_cost_mode={p.get('qiz_us_fixed_cost_mode', 'stacked')}")
+    print(f"  mfn_us_fixed_cost_discount_sigma={p.get('mfn_us_fixed_cost_discount_sigma', {})}")
     print(f"  sigma_C={p['sigma_C']}")
     print("Key calibration:")
     print(f"  sigma={p['sigma']}")
@@ -1717,6 +2113,7 @@ def print_assumption_report(p: Dict[str, Any], preset_name: str):
         print(f"  upgrade_cost_fixed={p['upgrade_cost_fixed']}")
         print(f"  upgrade_cost_lin={p['upgrade_cost_lin']}")
         print(f"  upgrade_cost_quad={p['upgrade_cost_quad']}")
+        print(f"  upgrade_cost_comp_mult={p.get('upgrade_cost_comp_mult', {})}")
         print(f"  upgrade_intensity_max={p['upgrade_intensity_max']}")
         print(f"  upgrade_intensity_grid_size={p['upgrade_intensity_grid_size']}")
     print(f"  t_mfn={p['t_mfn']}")
